@@ -25,7 +25,7 @@ public class TestInscripcionJUnit3 extends TestCase {
 	 * Test de clases validas (getListaCarreras)
 	 */
 	public void testCarrerasActivasList() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		List<Object[]> carreras=inscr.getListaCarrerasArray(Util.isoStringToDate("2016-11-10"));
 		//Deben mostrarse todas las carreras de la BD menos la primera que es pasada, la ultima no debe indicar abierto
 		assertEquals("el numero de carreras mostradas es incorrecto",4,carreras.size());
@@ -41,7 +41,7 @@ public class TestInscripcionJUnit3 extends TestCase {
 	 */
 	public void testPorcentajeDescuentoRecargoInvalidaCarreraFinalizada() {
 		Date fecha=Util.isoStringToDate("2016-11-10");
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		try { 
 			inscr.getDescuentoRecargo(100,fecha);
 			fail("no se puede hacer inscripcion en carrera finalizada");

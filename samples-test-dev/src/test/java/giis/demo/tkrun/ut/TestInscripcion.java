@@ -44,7 +44,7 @@ public class TestInscripcion {
 	 */
 	@Test
 	public void testCarrerasActivasList() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		List<Object[]> carreras=inscr.getListaCarrerasArray(Util.isoStringToDate("2016-11-10"));
 		//Deben mostrarse todas las carreras de la BD menos la primera que es pasada, la ultima no debe indicar abierto
 		assertEquals("el numero de carreras mostradas es incorrecto",4,carreras.size());
@@ -61,7 +61,7 @@ public class TestInscripcion {
 	 */
 	@Test
 	public void testCarrerasActivasListAlt() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		List<Object[]> carreras=inscr.getListaCarrerasArray(Util.isoStringToDate("2016-11-10"));
 		assertEquals(
 				"101-en fase 3 (Abierta)\n102-en fase 2 (Abierta)\n103-en fase 1 (Abierta)\n104-antes inscripcion ",
@@ -80,7 +80,7 @@ public class TestInscripcion {
 	 */
 	@Test
 	public void testCarrerasActivasDao() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
 		assertEquals("el numero de carreras mostradas es incorrecto",4,carreras.size());
 		assertEquals(carreras.get(0).getId(),"101");
@@ -105,7 +105,7 @@ public class TestInscripcion {
 	 */
 	@Test
 	public void testCarrerasActivasDaoJson() throws JsonProcessingException {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
 		assertEquals(
 				"[{\"id\":\"101\",\"descr\":\"en fase 3\",\"estado\":\"(Abierta)\"},\n"
@@ -120,7 +120,7 @@ public class TestInscripcion {
 	 */
 	@Test
 	public void testCarrerasActivasDaoCsv() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
         assertEquals("101,en fase 3,(Abierta)\n"
         		+"102,en fase 2,(Abierta)\n"
@@ -137,7 +137,7 @@ public class TestInscripcion {
 	 */
 	@Test(expected=ApplicationException.class)
 	public void testCarrerasActivasException1() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		inscr.getListaCarreras(null);
 	}
 	/**
@@ -147,7 +147,7 @@ public class TestInscripcion {
 	public ExpectedException thrown = ExpectedException.none();
 	@Test
 	public void testCarrerasActivasException2() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		thrown.expect(ApplicationException.class);
 		thrown.expectMessage("La fecha de inscripcion no puede ser nula");
 		inscr.getListaCarreras(null);
@@ -163,7 +163,7 @@ public class TestInscripcion {
 		//Reutilizamos el setUp para los tests de la lista de carreras mostradas al usuario
 		//utlizando una fecha y diferentes carreras que nos cubriran las clases validas
 		Date fecha=Util.isoStringToDate("2016-11-10");
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		assertEquals(-30,inscr.getDescuentoRecargo(103,fecha));
 		assertEquals(0,inscr.getDescuentoRecargo(102,fecha));
 		assertEquals(+50,inscr.getDescuentoRecargo(101,fecha));
@@ -191,7 +191,7 @@ public class TestInscripcion {
 	}
 	public void porcentajeDescuentoRecargoInvalidas(long idCarrera, String message) {
 		Date fecha=Util.isoStringToDate("2016-11-10");
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		thrown.expect(RuntimeException.class);
 		thrown.expectMessage(message);
 		inscr.getDescuentoRecargo(idCarrera,fecha);

@@ -18,11 +18,11 @@ import giis.demo.util.Util;
  * -ejecutando initController que instalara los manejadores de eventos
  */
 public class CarrerasController {
-	private CarrerasModel model;
+	private CarreraGateway model;
 	private CarrerasView view;
 	private String lastSelectedKey=""; //recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla de carreras
 
-	public CarrerasController(CarrerasModel m, CarrerasView v) {
+	public CarrerasController(CarreraGateway m, CarrerasView v) {
 		this.model = m;
 		this.view = v;
 		//no hay inicializacion especifica del modelo, solo de la vista

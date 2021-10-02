@@ -16,7 +16,7 @@ import giis.demo.util.Database;
  * <br/>Si utilizase algún otro framework para manejar la persistencia, la funcionalidad proporcionada por esta clase sería la asignada
  * a los Servicios, Repositorios y DAOs.
  */
-public class CarrerasModel {
+public class CarreraGateway {
 	private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db=new Database();

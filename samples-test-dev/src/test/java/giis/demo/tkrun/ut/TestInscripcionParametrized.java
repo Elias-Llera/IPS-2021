@@ -56,7 +56,7 @@ public class TestInscripcionParametrized {
 	@Test
 	public void testPorcentajeDescuentoRecargoValidas() {
 		Date fecha=Util.isoStringToDate(fechaStr);
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		assertEquals(descuentoRecargo,inscr.getDescuentoRecargo(idCarrera,fecha));
 	}
 

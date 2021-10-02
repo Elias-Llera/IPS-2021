@@ -38,7 +38,7 @@ public class TestInscripcionJUnitParams {
 		"2016-11-19,   0, 102"})
 	public void testPorcentajeDescuentoRecargoValidas(String fechaStr, int descuentoRecargo, long idCarrera) {
 		Date fecha=Util.isoStringToDate(fechaStr);
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		assertEquals(descuentoRecargo,inscr.getDescuentoRecargo(idCarrera,fecha));
 	}
 

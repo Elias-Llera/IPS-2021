@@ -26,7 +26,7 @@ public class TestUpdates {
 	 */
 	@Test
 	public void testUpdateFechasInscripcion1() {
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		inscr.updateFechasInscripcion(101, Util.isoStringToDate("2016-09-01"), Util.isoStringToDate("2016-09-02"));
 		//el test habra modificado las dos fechas de la carrera 101,
 		//lee todos los datos de la tabla y las compara con los iniciales tras cambiar solamente estos dos datos
@@ -52,7 +52,7 @@ public class TestUpdates {
 		expected.get(1).setFin("2016-09-02");
 
 		//ahora se ejecuta el metodo que actualizara la base de datos
-		CarrerasModel inscr=new CarrerasModel();
+		CarreraGateway inscr=new CarreraGateway();
 		inscr.updateFechasInscripcion(101, Util.isoStringToDate("2016-09-01"), Util.isoStringToDate("2016-09-02"));
 
 		//y se hace la comprobacion respecto del estado actual tras el cambio
