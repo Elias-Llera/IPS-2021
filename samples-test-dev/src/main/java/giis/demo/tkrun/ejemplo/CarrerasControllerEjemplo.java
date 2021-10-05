@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.ejemplo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,12 +17,12 @@ import giis.demo.util.Util;
  * -instanciando el controlador con la vista y el modelo
  * -ejecutando initController que instalara los manejadores de eventos
  */
-public class CarrerasController {
-	private CarreraGateway model;
-	private CarrerasView view;
+public class CarrerasControllerEjemplo {
+	private CarreraModelEjemplo model;
+	private CarrerasViewEjemplo view;
 	private String lastSelectedKey=""; //recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla de carreras
 
-	public CarrerasController(CarreraGateway m, CarrerasView v) {
+	public CarrerasControllerEjemplo(CarreraModelEjemplo m, CarrerasViewEjemplo v) {
 		this.model = m;
 		this.view = v;
 		//no hay inicializacion especifica del modelo, solo de la vista
@@ -66,7 +66,7 @@ public class CarrerasController {
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
 	public void getListaCarreras() {
-		List<CarreraDisplayDTO> carreras=model.getListaCarreras(Util.isoStringToDate(view.getFechaHoy()));
+		List<CarreraDisplayDTOEjemplo> carreras=model.getListaCarreras(Util.isoStringToDate(view.getFechaHoy()));
 		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"id", "descr", "estado"});
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
@@ -114,7 +114,7 @@ public class CarrerasController {
 		}
 		
 		//Detalles de la carrera seleccionada
-		CarreraEntity carrera=model.getCarrera(idCarrera);
+		CarreraEntityEjemplo carrera=model.getCarrera(idCarrera);
 		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
 		view.getDetalleCarrera().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getDetalleCarrera());

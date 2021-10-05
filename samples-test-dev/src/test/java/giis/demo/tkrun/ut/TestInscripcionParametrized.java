@@ -7,6 +7,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import giis.demo.tkrun.*;
+import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
 import giis.demo.util.*;
 
 import java.util.Arrays;
@@ -56,7 +57,7 @@ public class TestInscripcionParametrized {
 	@Test
 	public void testPorcentajeDescuentoRecargoValidas() {
 		Date fecha=Util.isoStringToDate(fechaStr);
-		CarreraGateway inscr=new CarreraGateway();
+		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
 		assertEquals(descuentoRecargo,inscr.getDescuentoRecargo(idCarrera,fecha));
 	}
 

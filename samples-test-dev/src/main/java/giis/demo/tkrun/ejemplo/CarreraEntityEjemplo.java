@@ -1,6 +1,7 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.ejemplo;
+
 /**
- * Cada una de las filas que muestran al usuario las carreras y su estado
+ * Datos del modelo de dominio de cada una de las carreras
  * IMPORTANTE: Cuando se usan los componentes de Apache Commons DbUtils debe
  * mantenerse de forma estricta el convenio de capitalización de Java:
  *  - Capitalizar todas las palabras que forman un identificador 
@@ -8,23 +9,25 @@ package giis.demo.tkrun;
  *  - No utilizar subrayados
  * Seguir tambien estos mismos criterios en los nombres de tablas y campos de la BD
  */
-public class CarreraDisplayDTO {
+public class CarreraEntityEjemplo {
 	private String id;
+	private String inicio; //las fechas son string (vienen de sqlite)
+	private String fin;
+	private String fecha;
 	private String descr;
-	private String abierta;
-	public CarreraDisplayDTO() {}
-	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado) {
-		this.id=rowId;
-		this.descr=rowDescripcion;
-		this.abierta=rowEstado;
-	}
+
 	public String getId() { return this.id; }
+	public String getInicio() { return this.inicio; }
+	public String getFin() { return this.fin; }
+	public String getFecha() { return this.fecha; }
 	public String getDescr() { return this.descr; }
-	public String getEstado() { return this.abierta; }
 	public void setId(String value) { this.id=value; }
+	public void setInicio(String value) { this.inicio=value; }
+	public void setFin(String value) { this.fin=value; }
+	public void setFecha(String value) { this.fecha=value; }
 	public void setDescr(String value) { this.descr=value; }
-	public void setAbierta(String value) { this.abierta=value; }
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/
 	//http://www.baeldung.com/intro-to-project-lombok
+	//En un fichero con este mismo nombre, pero con extension .txt se muestra un ejemplo
 }

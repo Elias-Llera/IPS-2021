@@ -13,12 +13,13 @@ drop table Categoria;
 create table Carrera (
     id int primary key not null, 
     nombre varchar not null, 
-    tipo ENUM('urbana', 'tierra') not null,
-    descr varchar(32), 
+    tipo varchar(6) not null,
+    descripcion varchar(32), 
     inicio_inscripcion date not null, 
     fin_inscripcion date not null, 
     precio_inscripcion float not null, 
-    fecha date not null, 
+    fecha date not null,
+    plazas int,
     check(inicio<=fin), 
     check(fin<fecha)
 );
@@ -28,14 +29,15 @@ create table Atleta (
     nombre varchar, 
     apellido varchar, 
     nacimiento date not null,
-    sexo ('male', 'female')
+    sexo varchar(6)
 );
 
 create table Inscritos(
     email varchar foreign key references Atleta(email), 
     id_carrera varchar foreign key references Carrera(id), 
     primary key (email, id_carrera), 
-    estado ENUM('preinscrito', 'inscrito'), 
+    estado varchar(15),
+    idCategoria int varchar foreign key references Categoria(id),
     dorsal int
 );
 
@@ -44,6 +46,6 @@ create table Categoria(
     id_carrera foreign key references Carrera(id),
     edad_inicio int,
     edad_final int,
-    sexo value ('male', 'female'),
+    sexo varchar(6),
     nombre varchar
 );

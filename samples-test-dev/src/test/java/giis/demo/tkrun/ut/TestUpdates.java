@@ -3,6 +3,8 @@ import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
 import giis.demo.tkrun.*;
+import giis.demo.tkrun.ejemplo.CarreraEntityEjemplo;
+import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
 import giis.demo.util.*;
 
 import java.util.List;
@@ -26,11 +28,11 @@ public class TestUpdates {
 	 */
 	@Test
 	public void testUpdateFechasInscripcion1() {
-		CarreraGateway inscr=new CarreraGateway();
+		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
 		inscr.updateFechasInscripcion(101, Util.isoStringToDate("2016-09-01"), Util.isoStringToDate("2016-09-02"));
 		//el test habra modificado las dos fechas de la carrera 101,
 		//lee todos los datos de la tabla y las compara con los iniciales tras cambiar solamente estos dos datos
-		List<CarreraEntity> carreras=db.executeQueryPojo(CarreraEntity.class, "SELECT * FROM carreras ORDER BY id");
+		List<CarreraEntityEjemplo> carreras=db.executeQueryPojo(CarreraEntityEjemplo.class, "SELECT * FROM carreras ORDER BY id");
         assertEquals(
 				"100,2016-10-05,2016-10-25,2016-11-09,finalizada\n"
 				+"101,2016-09-01,2016-09-02,2016-11-10,en fase 3\n"
@@ -47,17 +49,17 @@ public class TestUpdates {
 	@Test
 	public void testUpdateFechasInscripcion2() {
 		//crea la salida deseada leyendo el estado inicial y cambiando solo las fechas de la carrera 101 (segundo elemento de la lista)
-		List<CarreraEntity> expected=db.executeQueryPojo(CarreraEntity.class, "SELECT * FROM carreras ORDER BY id");
+		List<CarreraEntityEjemplo> expected=db.executeQueryPojo(CarreraEntityEjemplo.class, "SELECT * FROM carreras ORDER BY id");
 		expected.get(1).setInicio("2016-09-01");
 		expected.get(1).setFin("2016-09-02");
 
 		//ahora se ejecuta el metodo que actualizara la base de datos
-		CarreraGateway inscr=new CarreraGateway();
+		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
 		inscr.updateFechasInscripcion(101, Util.isoStringToDate("2016-09-01"), Util.isoStringToDate("2016-09-02"));
 
 		//y se hace la comprobacion respecto del estado actual tras el cambio
 		//El assert se hace sobre las representaciones csv de los datos para que en caso de discrepancias sea facil de comprobar
-		List<CarreraEntity> actual=db.executeQueryPojo(CarreraEntity.class, "SELECT * FROM carreras ORDER BY id");
+		List<CarreraEntityEjemplo> actual=db.executeQueryPojo(CarreraEntityEjemplo.class, "SELECT * FROM carreras ORDER BY id");
         assertEquals(Util.pojosToCsv(expected,new String[] {"id","inicio","fin","fecha","descr"}),
         		Util.pojosToCsv(actual,new String[] {"id","inicio","fin","fecha","descr"}));
  	}

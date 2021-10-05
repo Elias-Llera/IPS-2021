@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.ejemplo;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
@@ -23,7 +23,7 @@ import javax.swing.UIManager;
  * - Se asinga nombre a las tablas si se van a automatizar la ejecucion de pruebas
  * - Incluye al final los metodos adicionales necesarios para acceder al UI desde el controlador
  */
-public class CarrerasView {
+public class CarrerasViewEjemplo {
 
 	private JFrame frame;
 	private JTextField txtFechaHoy;
@@ -36,7 +36,7 @@ public class CarrerasView {
 	/**
 	 * Create the application.
 	 */
-	public CarrerasView() {
+	public CarrerasViewEjemplo() {
 		initialize();
 	}
 

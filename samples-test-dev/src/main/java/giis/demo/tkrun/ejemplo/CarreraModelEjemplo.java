@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.ejemplo;
 
 import java.util.*;
 import giis.demo.util.Util;
@@ -16,7 +16,7 @@ import giis.demo.util.Database;
  * <br/>Si utilizase algún otro framework para manejar la persistencia, la funcionalidad proporcionada por esta clase sería la asignada
  * a los Servicios, Repositorios y DAOs.
  */
-public class CarreraGateway {
+public class CarreraModelEjemplo {
 	private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db=new Database();
@@ -48,7 +48,7 @@ public class CarreraGateway {
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
 	 */
-	public List<CarreraDisplayDTO> getListaCarreras(Date fechaInscripcion) {
+	public List<CarreraDisplayDTOEjemplo> getListaCarreras(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
 				 "SELECT id,descr,"
@@ -60,7 +60,7 @@ public class CarreraGateway {
 				+" end as abierta"
 				+" from carreras  where fecha>=? order by id";
 		String d=Util.dateToIsoString(fechaInscripcion);
-		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, d, d, d, d, d);
+		return db.executeQueryPojo(CarreraDisplayDTOEjemplo.class, sql, d, d, d, d, d);
 	}
 	/** 
 	 * Obtiene el porcentaje de descuento (valor negativo) o recargo aplicable a una carrera dada por su id cuando se
@@ -94,9 +94,9 @@ public class CarreraGateway {
 	/**
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
-	public CarreraEntity getCarrera(int id) {
+	public CarreraEntityEjemplo getCarrera(int id) {
 		String sql="SELECT id,inicio,fin,fecha,descr from carreras where id=?";
-		List<CarreraEntity> carreras=db.executeQueryPojo(CarreraEntity.class, sql, id);
+		List<CarreraEntityEjemplo> carreras=db.executeQueryPojo(CarreraEntityEjemplo.class, sql, id);
 		validateCondition(!carreras.isEmpty(),"Id de carrera no encontrado: "+id);
 		return carreras.get(0);
 	}
@@ -105,7 +105,7 @@ public class CarreraGateway {
 	 * Actualiza las fechas de inscripcion de una carrera
 	 */
 	public void updateFechasInscripcion(int id, Date inicio, Date fin) {
-		CarreraEntity carrera=this.getCarrera(id);
+		CarreraEntityEjemplo carrera=this.getCarrera(id);
 		validateFechasInscripcion(inicio, fin, Util.isoStringToDate(carrera.getFecha()));
 		String sql="UPDATE carreras SET inicio=?, fin=? WHERE id=?";
 		db.executeUpdate(sql, Util.dateToIsoString(inicio), Util.dateToIsoString(fin), id);

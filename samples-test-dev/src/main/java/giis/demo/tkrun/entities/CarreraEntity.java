@@ -1,39 +1,19 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.entities;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CarreraModel {
-
-	private enum TipoCarrera {URBANA, TIERRA};
+public class CarreraEntity {
 	
 	private Long idCarrera;
-    private String nombreCarrera; 
-    private TipoCarrera tipo;
+    private String nombre; 
+    private String tipo;
     private String descripcion;
     private Date inicioInscripcion;
     private Date finInscripcion;
     private double precioInscripcion;
-    private Date fechaCarrera;
+    private Date fecha;
+    private int plazas;
     
-    //Relaciones
-    private List<InscripcionModel> inscripciones = new ArrayList<>();;
-    
-    public CarreraModel(Long idCarrera, Date inicioInscripcion, Date finInscripcion, double precioInscripcion) {
-    	setIdCarrera(idCarrera);
-    	setInicioInscripcion(inicioInscripcion);
-    	setFinInscripcion(finInscripcion);
-    	setPrecioInscripcion(precioInscripcion);
-    }
-    
-    public void nuevoInscrito(InscripcionModel inscripcion) {
-    	inscripciones.add(inscripcion);
-    }
-
-    
-    //Getters y setters
-    //NO TODOS SON NECESARIOS
 	public Long getIdCarrera() {
 		return idCarrera;
 	}
@@ -43,18 +23,18 @@ public class CarreraModel {
 	}
 
 	public String getNombreCarrera() {
-		return nombreCarrera;
+		return nombre;
 	}
 
 	public void setNombreCarrera(String nombreCarrera) {
-		this.nombreCarrera = nombreCarrera;
+		this.nombre = nombreCarrera;
 	}
 
-	public TipoCarrera getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoCarrera tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 
@@ -91,10 +71,26 @@ public class CarreraModel {
 	}
 
 	public Date getFechaCarrera() {
-		return fechaCarrera;
+		return fecha;
 	}
 
 	public void setFechaCarrera(Date fechaCarrera) {
-		this.fechaCarrera = fechaCarrera;
+		this.fecha = fechaCarrera;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public int getPlazas() {
+		return plazas;
+	}
+
+	public void setPlazas(int plazas) {
+		this.plazas = plazas;
 	}
 }

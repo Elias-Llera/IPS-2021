@@ -7,6 +7,7 @@ import junitparams.Parameters;
 import junitparams.JUnitParamsRunner;
 
 import giis.demo.tkrun.*;
+import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
 import giis.demo.util.*;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class TestInscripcionJUnitParams {
 		"2016-11-19,   0, 102"})
 	public void testPorcentajeDescuentoRecargoValidas(String fechaStr, int descuentoRecargo, long idCarrera) {
 		Date fecha=Util.isoStringToDate(fechaStr);
-		CarreraGateway inscr=new CarreraGateway();
+		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
 		assertEquals(descuentoRecargo,inscr.getDescuentoRecargo(idCarrera,fecha));
 	}
 
