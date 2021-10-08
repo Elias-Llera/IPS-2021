@@ -3,7 +3,7 @@ package giis.demo.tkrun.entities;
 public class InscripcionEntity {
 
 	private String emailAtleta;
-	private Long idCarrera;
+	private int idCarrera;
 	private String estado;
 	private int dorsal;
 	private int idCategoria;
@@ -11,9 +11,17 @@ public class InscripcionEntity {
 	public String getEmailAtleta() {
 		return emailAtleta;
 	}
+	
+	public void setEmailAtleta(String email) {
+		this.emailAtleta = email;
+	}
 
-	public Long getIdCarrera() {
+	public int getIdCarrera() {
 		return idCarrera;
+	}
+	
+	public void setIdCarrera(int idCarrera2) {
+		this.idCarrera = idCarrera2;
 	}
 
 	public String getEstado() {
