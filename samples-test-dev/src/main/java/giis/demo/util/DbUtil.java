@@ -12,11 +12,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+
 
 /**
  * Metodos de utilidad para simplificar las queries realizadas en las clases 

@@ -7,13 +7,18 @@ DROP TABLE IF EXISTS atletas;
 DROP TABLE IF EXISTS inscripciones;
 
 CREATE TABLE carreras(
-	id INT PRIMARY KEY NOT NULL, 
-	inicio DATE NOT NULL, 
-	fin DATE NOT NULL, 
+	idCarrera INT PRIMARY KEY NOT NULL,
+	nombre VARCHAR(32) NOT NULL,
+	tipo VARCHAR(32) NOT NULL,
+	descripcion VARCHAR(32) NOT NULL, 
+	inicioInscripcion DATE NOT NULL, 
+	finInscripcion DATE NOT NULL,
+	precioInscripcion REAL NOT NULL,
 	fecha DATE NOT NULL, 
-	descr VARCHAR(32), 
-	CHECK(inicio<=fin), 
-	CHECK(fin<fecha)
+	plazas INT NOT NULL, 
+	distancia INT NOT NULL,
+	CHECK(inicioInscripcion<=finInscripcion), 
+	CHECK(finInscripcion<fecha)
 );
 CREATE TABLE atletas(
 	email VARCHAR(32) PRIMARY KEY NOT NULL, 

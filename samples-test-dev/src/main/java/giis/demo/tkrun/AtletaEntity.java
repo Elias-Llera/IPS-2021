@@ -10,23 +10,30 @@ public class AtletaEntity {
 	private String surname;
 	private String birthDate;
 	private boolean isMale;
-	
-	//Relaciones
+
+	// Relaciones
 	private List<InscripcionEntity> inscripciones = new ArrayList<>();
-	
+
+	public AtletaEntity(String email, String name, String surname, String birthDate, boolean isMale) {
+		this.setEmail(email);
+		this.setName(name);
+		this.setSurname(surname);
+		this.setBirthDate(birthDate);
+		this.setMale(isMale);
+	}
+
 	public AtletaEntity(String email, boolean isMale, String birthDate) {
 		this.setEmail(email);
 		this.setBirthDate(birthDate);
 		this.setMale(isMale);
 	}
-	
-	public void registrarse(InscripcionEntity inscripcion){
+
+	public void registrarse(InscripcionEntity inscripcion) {
 		inscripciones.add(inscripcion);
 	}
 
-	
-	//Getters y setters
-	//NO TODOS SON NECESARIOS
+	// Getters y setters
+	// NO TODOS SON NECESARIOS
 	public String getBirthDate() {
 		return birthDate;
 	}

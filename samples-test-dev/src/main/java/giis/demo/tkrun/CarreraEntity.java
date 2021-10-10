@@ -10,24 +10,77 @@ package giis.demo.tkrun;
  * Seguir tambien estos mismos criterios en los nombres de tablas y campos de la BD
  */
 public class CarreraEntity {
-	private String id;
-	private String inicio; //las fechas son string (vienen de sqlite)
-	private String fin;
-	private String fecha;
-	private String descr;
+	private Long idCarrera;
+    private String nombre; 
+    private String tipo;
+    private String descripcion;
+    private String inicioInscripcion;
+    private String finInscripcion;
+    private double precioInscripcion;
+    private String fecha;
+    private int plazas;
+    private int distancia;
+	public Long getIdCarrera() {
+		return idCarrera;
+	}
+	public void setIdCarrera(Long idCarrera) {
+		this.idCarrera = idCarrera;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public String getInicioInscripcion() {
+		return inicioInscripcion;
+	}
+	public void setInicioInscripcion(String inicioInscripcion) {
+		this.inicioInscripcion = inicioInscripcion;
+	}
+	public String getFinInscripcion() {
+		return finInscripcion;
+	}
+	public void setFinInscripcion(String finInscripcion) {
+		this.finInscripcion = finInscripcion;
+	}
+	public double getPrecioInscripcion() {
+		return precioInscripcion;
+	}
+	public void setPrecioInscripcion(double precioInscripcion) {
+		this.precioInscripcion = precioInscripcion;
+	}
+	public String getFecha() {
+		return fecha;
+	}
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+	public int getPlazas() {
+		return plazas;
+	}
+	public void setPlazas(int plazas) {
+		this.plazas = plazas;
+	}
+	public int getDistancia() {
+		return distancia;
+	}
+	public void setDistancia(int distancia) {
+		this.distancia = distancia;
+	}
+    
 
-	public String getId() { return this.id; }
-	public String getInicio() { return this.inicio; }
-	public String getFin() { return this.fin; }
-	public String getFecha() { return this.fecha; }
-	public String getDescr() { return this.descr; }
-	public void setId(String value) { this.id=value; }
-	public void setInicio(String value) { this.inicio=value; }
-	public void setFin(String value) { this.fin=value; }
-	public void setFecha(String value) { this.fecha=value; }
-	public void setDescr(String value) { this.descr=value; }
-	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
-	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/
-	//http://www.baeldung.com/intro-to-project-lombok
-	//En un fichero con este mismo nombre, pero con extension .txt se muestra un ejemplo
+
 }
