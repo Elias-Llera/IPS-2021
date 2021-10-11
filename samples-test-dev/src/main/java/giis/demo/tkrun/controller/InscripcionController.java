@@ -26,14 +26,15 @@ public class InscripcionController {
 	CarreraModel carreraModel = new CarreraModel();
 	CategoriaModel categoriaModel = new CategoriaModel();
 	
-	InscripcionView view = new InscripcionView();//vista para añadirle el actionListener
+	InscripcionView view;//vista para añadirle el actionListener
 
 	
-	public void init() {
+	public void init(String nombreCarrera, int idCarrera) {
+		view  = new InscripcionView(nombreCarrera);
 		view.getBtnOk().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SwingUtil.exceptionWrapper(() -> addInscripcion(null, 0));//FALTA SACAR LOS DATOS DE LA VISTA
+				SwingUtil.exceptionWrapper(() -> addInscripcion(view.getTextEmail().getText(), idCarrera));
 			}
 		});;
 	}
