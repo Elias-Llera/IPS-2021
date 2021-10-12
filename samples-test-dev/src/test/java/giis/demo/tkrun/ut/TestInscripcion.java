@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import giis.demo.tkrun.*;
+import giis.demo.tkrun.model.CarrerasModel;
 import giis.demo.util.*;
 
 import java.util.Date;

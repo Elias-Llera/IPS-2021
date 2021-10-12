@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,6 +7,9 @@ import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import giis.demo.tkrun.entities.CarreraEntity;
+import giis.demo.tkrun.model.CarrerasModel;
+import giis.demo.tkrun.view.CarrerasView;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.SwingUtil;
 import giis.demo.util.Util;

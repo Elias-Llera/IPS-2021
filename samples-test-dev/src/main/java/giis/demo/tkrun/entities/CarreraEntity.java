@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.entities;
 
 /**
  * Datos del modelo de dominio de cada una de las carreras

@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.entities;
 
 import java.sql.Date;
 import java.util.ArrayList;

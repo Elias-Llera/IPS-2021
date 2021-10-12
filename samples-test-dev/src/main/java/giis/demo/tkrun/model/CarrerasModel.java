@@ -1,7 +1,8 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.model;
 
 import java.util.*;
 import giis.demo.util.Util;
+import giis.demo.tkrun.entities.CarreraEntity;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
 

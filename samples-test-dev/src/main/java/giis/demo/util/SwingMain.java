@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import giis.demo.tkrun.*;
+import giis.demo.tkrun.controller.CarrerasController;
+import giis.demo.tkrun.model.CarrerasModel;
+import giis.demo.tkrun.view.CarrerasView;
 
 /**
  * Punto de entrada principal que incluye botones para la ejecucion de las pantallas 

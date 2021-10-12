@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.entities;
 /**
  * Cada una de las filas que muestran al usuario las carreras y su estado
  * IMPORTANTE: Cuando se usan los componentes de Apache Commons DbUtils debe
