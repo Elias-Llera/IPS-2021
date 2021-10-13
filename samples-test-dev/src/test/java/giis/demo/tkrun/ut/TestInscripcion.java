@@ -44,6 +44,7 @@ public class TestInscripcion {
 	 * Con la base de datos del setUp cubre las cinco clases de equivalencia relativas a Fecha de inscrpcion
 	 * (carreras 100 a 104)
 	 */
+<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasList() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -56,11 +57,26 @@ public class TestInscripcion {
 		assertEquals("103-en fase 1 (Abierta)",carreras.get(2)[0]);
 		assertEquals("104-antes inscripcion ",carreras.get(3)[0]);
 	}
+=======
+//	@Test
+//	public void testCarrerasActivasList() {
+//		CarrerasModel inscr=new CarrerasModel();
+//		List<Object[]> carreras=inscr.getListaCarrerasArray(Util.isoStringToDate("2016-11-10"));
+//		//Deben mostrarse todas las carreras de la BD menos la primera que es pasada, la ultima no debe indicar abierto
+//		assertEquals("el numero de carreras mostradas es incorrecto",4,carreras.size());
+//		//la lista de carreras contiene un array de objetos de una dimension
+//		assertEquals("101-en fase 3 (Abierta)",carreras.get(0)[0]);
+//		assertEquals("102-en fase 2 (Abierta)",carreras.get(1)[0]);
+//		assertEquals("103-en fase 1 (Abierta)",carreras.get(2)[0]);
+//		assertEquals("104-antes inscripcion ",carreras.get(3)[0]);
+//	}
+>>>>>>> refs/heads/main
 
 	/**
 	 * Alternativa para comparacion de los valores de una lista, pasando todos sus elementos a un string,
 	 * es mas compacto y facil la comparacion de resultados
 	 */
+<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasListAlt() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -76,10 +92,28 @@ public class TestInscripcion {
 			s.append((i==0?"":"\n") + lst.get(i)[0]);
 		return s.toString();
 	}
+=======
+//	@Test
+//	public void testCarrerasActivasListAlt() {
+//		CarrerasModel inscr=new CarrerasModel();
+//		List<Object[]> carreras=inscr.getListaCarrerasArray(Util.isoStringToDate("2016-11-10"));
+//		assertEquals(
+//				"101-en fase 3 (Abierta)\n102-en fase 2 (Abierta)\n103-en fase 1 (Abierta)\n104-antes inscripcion ",
+//				list2string(carreras));
+//	}
+//	/** Convierte una lista de Object[] a un string, separando cada item por salto de linea */
+//	private String list2string(List<Object[]> lst) {
+//		StringBuilder s=new StringBuilder();
+//		for (int i=0; i<lst.size(); i++)
+//			s.append((i==0?"":"\n") + lst.get(i)[0]);
+//		return s.toString();
+//	}
+>>>>>>> refs/heads/main
 	/**
 	 * Otra version de una variante del metodo getListaCarreras, en este caso el DAO devuele una lista de objetos con tres valores,
 	 * las comparaciones se realizan para cada uno de ellos.
 	 */
+<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasDao() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -98,6 +132,26 @@ public class TestInscripcion {
 		assertEquals(carreras.get(3).getDescr(),"antes inscripcion");
 		assertEquals(carreras.get(3).getEstado(),"");
 	}
+=======
+//	@Test
+//	public void testCarrerasActivasDao() {
+//		CarrerasModel inscr=new CarrerasModel();
+//		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
+//		assertEquals("el numero de carreras mostradas es incorrecto",4,carreras.size());
+//		assertEquals(carreras.get(0).getId(),"101");
+//		assertEquals(carreras.get(0).getDescr(),"en fase 3");
+//		assertEquals(carreras.get(0).getEstado(),"(Abierta)");
+//		assertEquals(carreras.get(1).getId(),"102");
+//		assertEquals(carreras.get(1).getDescr(),"en fase 2");
+//		assertEquals(carreras.get(1).getEstado(),"(Abierta)");
+//		assertEquals(carreras.get(2).getId(),"103");
+//		assertEquals(carreras.get(2).getDescr(),"en fase 1");
+//		assertEquals(carreras.get(2).getEstado(),"(Abierta)");
+//		assertEquals(carreras.get(3).getId(),"104");
+//		assertEquals(carreras.get(3).getDescr(),"antes inscripcion");
+//		assertEquals(carreras.get(3).getEstado(),"");
+//	}
+>>>>>>> refs/heads/main
 
 	/**
 	 * Alternativa para comparacion utilizando una representacion serializada del DTO a Json 
@@ -105,6 +159,7 @@ public class TestInscripcion {
 	 * Es mas compacto y facilita la comparacion de resultados, 
 	 * permitiendo tambien realizar las comparaciones cuando se prueba un api REST
 	 */
+<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasDaoJson() throws JsonProcessingException {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -131,6 +186,34 @@ public class TestInscripcion {
         		Util.pojosToCsv(carreras,new String[] {"id","descr","estado"}));
  	}
 	
+=======
+//	@Test
+//	public void testCarrerasActivasDaoJson() throws JsonProcessingException {
+//		CarrerasModel inscr=new CarrerasModel();
+//		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
+//		assertEquals(
+//				"[{\"id\":\"101\",\"descr\":\"en fase 3\",\"estado\":\"(Abierta)\"},\n"
+//				+"{\"id\":\"102\",\"descr\":\"en fase 2\",\"estado\":\"(Abierta)\"},\n"
+//				+"{\"id\":\"103\",\"descr\":\"en fase 1\",\"estado\":\"(Abierta)\"},\n"
+//				+"{\"id\":\"104\",\"descr\":\"antes inscripcion\",\"estado\":\"\"}]",
+//				Util.serializeToJson(CarreraDisplayDTO.class,carreras,false));
+//	}
+//	/**
+//	 * Otra alternativa que facilita la comparacion, en vez de comparar con el Json completo se compara
+//	 * con una representacion estilo CSV en el que cada atributo del objeto se representa como un elemento de un array
+//	 */
+//	@Test
+//	public void testCarrerasActivasDaoCsv() {
+//		CarrerasModel inscr=new CarrerasModel();
+//		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
+//        assertEquals("101,en fase 3,(Abierta)\n"
+//        		+"102,en fase 2,(Abierta)\n"
+//        		+"103,en fase 1,(Abierta)\n"
+//        		+"104,antes inscripcion,\n", 
+//        		Util.pojosToCsv(carreras,new String[] {"id","descr","estado"}));
+// 	}
+//	
+>>>>>>> refs/heads/main
 	/**
 	 * No se han determinado en el disenyo clases invalidas, pero para completar la prueba se comprobara
 	 * la validez de los parametros recibidos.

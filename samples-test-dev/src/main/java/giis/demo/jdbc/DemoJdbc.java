@@ -1,7 +1,10 @@
 package giis.demo.jdbc;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+import java.sql.*;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -11,6 +14,7 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.log4j.Logger;
 
 import giis.demo.util.UnexpectedException;
+
 
 /**
  * Ejemplos de acceso a una base de datos con conexion JDBC y base de datos Sqlite
