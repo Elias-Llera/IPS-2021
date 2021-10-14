@@ -8,8 +8,8 @@ import giis.demo.util.Util;
 
 public class CategoriaModel {
 
-	private static final String SQL_FIND_CATEGORIA = "SELECT id, id_carrera, nombre, edad_inicio, edad_final, sexo from CATEGORIAS where id=?";
-	private static final String SQL_FIND_CATEGORIA_PARA_ATLETA = "SELECT id, id_carrera, nombre, edad_inicio, edad_final, sexo from CATEGORIAS where id_carrera=? AND edad_inicio <= ? AND edad_final >= ? AND sexo = ?";
+	private static final String SQL_FIND_CATEGORIA = "SELECT idCategoria, idCarrera, nombre, edadInicio, edadFinal, sexo from CATEGORIAS where idCategoria=?";
+	private static final String SQL_FIND_CATEGORIA_PARA_ATLETA = "SELECT idCategoria, idCarrera, nombre, edadInicio, edadFinal, sexo from CATEGORIAS where idCarrera=? AND edadInicio <= ? AND edadFinal >= ? AND sexo = ?";
 
 	private Database db = new Database();
 

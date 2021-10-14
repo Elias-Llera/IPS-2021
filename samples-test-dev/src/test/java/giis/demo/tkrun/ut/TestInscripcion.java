@@ -1,18 +1,22 @@
 package giis.demo.tkrun.ut;
-import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import giis.demo.tkrun.*;
 import giis.demo.tkrun.ejemplo.CarreraDisplayDTOEjemplo;
 import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
-import giis.demo.util.*;
-
-import java.util.Date;
-import java.util.List;
+import giis.demo.util.ApplicationException;
+import giis.demo.util.Database;
+import giis.demo.util.Util;
 
 /**
  * Pruebas del ejemplo de Inscripciones en carreras populares (primer ejemplo) con JUnit4
@@ -44,7 +48,6 @@ public class TestInscripcion {
 	 * Con la base de datos del setUp cubre las cinco clases de equivalencia relativas a Fecha de inscrpcion
 	 * (carreras 100 a 104)
 	 */
-<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasList() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -57,7 +60,6 @@ public class TestInscripcion {
 		assertEquals("103-en fase 1 (Abierta)",carreras.get(2)[0]);
 		assertEquals("104-antes inscripcion ",carreras.get(3)[0]);
 	}
-=======
 //	@Test
 //	public void testCarrerasActivasList() {
 //		CarrerasModel inscr=new CarrerasModel();
@@ -70,13 +72,11 @@ public class TestInscripcion {
 //		assertEquals("103-en fase 1 (Abierta)",carreras.get(2)[0]);
 //		assertEquals("104-antes inscripcion ",carreras.get(3)[0]);
 //	}
->>>>>>> refs/heads/main
 
 	/**
 	 * Alternativa para comparacion de los valores de una lista, pasando todos sus elementos a un string,
 	 * es mas compacto y facil la comparacion de resultados
 	 */
-<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasListAlt() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -92,7 +92,6 @@ public class TestInscripcion {
 			s.append((i==0?"":"\n") + lst.get(i)[0]);
 		return s.toString();
 	}
-=======
 //	@Test
 //	public void testCarrerasActivasListAlt() {
 //		CarrerasModel inscr=new CarrerasModel();
@@ -108,12 +107,10 @@ public class TestInscripcion {
 //			s.append((i==0?"":"\n") + lst.get(i)[0]);
 //		return s.toString();
 //	}
->>>>>>> refs/heads/main
 	/**
 	 * Otra version de una variante del metodo getListaCarreras, en este caso el DAO devuele una lista de objetos con tres valores,
 	 * las comparaciones se realizan para cada uno de ellos.
 	 */
-<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasDao() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -132,8 +129,8 @@ public class TestInscripcion {
 		assertEquals(carreras.get(3).getDescr(),"antes inscripcion");
 		assertEquals(carreras.get(3).getEstado(),"");
 	}
-=======
-//	@Test
+
+	//	@Test
 //	public void testCarrerasActivasDao() {
 //		CarrerasModel inscr=new CarrerasModel();
 //		List<CarreraDisplayDTO> carreras=inscr.getListaCarreras(Util.isoStringToDate("2016-11-10"));
@@ -151,7 +148,6 @@ public class TestInscripcion {
 //		assertEquals(carreras.get(3).getDescr(),"antes inscripcion");
 //		assertEquals(carreras.get(3).getEstado(),"");
 //	}
->>>>>>> refs/heads/main
 
 	/**
 	 * Alternativa para comparacion utilizando una representacion serializada del DTO a Json 
@@ -159,7 +155,6 @@ public class TestInscripcion {
 	 * Es mas compacto y facilita la comparacion de resultados, 
 	 * permitiendo tambien realizar las comparaciones cuando se prueba un api REST
 	 */
-<<<<<<< HEAD
 	@Test
 	public void testCarrerasActivasDaoJson() throws JsonProcessingException {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -186,7 +181,6 @@ public class TestInscripcion {
         		Util.pojosToCsv(carreras,new String[] {"id","descr","estado"}));
  	}
 	
-=======
 //	@Test
 //	public void testCarrerasActivasDaoJson() throws JsonProcessingException {
 //		CarrerasModel inscr=new CarrerasModel();
@@ -213,7 +207,6 @@ public class TestInscripcion {
 //        		Util.pojosToCsv(carreras,new String[] {"id","descr","estado"}));
 // 	}
 //	
->>>>>>> refs/heads/main
 	/**
 	 * No se han determinado en el disenyo clases invalidas, pero para completar la prueba se comprobara
 	 * la validez de los parametros recibidos.

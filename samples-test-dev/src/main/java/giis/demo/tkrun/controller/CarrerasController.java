@@ -1,15 +1,17 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.table.DefaultTableModel;
+
+import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
-import giis.demo.util.ApplicationException;
+import giis.demo.tkrun.entities.CarreraEntity;
+import giis.demo.tkrun.model.CarreraModel;
+import giis.demo.tkrun.view.CarrerasView;
 import giis.demo.util.SwingUtil;
-import giis.demo.util.Util;
 
 /**
  * Controlador para la funcionalidad de visualizacion de carreras para la
@@ -18,12 +20,12 @@ import giis.demo.util.Util;
  * initController que instalara los manejadores de eventos
  */
 public class CarrerasController {
-	private CarrerasModel model;
+	private CarreraModel model;
 	private CarrerasView view;
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
 
-	public CarrerasController(CarrerasModel m, CarrerasView v) {
+	public CarrerasController(CarreraModel m, CarrerasView v) {
 		this.model = m;
 		this.view = v;
 		// no hay inicializacion especifica del modelo, solo de la vista
@@ -59,6 +61,21 @@ public class CarrerasController {
 				SwingUtil.exceptionWrapper(() -> updateDetail());
 			}
 		});
+
+		view.getBtnAceptar().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SwingUtil.exceptionWrapper(() -> openInscriptionView());
+			}
+
+			private void openInscriptionView() {
+				JTable tabla = view.getTablaCarreras();
+				String nombreCarrera = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
+				int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
+				new InscripcionController().init(nombreCarrera, idCarrera);
+				;
+			}
+		});
 	}
 
 	public void initView() {
@@ -78,7 +95,7 @@ public class CarrerasController {
 	 * asigna finalmente a la tabla.
 	 */
 	public void getListaCarreras() {
-		List<CarreraEntity> carreras = model.getListaCarreras(Util.isoStringToDate(view.getFechaHoy()));
+		List<CarreraEntity> carreras = model.getListaCarreras(Date.valueOf(view.getFechaHoy()));
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras, new String[] { "nombre", "fecha", "tipo",
 				"distancia", "precioInscripcion", "finInscripcion", "plazas" });
 		view.getTablaCarreras().setModel(tmodel);
@@ -87,7 +104,6 @@ public class CarrerasController {
 		// Como se guarda la clave del ultimo elemento seleccionado, restaura la
 		// seleccion de los detalles
 		this.restoreDetail();
-
 	}
 
 	/**
@@ -100,7 +116,6 @@ public class CarrerasController {
 		this.lastSelectedKey = SwingUtil.selectAndGetSelectedKey(view.getTablaCarreras(), this.lastSelectedKey);
 		// Si hay clave para seleccionar en la tabla muestra el detalle, si no, lo
 		// reinicia
-
 	}
 
 	/**
@@ -113,7 +128,6 @@ public class CarrerasController {
 		// futuras interacciones
 		this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
 		view.getBtnAceptar().setEnabled(true);
-
 	}
 
 }

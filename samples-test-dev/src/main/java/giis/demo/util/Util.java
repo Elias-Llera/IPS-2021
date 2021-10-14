@@ -155,7 +155,6 @@ public class Util {
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd");
 		return formatter.format(javaDate);
 	}
-<<<<<<< HEAD
 	
 	/**
 	 * Valida que un objeto no sea nulo y lanza una exepcion con un mensaje dado si lo es
@@ -173,25 +172,4 @@ public class Util {
 			throw new ApplicationException(message);
 	}
 	
-=======
-
-	/**
-	 * Valida que un objeto no sea nulo y lanza una exepcion con un mensaje dado si
-	 * lo es
-	 */
-	public static void validateNotNull(Object obj, String message) {
-		if (obj == null)
-			throw new ApplicationException(message);
-	}
-
-	/**
-	 * Valida una condicion dada y lanza una excepcion un un mensaje dado si no se
-	 * cumplo
-	 */
-	public static void validateCondition(boolean condition, String message) {
-		if (!condition)
-			throw new ApplicationException(message);
-	}
-
->>>>>>> refs/heads/main
 }

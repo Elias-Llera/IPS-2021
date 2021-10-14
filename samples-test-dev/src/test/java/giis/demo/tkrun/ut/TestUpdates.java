@@ -1,13 +1,15 @@
 package giis.demo.tkrun.ut;
-import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
-import giis.demo.tkrun.*;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import giis.demo.tkrun.ejemplo.CarreraEntityEjemplo;
 import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
-import giis.demo.util.*;
-
-import java.util.List;
+import giis.demo.util.Database;
+import giis.demo.util.Util;
 
 /**
  * Ejemplo de comprobación de resultados en pruebas que actualizan la base de datos.
@@ -26,7 +28,6 @@ public class TestUpdates {
 	 * Prueba otro metodo del modelo que actualiza las fechas de inscripcion de una carrera:
 	 * comprueba tanto las fechas que se han actualizado como las que no se han actualizado para evitar efectos indeseados
 	 */
-<<<<<<< HEAD
 	@Test
 	public void testUpdateFechasInscripcion1() {
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();
@@ -42,7 +43,6 @@ public class TestUpdates {
 				+"104,2016-11-11,2016-11-15,2016-11-22,antes inscripcion\n",
         		Util.pojosToCsv(carreras,new String[] {"id","inicio","fin","fecha","descr"}));
  	}
-=======
 //	@Test
 //	public void testUpdateFechasInscripcion1() {
 //		CarrerasModel inscr=new CarrerasModel();
@@ -58,7 +58,6 @@ public class TestUpdates {
 //				+"104,2016-11-11,2016-11-15,2016-11-22,antes inscripcion\n",
 //        		Util.pojosToCsv(carreras,new String[] {"id","inicio","fin","fecha","descr"}));
 // 	}
->>>>>>> refs/heads/main
 	/**
 	 * Lo anterior comprueba todos los datos pero es dificil de establecer los valores deseados
 	 * pues hay que reproducir todo el contenido de la tabla inicial salvo lo que debe cambiar.
@@ -67,15 +66,9 @@ public class TestUpdates {
 	@Test
 	public void testUpdateFechasInscripcion2() {
 		//crea la salida deseada leyendo el estado inicial y cambiando solo las fechas de la carrera 101 (segundo elemento de la lista)
-<<<<<<< HEAD
 		List<CarreraEntityEjemplo> expected=db.executeQueryPojo(CarreraEntityEjemplo.class, "SELECT * FROM carreras ORDER BY id");
 		expected.get(1).setInicio("2016-09-01");
 		expected.get(1).setFin("2016-09-02");
-=======
-		List<CarreraEntity> expected=db.executeQueryPojo(CarreraEntity.class, "SELECT * FROM carreras ORDER BY id");
-		expected.get(1).setInicioInscripcion("2016-09-01");
-		expected.get(1).setFinInscripcion("2016-09-02");
->>>>>>> refs/heads/main
 
 		//ahora se ejecuta el metodo que actualizara la base de datos
 		CarreraModelEjemplo inscr=new CarreraModelEjemplo();

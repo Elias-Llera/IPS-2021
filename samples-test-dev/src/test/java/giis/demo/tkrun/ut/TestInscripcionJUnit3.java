@@ -1,9 +1,11 @@
 package giis.demo.tkrun.ut;
-import junit.framework.*;
-import giis.demo.tkrun.*;
+import java.util.Date;
+import java.util.List;
+
 import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
-import giis.demo.util.*;
-import java.util.*;
+import giis.demo.util.Database;
+import giis.demo.util.Util;
+import junit.framework.TestCase;
 
 /**
  * Ejemplo de pruebas con JUnit3 (incluye las pruebas de getListaCarreras y las invalidas de getDescuentoRecargo)
@@ -22,7 +24,6 @@ public class TestInscripcionJUnit3 extends TestCase {
 	public void tearDown(){
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Test de clases validas (getListaCarreras)
 	 */
@@ -37,7 +38,6 @@ public class TestInscripcionJUnit3 extends TestCase {
 		assertEquals("103-en fase 1 (Abierta)",carreras.get(2)[0]);
 		assertEquals("104-antes inscripcion ",carreras.get(3)[0]);
 	}
-=======
 //	/**
 //	 * Test de clases validas (getListaCarreras)
 //	 */
@@ -52,7 +52,6 @@ public class TestInscripcionJUnit3 extends TestCase {
 //		assertEquals("103-en fase 1 (Abierta)",carreras.get(2)[0]);
 //		assertEquals("104-antes inscripcion ",carreras.get(3)[0]);
 //	}
->>>>>>> refs/heads/main
 	
 	/**
 	 * Test clases invalidas: ilustra como se comprueban las excepciones en JUnit3

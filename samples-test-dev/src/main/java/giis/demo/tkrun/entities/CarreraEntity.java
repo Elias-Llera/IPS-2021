@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class CarreraEntity {
 	
-	private Long idCarrera;
+	private int idCarrera;
     private String nombre; 
     private String tipo;
     private String descripcion;
@@ -14,11 +14,11 @@ public class CarreraEntity {
     private Date fecha;
     private int plazas;
     
-	public Long getIdCarrera() {
+	public int getIdCarrera() {
 		return idCarrera;
 	}
 
-	public void setIdCarrera(Long idCarrera) {
+	public void setIdCarrera(int idCarrera) {
 		this.idCarrera = idCarrera;
 	}
 

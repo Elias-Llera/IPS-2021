@@ -8,7 +8,7 @@ import giis.demo.util.Util;
 
 public class AtletaModel {
 
-	private static final String SQL_FIND_ATLETA = "SELECT email, nombre, apellido, nacimiento from ATLETAS where email=?";
+	private static final String SQL_FIND_ATLETA = "SELECT emailAtleta, nombre, apellido, fechaNacimiento from ATLETAS where email=?";
 	
 	private Database db = new Database();
 

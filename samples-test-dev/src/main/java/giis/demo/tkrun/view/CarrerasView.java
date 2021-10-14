@@ -1,19 +1,15 @@
-package giis.demo.tkrun;
+package giis.demo.tkrun.view;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import java.awt.Dimension;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
 import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Vista de la pantalla que muestra las carreras activas y permite interactuar con ellas.
@@ -31,7 +27,8 @@ public class CarrerasView {
 	private JButton btnTabCarreras;
 	private JTable tabCarreras;
 	private JButton btnAceptar;
-
+	private JScrollPane tablePanel;
+	
 	/**
 	 * Create the application.
 	 */
@@ -72,7 +69,7 @@ public class CarrerasView {
 		tabCarreras.setName("tabCarreras");
 		tabCarreras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabCarreras.setDefaultEditor(Object.class, null); //readonly
-		JScrollPane tablePanel = new JScrollPane(tabCarreras);
+		tablePanel = new JScrollPane(tabCarreras);
 		frame.getContentPane().add(tablePanel, "cell 0 5,grow");
 		
 		btnAceptar = new JButton("Inscribirse");
@@ -89,6 +86,7 @@ public class CarrerasView {
 	public JButton getBtnTablaCarreras() { return this.btnTabCarreras; }
 	public JTable getTablaCarreras() { return this.tabCarreras; }
 	public JButton getBtnAceptar() { return this.btnAceptar; }
+	public JScrollPane getTablePanel() {return this.tablePanel; };
 
 	
 }

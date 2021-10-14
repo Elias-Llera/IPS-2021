@@ -8,13 +8,13 @@ import giis.demo.util.Util;
 
 public class InscripcionModel {
 	
-	private static final String SQL_FIND_INSCRIPCION = "SELECT email, id_carrera, estado, idCategoria, dorsal from INSCRIPCIONES where email=? AND id_carrera = ?";
+	private static final String SQL_FIND_INSCRIPCION = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where emailAtleta=? AND idCarrera = ?";
 	
-	private static final String SQL_FIND_INSCRIPCIONES_BY_ID_CARRERA = "SELECT email, id_carrera, estado, idCategoria, dorsal from INSCRIPCIONES where id_carrera = ?";
+	private static final String SQL_FIND_INSCRIPCIONES_BY_ID_CARRERA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where idCarrera = ?";
 
-	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (email, id_carrera, estado, idCategoria, dorsal) VALUES(?, ?, ?, ?, ?)";
+	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (emailAtleta, idCarrera, estado, idCategoria, dorsal) VALUES(?, ?, ?, ?, ?)";
 	
-	private static final String SQL_CALCULATE_DORSAL = "SELECT MAX dorsal FROM INSCRIPCIONES where id_carrera = ?";
+	private static final String SQL_CALCULATE_DORSAL = "SELECT MAX dorsal FROM INSCRIPCIONES where idCarrera = ?";
 
 	private Database db = new Database();
 

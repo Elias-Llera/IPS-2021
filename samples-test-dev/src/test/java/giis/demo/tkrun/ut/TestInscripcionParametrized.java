@@ -1,18 +1,20 @@
 package giis.demo.tkrun.ut;
-import org.junit.*;
 import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-import giis.demo.tkrun.*;
 import giis.demo.tkrun.ejemplo.CarreraModelEjemplo;
-import giis.demo.util.*;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import giis.demo.util.Database;
+import giis.demo.util.Util;
 
 /**
  * Ejemplo de pruebas parametrizadas con JUnit4 (https://github.com/junit-team/junit4/wiki/parameterized-tests),
