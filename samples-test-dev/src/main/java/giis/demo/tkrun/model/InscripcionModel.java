@@ -4,7 +4,6 @@ import java.util.List;
 
 import giis.demo.tkrun.entities.InscripcionEntity;
 import giis.demo.util.Database;
-import giis.demo.util.Util;
 
 public class InscripcionModel {
 	
@@ -20,8 +19,7 @@ public class InscripcionModel {
 
 	public InscripcionEntity findInscripcion(String email, int id_carrera) {
 		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_INSCRIPCION, email, id_carrera);
-		Util.validateCondition(!inscripciones.isEmpty(), "Inscripcion no encontrada");
-		return inscripciones.get(0);
+		return (inscripciones == null || inscripciones.size() == 0) ? null : inscripciones.get(0);
 	}
 	
 	public List<InscripcionEntity> findInscripciones(int idCarrera){

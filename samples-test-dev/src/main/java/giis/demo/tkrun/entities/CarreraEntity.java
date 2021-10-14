@@ -1,18 +1,17 @@
 package giis.demo.tkrun.entities;
 
-import java.sql.Date;
-
 public class CarreraEntity {
 	
 	private int idCarrera;
     private String nombre; 
     private String tipo;
     private String descripcion;
-    private Date inicioInscripcion;
-    private Date finInscripcion;
+    private String inicioInscripcion;
+    private String finInscripcion;
     private double precioInscripcion;
-    private Date fecha;
+    private String fecha;
     private int plazas;
+    private double distancia;
     
 	public int getIdCarrera() {
 		return idCarrera;
@@ -22,11 +21,11 @@ public class CarreraEntity {
 		this.idCarrera = idCarrera;
 	}
 
-	public String getNombreCarrera() {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombreCarrera(String nombreCarrera) {
+	public void setNombre(String nombreCarrera) {
 		this.nombre = nombreCarrera;
 	}
 
@@ -38,11 +37,11 @@ public class CarreraEntity {
 		this.tipo = tipo;
 	}
 
-	public Date getInicioInscripcion() {
+	public String getInicioInscripcion() {
 		return inicioInscripcion;
 	}
 
-	public void setInicioInscripcion(Date inicioInscripcion) {
+	public void setInicioInscripcion(String inicioInscripcion) {
 		this.inicioInscripcion = inicioInscripcion;
 	}
 
@@ -62,27 +61,27 @@ public class CarreraEntity {
 		this.precioInscripcion = precioInscripcion;
 	}
 
-	public Date getFinInscripcion() {
+	public String getFinInscripcion() {
 		return finInscripcion;
 	}
 
-	public void setFinInscripcion(Date finInscripcion) {
+	public void setFinInscripcion(String finInscripcion) {
 		this.finInscripcion = finInscripcion;
 	}
 
-	public Date getFechaCarrera() {
+	public String getFechaCarrera() {
 		return fecha;
 	}
 
-	public void setFechaCarrera(Date fechaCarrera) {
+	public void setFechaCarrera(String fechaCarrera) {
 		this.fecha = fechaCarrera;
 	}
 
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 
@@ -92,5 +91,13 @@ public class CarreraEntity {
 
 	public void setPlazas(int plazas) {
 		this.plazas = plazas;
+	}
+
+	public double getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(double distancia) {
+		this.distancia = distancia;
 	}
 }

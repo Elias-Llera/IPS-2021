@@ -4,27 +4,27 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class InscripcionView extends JFrame {
+public class InscripcionView extends JDialog {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel contentPane;
 	private JButton btnOk;
 	private JButton btnCancelar;
 	private JLabel lblNombreCarrera;
 	private JLabel lblEmail;
 	private JTextField textEmail;
-	
+
 	private String nombreCarrera;
 
 	/**
@@ -48,16 +48,15 @@ public class InscripcionView extends JFrame {
 	 */
 	public InscripcionView(String nombreCarrera) {
 		this.nombreCarrera = nombreCarrera;
-		
+
 		setTitle("Inscripción");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
 		contentPane.setLayout(null);
 		contentPane.add(getBtnOk());
 		contentPane.add(getBtnCancelar());
@@ -65,6 +64,7 @@ public class InscripcionView extends JFrame {
 		contentPane.add(getLblEmail());
 		contentPane.add(getTextEmail());
 	}
+
 	public JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton("Ok");
@@ -72,6 +72,7 @@ public class InscripcionView extends JFrame {
 		}
 		return btnOk;
 	}
+
 	public JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
@@ -79,6 +80,7 @@ public class InscripcionView extends JFrame {
 		}
 		return btnCancelar;
 	}
+
 	public JLabel getLblNombreCarrera() {
 		if (lblNombreCarrera == null) {
 			lblNombreCarrera = new JLabel("nombre carrera");
@@ -89,6 +91,7 @@ public class InscripcionView extends JFrame {
 		}
 		return lblNombreCarrera;
 	}
+
 	public JLabel getLblEmail() {
 		if (lblEmail == null) {
 			lblEmail = new JLabel("email:");
@@ -97,6 +100,7 @@ public class InscripcionView extends JFrame {
 		}
 		return lblEmail;
 	}
+
 	public JTextField getTextEmail() {
 		if (textEmail == null) {
 			textEmail = new JTextField();

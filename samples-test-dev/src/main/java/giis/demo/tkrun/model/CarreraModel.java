@@ -1,6 +1,5 @@
 package giis.demo.tkrun.model;
 
-import java.sql.Date;
 import java.util.List;
 
 import giis.demo.tkrun.entities.CarreraEntity;
@@ -11,7 +10,7 @@ import giis.demo.util.Util;
 public class CarreraModel {
 
 	private static final String SQL_FIND_CARRERA = "SELECT idCarrera, nombre, tipo, descripcion, inicioInscripcion, finInscripcion, precioInscripcion, fecha, plazas from CARRERAS where idCarrera=?";
-	private static final String SQL_FIND_CARRERAS_DESDE_HOY= "SELECT idCarrera, nombre, fecha, tipo, distancia, precioInscripcion, finInscripcion, plazas from carreras where fecha>=? order by fecha";
+	private static final String SQL_FIND_CARRERAS_DESDE_HOY = "SELECT idCarrera, nombre, fecha, tipo, distancia, precioInscripcion, finInscripcion, plazas from carreras where fecha>=? order by fecha";
 	private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db = new Database();
@@ -29,7 +28,7 @@ public class CarreraModel {
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de
 	 * inscripcion dada
 	 */
-	public List<CarreraEntity> getListaCarreras(Date fechaInscripcion) {
+	public List<CarreraEntity> getListaCarreras(String fechaInscripcion) {
 		validateNotNull(fechaInscripcion, MSG_FECHA_INSCRIPCION_NO_NULA);
 
 		return db.executeQueryPojo(CarreraEntity.class, SQL_FIND_CARRERAS_DESDE_HOY, fechaInscripcion);
@@ -98,5 +97,5 @@ public class CarreraModel {
 //		if (!condition)
 //			throw new ApplicationException(message);
 //	}
-	
+
 }

@@ -2,7 +2,8 @@ package giis.demo.tkrun.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -82,7 +83,9 @@ public class CarrerasController {
 		// Inicializa la fecha de hoy a un valor que permitira mostrar carreras en
 		// diferentes fases
 		// y actualiza los datos de la vista
-		view.setFechaHoy("2016-11-10");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String date = LocalDate.now().format(formatter);
+		view.setFechaHoy(date);
 		this.getListaCarreras();
 
 		// Abre la ventana (sustituye al main generado por WindowBuilder)
@@ -95,8 +98,8 @@ public class CarrerasController {
 	 * asigna finalmente a la tabla.
 	 */
 	public void getListaCarreras() {
-		List<CarreraEntity> carreras = model.getListaCarreras(Date.valueOf(view.getFechaHoy()));
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras, new String[] { "nombre", "fecha", "tipo",
+		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras, new String[] { "idCarrera", "nombre", "fecha", "tipo",
 				"distancia", "precioInscripcion", "finInscripcion", "plazas" });
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
@@ -126,7 +129,7 @@ public class CarrerasController {
 	public void updateDetail() {
 		// Obtiene la clave seleccinada y la guarda para recordar la seleccion en
 		// futuras interacciones
-		this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
+//		this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
 		view.getBtnAceptar().setEnabled(true);
 	}
 

@@ -1,13 +1,11 @@
 package giis.demo.tkrun.entities;
 
-import java.sql.Date;
-
 public class AtletaEntity {
 
 	private String email;
 	private String nombre;
 	private String apellido;
-	private Date nacimiento;
+	private String fechaNacimiento;
 	private String sexo;
 
 	public String getNombre() {
@@ -26,12 +24,12 @@ public class AtletaEntity {
 		this.apellido = apellido;
 	}
 
-	public Date getNacimiento() {
-		return nacimiento;
+	public String getFechaNacimiento() {
+		return fechaNacimiento;
 	}
 
-	public void setNacimiento(Date nacimiento) {
-		this.nacimiento = nacimiento;
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	public String getSexo() {

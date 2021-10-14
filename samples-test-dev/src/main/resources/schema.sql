@@ -14,10 +14,10 @@ CREATE TABLE carreras(
 	nombre TEXT NOT NULL,
 	tipo TEXT NOT NULL,
 	descripcion TEXT NOT NULL, 
-	inicioInscripcion DATE NOT NULL, 
-	finInscripcion DATE NOT NULL,
+	inicioInscripcion TEXT NOT NULL, 
+	finInscripcion TEXT NOT NULL,
 	precioInscripcion REAL NOT NULL,
-	fecha DATE NOT NULL, 
+	fecha TEXT NOT NULL, 
 	plazas INT NOT NULL, 
 	distancia INT NOT NULL,
 	CHECK(inicioInscripcion<=finInscripcion), 
@@ -37,14 +37,14 @@ CREATE table inscripciones(
 	emailAtleta TEXT NOT NULL,
 	estado TEXT NOT NULL,
 	dorsal INT NOT NULL,
-    idCategoria INT NOT NULL;
+    idCategoria INT NOT NULL,
 	PRIMARY KEY(idCarrera, emailAtleta),
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
 	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
 	FOREIGN KEY (idCategoria) REFERENCES Atletas (idCategoria)
 );
 
-create table Categoria(
+create table Categorias(
     idCategoria INT PRIMARY KEY NOT NULL,
     idCarrera INT NOT NULL,
     edadInicio INT,

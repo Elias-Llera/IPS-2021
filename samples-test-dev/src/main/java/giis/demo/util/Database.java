@@ -48,6 +48,7 @@ public class Database extends DbUtil {
 		if (!databaseCreated || !onlyOnce) { 
 			executeScript(SQL_SCHEMA);
 			databaseCreated=true; //NOSONAR
+			System.out.println("Base de datos creada");
 		}
 	}
 	/** 
@@ -56,6 +57,7 @@ public class Database extends DbUtil {
 	 */
 	public void loadDatabase() {
 		executeScript(SQL_LOAD);
+		System.out.println("Base de datos cargada");
 	}
 	
 }
