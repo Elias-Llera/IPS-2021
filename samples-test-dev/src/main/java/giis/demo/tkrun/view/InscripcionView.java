@@ -2,7 +2,10 @@ package giis.demo.tkrun.view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -10,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JRadioButton;
 
 public class InscripcionView extends JDialog {
 
@@ -24,6 +28,7 @@ public class InscripcionView extends JDialog {
 	private JLabel lblNombreCarrera;
 	private JLabel lblEmail;
 	private JTextField textEmail;
+	private ButtonGroup buttonGroup;
 
 	private String nombreCarrera;
 
@@ -49,7 +54,7 @@ public class InscripcionView extends JDialog {
 	public InscripcionView(String nombreCarrera) {
 		this.nombreCarrera = nombreCarrera;
 
-		setTitle("Inscripción");
+		setTitle("Inscripcion");
 		setResizable(false);
 		setBounds(100, 100, 450, 300);
 
@@ -63,8 +68,35 @@ public class InscripcionView extends JDialog {
 		contentPane.add(getLblNombreCarrera());
 		contentPane.add(getLblEmail());
 		contentPane.add(getTextEmail());
+		
+		JLabel lblMetodoDePago = new JLabel("Metodo de pago:");
+		lblMetodoDePago.setBounds(127, 138, 90, 14);
+		contentPane.add(lblMetodoDePago);
+		
+		JRadioButton rdbtnTarjeta = new JRadioButton("Tarjeta");
+		rdbtnTarjeta.setBounds(127, 159, 73, 23);
+		contentPane.add(rdbtnTarjeta);
+		
+		JRadioButton rdbtnTransferencia = new JRadioButton("Transferencia");
+		rdbtnTransferencia.setBounds(202, 159, 109, 23);
+		contentPane.add(rdbtnTransferencia);
+		
+		buttonGroup = new ButtonGroup();
+		buttonGroup.add(rdbtnTarjeta);
+		buttonGroup.add(rdbtnTransferencia);
+		
 	}
-
+	
+	 public String getSelectedButtonText() {
+	        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+	            AbstractButton button = buttons.nextElement();
+	            if (button.isSelected()) {
+	                return button.getText();
+	            }
+	        }
+			return null;
+	 }
+	 
 	public JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton("Ok");
@@ -96,7 +128,7 @@ public class InscripcionView extends JDialog {
 		if (lblEmail == null) {
 			lblEmail = new JLabel("email:");
 			lblEmail.setLabelFor(getTextEmail());
-			lblEmail.setBounds(146, 131, 186, 14);
+			lblEmail.setBounds(127, 79, 46, 14);
 		}
 		return lblEmail;
 	}
@@ -104,10 +136,9 @@ public class InscripcionView extends JDialog {
 	public JTextField getTextEmail() {
 		if (textEmail == null) {
 			textEmail = new JTextField();
-			textEmail.setBounds(202, 128, 130, 20);
+			textEmail.setBounds(162, 76, 174, 20);
 			textEmail.setColumns(10);
 		}
 		return textEmail;
 	}
-
 }
