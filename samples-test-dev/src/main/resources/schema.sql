@@ -47,9 +47,10 @@ CREATE table inscripciones(
 create table Categorias(
     idCategoria INT PRIMARY KEY NOT NULL,
     idCarrera INT NOT NULL,
+    nombre TEXT,
     edadInicio INT,
     edadFinal INT,
     sexo TEXT,
-    nombre TEXT,
+    
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
