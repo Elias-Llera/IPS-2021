@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
 import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
@@ -65,114 +64,126 @@ public class InscripcionController {
 	}
 
 	public void addInscripcion(String email, int idCarrera) {
-		System.out.println("add inscripcion");
 		// Comprobar que no existe otra inscripcion
 		InscripcionEntity ie = inscripcionModel.findInscripcion(email, idCarrera);
 		if (!(ie == null)) {
-			JOptionPane.showMessageDialog(inscripcionView, "La inscripcion ya existe", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
+			inscripcionView.showErrorDialog("La inscripcion ya existe");
 			return;
 		}
 
 		// Obtener atleta
 		AtletaEntity ae = atletaModel.findAtleta(email);
 		if (ae == null) {
-			JOptionPane.showMessageDialog(inscripcionView, "El atleta no existe", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
+			inscripcionView.showErrorDialog("El atleta no existe");
 			return;
 		}
 
 		// Obtener carrera
 		CarreraEntity ce = carreraModel.findCarrera(idCarrera);
 		if (ce == null) {
-			JOptionPane.showMessageDialog(inscripcionView, "La carrera no existe", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
+			inscripcionView.showErrorDialog("La carrera no existe");
 			return;
 		}
 
 		// Comprobar que el plazo de inscripcion esta abierto
 		Date now = new Date(System.currentTimeMillis());
+		if (Date.valueOf(ce.getInicioInscripcion()).compareTo(now) > 0) {
+			inscripcionView.showErrorDialog("La inscripcion todavia no esta abierta");
+			return;
+		}
 		if (Date.valueOf(ce.getFinInscripcion()).compareTo(now) < 0) {
-			JOptionPane.showMessageDialog(inscripcionView, "La inscripcion ya no esta abierta", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
+			inscripcionView.showErrorDialog("La inscripcion ya no esta abierta");
 			return;
 		}
 
 		// Comprobar que hay plazas libres
 		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripciones(idCarrera);
 		if (inscripciones.size() >= ce.getPlazas()) {
-			JOptionPane.showMessageDialog(inscripcionView, "No quedan plazas libres", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
+			inscripcionView.showErrorDialog("No quedan plazas libres");
 			return;
 		}
 
 		// Calcular categoria
-		Calendar calNow = Calendar.getInstance();
-		calNow.setTime(now);
-		Calendar calBirth = Calendar.getInstance();
-		calBirth.setTime(Date.valueOf(ae.getFechaNacimiento()));
-		int edad = calNow.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
-
-		System.out.println(edad + " " + idCarrera + " " + ae.getSexo());
-
-		CategoriaEntity categoria = categoriaModel.findCategoria(idCarrera, edad, ae.getSexo());
+		CategoriaEntity categoria = calculateCategoria(idCarrera, ae, now);
 
 		if (categoria == null) {
-			JOptionPane.showMessageDialog(inscripcionView, "No hay categoria para esa carrera", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
+			inscripcionView.showErrorDialog("No hay categoria para esa carrera");
 			return;
 		}
 
 		// Calcular dorsal
 		int dorsal = inscripciones.size() + 1;
 
+		// Comprobar metodo de pago
+		String selectedButtonText = inscripcionView.getSelectedButtonText();
+		if (selectedButtonText == null) {
+			inscripcionView.showErrorDialog("Seleccione un metodo de pago");
+			return;
+		}
+		
 		// Guardar inscripcion
+		InscripcionEntity inscripcion = saveInscripcion(email, idCarrera, ae, ce, categoria, dorsal, selectedButtonText);
+		
+		// Mostrar recibo
+		if(selectedButtonText.equals("Tarjeta")) {
+			String text = reciboTarjetaDeCredito(inscripcion, ae, ce, categoria);
+			text += "Copia del recibo generada en la carpeta recibos";
+			inscripcionView.showSuccessDialog(text);
+		}else if (selectedButtonText.equals("Transferencia")){
+			String text = reciboTransferencia(inscripcion, ae, ce, categoria);
+			text += "Copia del recibo generada en la carpeta recibos";
+			inscripcionView.showSuccessDialog(text);
+		}
+		
+		// Operacion realizada
+		inscripcionView.showSuccessDialog("Inscripcion realizada");
+		inscripcionView.dispose();
+	}
+
+	private InscripcionEntity saveInscripcion(String email, int idCarrera, AtletaEntity ae, CarreraEntity ce,
+			CategoriaEntity categoria, int dorsal, String selectedButtonText) {
 		InscripcionEntity inscripcion = new InscripcionEntity();
 		inscripcion.setDorsal(dorsal);
 		inscripcion.setIdCategoria(categoria.getIdCategoria());
 		inscripcion.setIdCarrera(idCarrera);
 		inscripcion.setEmailAtleta(email);
-
-		String selectedButtonText = inscripcionView.getSelectedButtonText();
-
-		if (selectedButtonText == null) {
-			JOptionPane.showMessageDialog(inscripcionView, "Seleccione un metodo de pago", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
-			return;
-		} else if (selectedButtonText.equals("Tarjeta")) {
+		if (selectedButtonText.equals("Tarjeta")) {
+			obtenerDatosTarjeta();
 			inscripcion.setEstado("Pagado");
-			it.setModal(true);
-			it.setLocationRelativeTo(null);
-			it.setVisible(true);
-			String text = reciboTarjetaDeCredito(inscripcion, ae, ce, categoria);
-			text += "Copia del recibo generada en la carpeta recibos";
-			JOptionPane.showMessageDialog(inscripcionView, text, "RECIBO", JOptionPane.INFORMATION_MESSAGE);
 		} else if (selectedButtonText.equals("Transferencia")) {
 			inscripcion.setEstado("Pendiente de Pago");
-			String text = reciboTransferencia(inscripcion, ae, ce, categoria);
-			text += "Copia del recibo generada en la carpeta recibos";
-			JOptionPane.showMessageDialog(inscripcionView, text, "RECIBO", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		inscripcionModel.addInscripcion(inscripcion);
 
-		JOptionPane.showMessageDialog(inscripcionView, "Inscripcion realizada", "SUCCESS",
-				JOptionPane.INFORMATION_MESSAGE);
+		return inscripcion;
+	}
 
-		inscripcionView.dispose();
+	private void obtenerDatosTarjeta() {
+		it.setModal(true);
+		it.setLocationRelativeTo(null);
+		it.setVisible(true);
+	}
+
+	private CategoriaEntity calculateCategoria(int idCarrera, AtletaEntity ae, Date now) {
+		Calendar calNow = Calendar.getInstance();
+		calNow.setTime(now);
+		Calendar calBirth = Calendar.getInstance();
+		calBirth.setTime(Date.valueOf(ae.getFechaNacimiento()));
+		int edad = calNow.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
+		CategoriaEntity categoria = categoriaModel.findCategoria(idCarrera, edad, ae.getSexo());
+		return categoria;
 	}
 
 	private String reciboTransferencia(InscripcionEntity inscripcion, AtletaEntity atleta, CarreraEntity carrera,
 			CategoriaEntity categoria) {
 		File file = new File("recibos/" + inscripcion.getEmailAtleta() + inscripcion.getIdCarrera() + ".txt");
 		String text = "";
-
 		try {
 			// creates the file
 			file.createNewFile();
 			// creates a FileWriter Object
 			FileWriter writer = new FileWriter(file);
-
 			// Writes the content to the file
 			text += "Justificante de inscripcion\n";
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -184,17 +195,15 @@ public class InscripcionController {
 			text += "Dorsal: " + inscripcion.getDorsal() + "\n";
 			text += "Estado de la inscripcion: " + inscripcion.getEstado() + "\n";
 			text += "Por favor, haga una transferencia de " + carrera.getPrecioInscripcion()
-					+ "€ a la siguiente cuenta:\n";
+					+ "ï¿½ a la siguiente cuenta:\n";
 			text += "*numero de cuenta*\n";
 			writer.write(text);
 			writer.flush();
 			writer.close();
-
 			// Creates a FileReader Object
 			FileReader fr = new FileReader(file);
 			char[] a = new char[50];
 			fr.read(a); // reads the content to the array
-
 			for (char c : a)
 				System.out.print(c); // prints the characters one by one
 			fr.close();
@@ -210,13 +219,11 @@ public class InscripcionController {
 			CategoriaEntity categoria) {
 		File file = new File("recibos/" + inscripcion.getEmailAtleta() + inscripcion.getIdCarrera() + ".txt");
 		String text = "";
-
 		try {
 			// creates the file
 			file.createNewFile();
 			// creates a FileWriter Object
 			FileWriter writer = new FileWriter(file);
-
 			// Writes the content to the file
 			text += "Justificante de inscripcion\n";
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -231,12 +238,10 @@ public class InscripcionController {
 			writer.write(text);
 			writer.flush();
 			writer.close();
-
 			// Creates a FileReader Object
 			FileReader fr = new FileReader(file);
 			char[] a = new char[50];
 			fr.read(a); // reads the content to the array
-
 			for (char c : a)
 				System.out.print(c); // prints the characters one by one
 			fr.close();

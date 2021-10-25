@@ -4,7 +4,6 @@ import java.util.List;
 
 import app.tkrun.entities.AtletaEntity;
 import app.util.Database;
-import app.util.Util;
 
 public class AtletaModel {
 
@@ -18,7 +17,6 @@ public class AtletaModel {
 
 	public AtletaEntity findAtleta(String email) {
 		List<AtletaEntity> atletas = db.executeQueryPojo(AtletaEntity.class, SQL_FIND_ATLETA, email);
-		Util.validateCondition(!atletas.isEmpty(), "Email no encontrado: " + email);
 		return atletas.get(0);
 	}
 	

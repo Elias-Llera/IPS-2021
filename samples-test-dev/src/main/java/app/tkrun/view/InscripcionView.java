@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -140,5 +141,15 @@ public class InscripcionView extends JDialog {
 			textEmail.setColumns(10);
 		}
 		return textEmail;
+	}
+	
+	public void showErrorDialog(String msg) {
+		JOptionPane.showMessageDialog(this, msg, "ERROR",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void showSuccessDialog(String msg) {
+		JOptionPane.showMessageDialog(this, msg, "SUCCESS",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 }
