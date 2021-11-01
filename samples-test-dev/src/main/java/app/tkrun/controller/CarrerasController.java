@@ -11,7 +11,9 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
+import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
+import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.view.CarrerasView;
 import app.tkrun.view.ParticipantesView;
@@ -26,6 +28,7 @@ import app.util.SwingUtil;
 public class CarrerasController {
 	private CarreraModel model;
 	private CarrerasView view;
+	AtletaModel atletaModel = new AtletaModel();
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
 
@@ -85,6 +88,7 @@ public class CarrerasController {
 				;
 			}
 		});
+		
 	}
 
 	protected void mostrarVentanaParticipantes() {
@@ -117,6 +121,13 @@ public class CarrerasController {
 	 */
 	public void getListaCarreras() {
 		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
+		for(CarreraEntity carrera: carreras) {
+			int plazasOcupadas=atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
+			if(plazasOcupadas > 0) {
+				carrera.setPlazas(carrera.getPlazas()-plazasOcupadas);
+			}
+			
+		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras, new String[] { "idCarrera", "nombre", "fecha", "tipo",
 				"distancia", "precioInscripcion", "finInscripcion", "plazas" });
 		view.getTablaCarreras().setModel(tmodel);
