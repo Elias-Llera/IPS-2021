@@ -43,7 +43,17 @@ public class InscripcionController {
 		inscripcionView.getBtnOk().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addInscripcion(inscripcionView.getTextEmail().getText(), idCarrera);
+				if(atletaModel.findSiEsAtleta(inscripcionView.getTextEmail().getText())==0) {
+					SwingUtil.exceptionWrapper(() -> openInscriptionNoAtletaView());
+				}else {
+					addInscripcion(inscripcionView.getTextEmail().getText(), idCarrera);
+
+				}
+			}
+			
+
+			private void openInscriptionNoAtletaView() {
+				new InscripcionNoAtletaController().init(nombreCarrera, idCarrera, inscripcionView.getTextEmail().getText());
 			}
 		});
 		inscripcionView.getBtnCancelar().addActionListener(new ActionListener() {
