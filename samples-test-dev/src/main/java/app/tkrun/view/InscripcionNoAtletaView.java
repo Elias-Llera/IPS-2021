@@ -78,7 +78,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		if (btnOk == null) {
 			btnOk = new JButton("Confirmar");
 
-			btnOk.setBounds(329, 284, 89, 23);
+			btnOk.setBounds(308, 284, 110, 23);
 		}
 		return btnOk;
 	}

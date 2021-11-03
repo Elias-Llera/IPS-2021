@@ -31,7 +31,12 @@ public class InscripcionNoAtletaController {
 					inoAtletaView.dispose();
 					ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera);
 				}else {
-					JOptionPane.showMessageDialog(null,"Valide sus campos");
+					if(atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
+						JOptionPane.showMessageDialog(null,"No puede meter un email de un atleta que no se corresponde con usted");
+					}else {
+						JOptionPane.showMessageDialog(null,"Valide sus campos");
+					}
+					
 				}
 
 			}
@@ -43,11 +48,7 @@ public class InscripcionNoAtletaController {
 				inoAtletaView.dispose();
 			}
 		});
-		inoAtletaView.getBtnOk().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-			}
-		});
 		inoAtletaView.setModal(true);
 		inoAtletaView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		inoAtletaView.setLocationRelativeTo(null);

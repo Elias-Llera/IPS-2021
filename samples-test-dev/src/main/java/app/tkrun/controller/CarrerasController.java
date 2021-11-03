@@ -89,6 +89,18 @@ public class CarrerasController {
 			}
 		});
 		
+		view.getBtnCrearCarrera().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SwingUtil.exceptionWrapper(() -> openCrearCarreraView());
+			}
+
+			private void openCrearCarreraView() {
+				new CrearCarrerasController().init();
+				
+			}
+		});
+		
 	}
 
 	protected void mostrarVentanaParticipantes() {
