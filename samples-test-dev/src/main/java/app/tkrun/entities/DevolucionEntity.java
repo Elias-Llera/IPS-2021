@@ -3,7 +3,7 @@ package app.tkrun.entities;
 public class DevolucionEntity {
 
 	private String emailAtleta;
-	private String nombreCarrera;
+	private int idCarrera;
 	private double cantidad;
 	
 	public String getEmailAtleta() {
@@ -18,11 +18,11 @@ public class DevolucionEntity {
 	public void setCantidad(double cantidad) {
 		this.cantidad = cantidad;
 	}
-	public String getNombreCarrera() {
-		return nombreCarrera;
+	public int getIdCarrera() {
+		return idCarrera;
 	}
-	public void setNombreCarrera(String nombreCarrera) {
-		this.nombreCarrera = nombreCarrera;
+	public void setIdCarrera(int idCarrera) {
+		this.idCarrera = idCarrera;
 	}
 	
 }

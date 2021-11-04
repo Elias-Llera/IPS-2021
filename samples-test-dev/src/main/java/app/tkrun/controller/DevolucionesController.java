@@ -4,28 +4,39 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import app.tkrun.entities.DevolucionEntity;
 import app.tkrun.entities.InscripcionEntity;
-import app.tkrun.model.CarreraModel;
+import app.tkrun.entities.PlazoInscripcionEntity;
+import app.tkrun.model.DevolucionModel;
 import app.tkrun.model.InscripcionModel;
+import app.tkrun.model.PlazoInscripcionModel;
 
 public class DevolucionesController {
 
-	InscripcionModel inscripcionModel = new InscripcionModel();
-	CarreraModel carreraModel = new CarreraModel();
-
 	private class DevolucionesInfo {
-		int lineasNoAnalizadas = 0, inscripcionesConfirmadas = 0, devolucionesCalculadas = 0;
+		int lineasNoAnalizadas = 0, inscripcionesConfirmadas = 0, inscripcionesRechazadas = 0,
+				devolucionesCalculadas = 0, transferenciasNoConsistentes = 0;
 	}
 
-	private DevolucionesInfo calcularDevoluciones() throws IOException {
+	private class TransferenciaInfo {
+		private String email;
+		private double cantidadTransferencia;
+		private int idCarrera;
+
+		public TransferenciaInfo(String[] datosTransferencia) {
+			email = datosTransferencia[0];
+			cantidadTransferencia = Double.parseDouble(datosTransferencia[1]);
+			idCarrera = Integer.parseInt(datosTransferencia[2]);
+		}
+	}
+
+	public void init() {
+		parseFileTransferencias();
+	}
+
+	private DevolucionesInfo parseFileTransferencias() {
 		DevolucionesInfo res = new DevolucionesInfo();
-		List<DevolucionEntity> devoluciones = new ArrayList<>();
-		long DAY_IN_MS = 1000 * 60 * 60 * 24;
-		Date maximoParaPago = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
 
 		try (BufferedReader br = new BufferedReader(new FileReader("transferencia.txt"))) {
 			String line;
@@ -37,53 +48,78 @@ public class DevolucionesController {
 				if (datosTransferencia.length != 3) {
 					res.lineasNoAnalizadas++;
 				} else {
+					TransferenciaInfo transferencia = new TransferenciaInfo(datosTransferencia);
 					try {
-						String email = datosTransferencia[0];
-						double cantidadTransferencia = Double.parseDouble(datosTransferencia[1]);
-						String nombreCarrera = datosTransferencia[2];
-						List<InscripcionEntity> inscripcionesAtleta = inscripcionModel
-								.findInscripcionesByEmailAtleta(email);
-						double deudaTotalOrganizacion = 0;
-						for (InscripcionEntity inscripcion : inscripcionesAtleta) { // cambiar forEach para sacar 1
-																					// isncripcion a partir del dni y de
-							DevolucionEntity devolucion = new DevolucionEntity();
-							devolucion.setEmailAtleta(email);
-							devolucion.setNombreCarrera(nombreCarrera);
-							// la carrera
-							if (inscripcion.getEstado().equals("PREINSCRITO")) { // La inscripicion esta pendiente de
-																					// pago
-								if (inscripcion.getFecha().before(maximoParaPago)) { // La inscripcion se puede pagar
-									double precioInscripcion = carreraModel.findCarrera(inscripcion.getIdCarrera())
-											.getPrecioInscripcion();
-									if (precioInscripcion < cantidadTransferencia) { // La transferencia es mas de lo
-										double deuda = 0;
-										devolucion.setCantidad(deuda);						// necesario, devolucion+aceptar
-
-									} else if (precioInscripcion > cantidadTransferencia) {// La transferencia es menor
-										double deuda = 0;
-										devolucion.setCantidad(deuda);						// de lo necesario,
-																							// devolucion+rechazar
-
-									} else { // La transferencia es exacta, aceptar
-
-									}
-								} else { // La inscripcion esta pendiente de pago pero no esta dentro del plazo, devolucion + rechazar
-									double deuda = 0;
-									devolucion.setCantidad(deuda);
-								}
-							} else { // La inscripcion no esta pendiente de pago, devolucion
-								double deuda = 0;
-								devolucion.setCantidad(deuda);
-							}
-						}
-						
-						
+						calculateDevolucion(res, transferencia);
 					} catch (NumberFormatException e) {
 						res.lineasNoAnalizadas++;
 					}
 				}
 			}
+		} catch (IOException e) {
+			return null;
 		}
 		return res;
 	}
+
+	private void calculateDevolucion(DevolucionesInfo res, TransferenciaInfo transferencia) {
+		DevolucionEntity devolucion = new DevolucionEntity();
+		devolucion.setEmailAtleta(transferencia.email);
+		devolucion.setIdCarrera(transferencia.idCarrera);
+		devolucion.setCantidad(calculateDeuda(res, transferencia));
+
+		if (devolucion.getCantidad() != 0) {
+			new DevolucionModel().addDevolucion(devolucion);
+			res.devolucionesCalculadas++;
+		}
+	}
+
+	private double calculateDeuda(DevolucionesInfo res, TransferenciaInfo transferencia) {
+		
+		InscripcionEntity inscripcion = new InscripcionModel().findInscripcion(transferencia.email,
+				transferencia.idCarrera);
+		PlazoInscripcionEntity plazo = new PlazoInscripcionModel().findByInscripcion(inscripcion);
+
+		long DAY_IN_MS = 1000 * 60 * 60 * 24;
+		Date maximoParaPago = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
+
+		double deuda = 0;
+
+		if (inscripcion == null) {
+			res.transferenciasNoConsistentes++;
+		} else {
+			if (inscripcion.getEstado().equals("PREINSCRITO")) {
+				if (inscripcion.getFecha().before(maximoParaPago)) {
+					double precioInscripcion = plazo.getPrecio();
+					if(precioInscripcion == transferencia.cantidadTransferencia) {
+						deuda = 0;
+						aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
+					}else if (precioInscripcion < transferencia.cantidadTransferencia) {
+						deuda = transferencia.cantidadTransferencia - precioInscripcion;
+						aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
+					} else {
+						deuda = transferencia.cantidadTransferencia;
+						rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
+					} 
+				} else {
+					deuda = transferencia.cantidadTransferencia;
+					rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
+				}
+			} else {
+				deuda = transferencia.cantidadTransferencia;
+			}
+		}
+		return deuda;
+	}
+
+	private void rechazarInscripcion(DevolucionesInfo res, String email, int idCarrera) {
+		new InscripcionModel().rejectInscription(email, idCarrera);
+		res.inscripcionesRechazadas++;
+	}
+
+	private void aceptarInscripcion(DevolucionesInfo res, String email, int idCarrera) {
+		new InscripcionModel().acceptInscription(email, idCarrera);
+		res.inscripcionesConfirmadas++;
+	}
+
 }

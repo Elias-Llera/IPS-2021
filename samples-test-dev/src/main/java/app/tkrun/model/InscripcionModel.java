@@ -16,6 +16,10 @@ public class InscripcionModel {
 
 	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (emailAtleta, idCarrera, estado, idCategoria, dorsal, fecha) VALUES(?, ?, ?, ?, ?, ?)";
 
+	private static final String SQL_ACEPTAR_INSCRIPCION = "UPDATE Inscripciones SET estado = 'INSCRITO' WHERE emailAtleta = ? AND idCarrera = ?";
+	
+	private static final String SQL_RECHAZAR_INSCRIPCION = "UPDATE Inscripciones SET estado = 'INSCRITO' WHERE emailAtleta = ? AND idCarrera = ?";
+
 	private static final String SQL_CALCULATE_DORSAL = "SELECT MAX dorsal FROM INSCRIPCIONES where idCarrera = ?";
 
 	private Database db = new Database();
@@ -43,6 +47,14 @@ public class InscripcionModel {
 	public int calculateDorsal(int id_carrera) {
 		Object o = db.executeQueryArray(SQL_CALCULATE_DORSAL, id_carrera).get(0)[0];
 		return o.equals(null) ? 1 : ((Integer) o) + 1;
+	}
+
+	public void rejectInscription(String email, int idCarrera) {
+		db.executeUpdate(SQL_RECHAZAR_INSCRIPCION, email, idCarrera);
+	}
+
+	public void acceptInscription(String email, int idCarrera) {
+		db.executeUpdate(SQL_ACEPTAR_INSCRIPCION, email, idCarrera);
 	}
 
 }
