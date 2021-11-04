@@ -23,7 +23,6 @@ import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.InscripcionModel;
-import app.tkrun.view.CarrerasView;
 import app.tkrun.view.InscripcionTarjetaView;
 import app.tkrun.view.InscripcionView;
 import app.util.SwingUtil;
@@ -111,7 +110,7 @@ public class InscripcionController {
 		}
 
 		// Comprobar que hay plazas libres
-		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripciones(idCarrera);
+		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
 		if (inscripciones.size() >= ce.getPlazas()) {
 			JOptionPane.showMessageDialog(inscripcionView, "No quedan plazas libres", "ERROR",
 					JOptionPane.INFORMATION_MESSAGE);

@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import app.tkrun.entities.AtletaEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.view.InscripcionNoAtletaView;
-import app.tkrun.view.InscripcionView;
 
 public class InscripcionNoAtletaController {
 

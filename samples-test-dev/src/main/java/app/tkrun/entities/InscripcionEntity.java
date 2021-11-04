@@ -1,5 +1,7 @@
 package app.tkrun.entities;
 
+import java.sql.Date;
+
 public class InscripcionEntity {
 
 	private String emailAtleta;
@@ -7,6 +9,7 @@ public class InscripcionEntity {
 	private String estado;
 	private int dorsal;
 	private int idCategoria;
+	private Date fecha;
 
 	public String getEmailAtleta() {
 		return emailAtleta;
@@ -46,6 +49,14 @@ public class InscripcionEntity {
 	
 	public void setIdCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 	
 }

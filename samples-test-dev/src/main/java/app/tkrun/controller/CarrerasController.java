@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
-import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;

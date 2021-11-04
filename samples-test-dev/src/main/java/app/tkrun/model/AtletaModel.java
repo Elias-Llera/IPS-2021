@@ -3,8 +3,6 @@ package app.tkrun.model;
 import java.util.List;
 
 import app.tkrun.entities.AtletaEntity;
-import app.tkrun.entities.CarreraEntity;
-import app.tkrun.entities.InscripcionEntity;
 import app.util.Database;
 import app.util.Util;
 
