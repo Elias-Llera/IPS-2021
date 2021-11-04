@@ -72,6 +72,10 @@ public class DevolucionesController {
 			new DevolucionModel().addDevolucion(devolucion);
 			res.devolucionesCalculadas++;
 		}
+		for (InscripcionEntity inscripcion : new InscripcionModel().findExpiredPreinscriptions()) {
+			new InscripcionModel().rejectInscription(transferencia.email, transferencia.idCarrera);
+			res.inscripcionesRechazadas++;
+		}
 	}
 
 	private double calculateDeuda(DevolucionesInfo res, TransferenciaInfo transferencia) {

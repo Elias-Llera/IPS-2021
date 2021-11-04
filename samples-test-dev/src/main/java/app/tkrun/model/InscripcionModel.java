@@ -1,5 +1,6 @@
 package app.tkrun.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,6 +14,8 @@ public class InscripcionModel {
 	private static final String SQL_FIND_INSCRIPCIONES_BY_ID_CARRERA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where idCarrera = ?";
 
 	private static final String SQL_FIND_INSCRIPCIONES_BY_EMAIL_ATLETA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where emailAtleta = ?";
+	
+	private static final String SQL_FIND_EXPIRED_PREINSCRIPTIONS = "SELECT * from INSCRIPCIONES where estado = 'PREINSCRITP' AND fecha < ?";
 
 	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (emailAtleta, idCarrera, estado, idCategoria, dorsal, fecha) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -55,6 +58,12 @@ public class InscripcionModel {
 
 	public void acceptInscription(String email, int idCarrera) {
 		db.executeUpdate(SQL_ACEPTAR_INSCRIPCION, email, idCarrera);
+	}
+
+	public List<InscripcionEntity> findExpiredPreinscriptions() {
+		long DAY_IN_MS = 1000 * 60 * 60 * 24;
+		Date maximoParaPago = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
+		return db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_EXPIRED_PREINSCRIPTIONS, maximoParaPago.toString());
 	}
 
 }
