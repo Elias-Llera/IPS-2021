@@ -1,18 +1,27 @@
 package app.tkrun.entities;
 
 public class CarreraEntity {
-	
+
 	private int idCarrera;
-    private String nombre; 
-    private String tipo;
-    private String descripcion;
-    private String inicioInscripcion;
-    private String finInscripcion;
-    private double precioInscripcion;
-    private String fecha;
-    private int plazas;
-    private double distancia;
-    
+	private String nombre;
+	private String tipo;
+	private String descripcion;
+	private String fecha;
+	private int plazas;
+	private double distancia;
+	
+	private double precio;
+	
+	
+
+	public double getPrecioInscripcion() {
+		return precio;
+	}
+
+	public void setPrecioInscripcion(double precio) {
+		this.precio = precio;
+	}
+
 	public int getIdCarrera() {
 		return idCarrera;
 	}
@@ -37,36 +46,12 @@ public class CarreraEntity {
 		this.tipo = tipo;
 	}
 
-	public String getInicioInscripcion() {
-		return inicioInscripcion;
-	}
-
-	public void setInicioInscripcion(String inicioInscripcion) {
-		this.inicioInscripcion = inicioInscripcion;
-	}
-
 	public String getDescripcion() {
 		return descripcion;
 	}
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public double getPrecioInscripcion() {
-		return precioInscripcion;
-	}
-
-	public void setPrecioInscripcion(double precioInscripcion) {
-		this.precioInscripcion = precioInscripcion;
-	}
-
-	public String getFinInscripcion() {
-		return finInscripcion;
-	}
-
-	public void setFinInscripcion(String finInscripcion) {
-		this.finInscripcion = finInscripcion;
 	}
 
 	public String getFechaCarrera() {

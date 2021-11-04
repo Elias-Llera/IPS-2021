@@ -19,7 +19,7 @@ public class InscripcionNoAtletaView extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnOk;
 	private JButton btnCancelar;
-	
+
 	private String nombreCarrera;
 	private String correo;
 	private JLabel lblNombreCarrera;
@@ -35,24 +35,11 @@ public class InscripcionNoAtletaView extends JDialog {
 	private JTextField textFieldSexo;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			InscripcionNoAtletaView dialog = new InscripcionNoAtletaView("Test","Test");
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public InscripcionNoAtletaView(String nombreCarrera, String correo) {
-		this.nombreCarrera=nombreCarrera;
-		this.correo=correo;
+		this.nombreCarrera = nombreCarrera;
+		this.correo = correo;
 		setTitle("Inscripci\u00F3n para ser atleta");
 		setBounds(100, 100, 552, 357);
 		getContentPane().setLayout(new BorderLayout());
@@ -90,6 +77,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return btnCancelar;
 	}
+
 	private JLabel getLblNombreCarrera() {
 		if (lblNombreCarrera == null) {
 			lblNombreCarrera = new JLabel("New label");
@@ -100,6 +88,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return lblNombreCarrera;
 	}
+
 	private JLabel getLblEmail() {
 		if (lblEmail == null) {
 			lblEmail = new JLabel("Email");
@@ -108,6 +97,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return lblEmail;
 	}
+
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre");
@@ -116,6 +106,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return lblNombre;
 	}
+
 	private JLabel getLblApellido() {
 		if (lblApellido == null) {
 			lblApellido = new JLabel("Apellido");
@@ -124,6 +115,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return lblApellido;
 	}
+
 	private JLabel getLblFechaNacimiento() {
 		if (lblFechaNacimiento == null) {
 			lblFechaNacimiento = new JLabel("Fecha nacimiento");
@@ -132,6 +124,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return lblFechaNacimiento;
 	}
+
 	private JLabel getLblSexo() {
 		if (lblSexo == null) {
 			lblSexo = new JLabel("Sexo");
@@ -140,6 +133,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return lblSexo;
 	}
+
 	public JTextField getTextFieldEmail() {
 		if (textFieldEmail == null) {
 			textFieldEmail = new JTextField();
@@ -149,6 +143,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return textFieldEmail;
 	}
+
 	public JTextField getTextFieldNombre() {
 		if (textFieldNombre == null) {
 			textFieldNombre = new JTextField();
@@ -157,6 +152,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return textFieldNombre;
 	}
+
 	public JTextField getTextFieldApellido() {
 		if (textFieldApellido == null) {
 			textFieldApellido = new JTextField();
@@ -165,6 +161,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return textFieldApellido;
 	}
+
 	public JTextField getTextFieldFechaNacimiento() {
 		if (textFieldFechaNacimiento == null) {
 			textFieldFechaNacimiento = new JTextField();
@@ -173,6 +170,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return textFieldFechaNacimiento;
 	}
+
 	public JTextField getTextFieldSexo() {
 		if (textFieldSexo == null) {
 			textFieldSexo = new JTextField();
