@@ -135,25 +135,25 @@ public class CarrerasController {
 	 */
 	public void getListaCarreras() {
 		PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
-		
+
 		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
 		for (CarreraEntity carrera : carreras) {
 			int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
-//			PlazosDeInscripcionEntity precio= sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(), view.getFechaHoy());
-//			if(precio!=null){
-//				carrera.setPrecioInscripcion(precio.getPrecio());
-//			}
-			
+			PlazosDeInscripcionEntity precio = sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(),
+					view.getFechaHoy());
+			if (precio != null) {
+				carrera.setPrecio(Double.toString(precio.getPrecio()));
+			}
+
 			if (plazasOcupadas > 0) {
 				carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
 			}
 
 		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
-				new String[] { "nombre", "fecha", "tipo", "distancia", "plazas" });
+				new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
-
 
 		// Como se guarda la clave del ultimo elemento seleccionado, restaura la
 		// seleccion de los detalles

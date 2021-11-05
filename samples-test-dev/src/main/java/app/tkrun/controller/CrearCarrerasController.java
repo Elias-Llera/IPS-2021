@@ -67,6 +67,8 @@ public class CrearCarrerasController {
 						crearCarreraView.getBtnCategorias().setEnabled(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Como la carrera ya está creada se te permitirá añadirle plazos");
+						CarreraEntity buscarId = carreraModel.findIdCarrera(carrera);
+						id=buscarId.getIdCarrera();
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);
 						crearCarreraView.getBtnPlazosInscripcion().setEnabled(true);
 						crearCarreraView.getBtnCategorias().setEnabled(true);

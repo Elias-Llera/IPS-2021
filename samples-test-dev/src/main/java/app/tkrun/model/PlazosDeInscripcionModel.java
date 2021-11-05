@@ -12,7 +12,8 @@ public class PlazosDeInscripcionModel {
 
 	private static final String SQL_ADD_PLAZO_INSCRIPCION = "INSERT INTO PlazosDeInscripcion (idPlazosDeInscripcion, idCarrera, fechaInicio, fechaFin, precio) VALUES(?, ?, ?, ?, ?)";
 	private static final String SQL_TOTAL_PLAZO_INSCRIPCION = "SELECT * from PlazosDeInscripcion where idCarrera=?";
-	private static final String SQL_FIND_PRECIO_PLAZO_INSCRIPCION = "SELECT precio from PlazosDeInscripcion where idCarrera=? and fechaInicio>=?";
+	private static final String SQL_FIND_PRECIO_PLAZO_INSCRIPCION = "SELECT * from PlazosDeInscripcion where idCarrera=? and fechaInicio<=? and fechaFin>=?";
+	private static final String SQL_FIND_PLAZO_INSCRIPCION_FIN = "SELECT * from PlazosDeInscripcion where idCarrera=? order by fechaFin DESC";
 
 	private Database db = new Database();
 
@@ -31,9 +32,21 @@ public class PlazosDeInscripcionModel {
 
 	public PlazosDeInscripcionEntity getListaPlazosInscripciones(int id, String fecha) {
 		List<PlazosDeInscripcionEntity> carreras = db.executeQueryPojo(PlazosDeInscripcionEntity.class,
-				SQL_FIND_PRECIO_PLAZO_INSCRIPCION, id, fecha);
+				SQL_FIND_PRECIO_PLAZO_INSCRIPCION, id,fecha,fecha);
+		if(!carreras.isEmpty()) {
+			return carreras.get(0);
+		}
+		return null;
 
-		return carreras.get(0);
+	}
+	
+	public PlazosDeInscripcionEntity getListaPlazosInscripcionesPorFechaFin(int id) {
+		List<PlazosDeInscripcionEntity> carreras = db.executeQueryPojo(PlazosDeInscripcionEntity.class,
+				SQL_FIND_PLAZO_INSCRIPCION_FIN, id);
+		if(!carreras.isEmpty()) {
+			return carreras.get(0);
+		}
+		return null;
 
 	}
 

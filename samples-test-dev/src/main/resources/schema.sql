@@ -17,7 +17,8 @@ CREATE TABLE carreras(
 	descripcion TEXT NOT NULL, 
 	fecha TEXT NOT NULL, 
 	plazas INT NOT NULL, 
-	distancia INT NOT NULL
+	distancia INT NOT NULL,
+	precio TEXT NOT NULL
 
 );
 

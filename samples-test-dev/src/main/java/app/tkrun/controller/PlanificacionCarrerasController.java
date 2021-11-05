@@ -27,12 +27,33 @@ public class PlanificacionCarrerasController {
 		this.fechaCelebracion = fechaCelebracion;
 		this.id = id;
 		pcv = new PlanificacionCarrerasView();
+		PlazosDeInscripcionEntity entity = new PlazosDeInscripcionEntity();
+		entity = pdiModel.getListaPlazosInscripcionesPorFechaFin(id);
+		if (entity != null) {
+
+			SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+			Date fechaInscrionFinal = null;
+			try {
+				fechaInscrionFinal = formatoDelTexto.parse(entity.getFechaFin());
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(fechaInscrionFinal);
+			c.add(Calendar.DATE, 1);
+			fechaInscrionFinal = c.getTime();
+
+			pcv.getTextFieldInscripcionInicio().setText(formatoDelTexto.format(fechaInscrionFinal));
+			pcv.getTextFieldInscripcionInicio().setEditable(false);
+			
+		}
 
 		pcv.getBtnAñadir().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (comprobarCampos() && comprobarFechas()) {
-					if(pdiModel.findTodosLosPlazosParaUnaCarrera(id) < 4) {
+					if (pdiModel.findTodosLosPlazosParaUnaCarrera(id) < 4) {
 						Random r = new Random();
 						int idInscripcion = r.nextInt(100000000) + 1;
 						PlazosDeInscripcionEntity plazoInscripcion = new PlazosDeInscripcionEntity();
@@ -43,30 +64,27 @@ public class PlanificacionCarrerasController {
 						plazoInscripcion.setPrecio(Double.parseDouble(pcv.getTextFieldInscripcionPrecio().getText()));
 
 						pdiModel.addInscripcion(plazoInscripcion);
-						
-						
+
 						SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-						Date fechaInscrionFinal =null;
+						Date fechaInscrionFinal = null;
 						try {
 							fechaInscrionFinal = formatoDelTexto.parse(pcv.getTextFieldInscripcionFin().getText());
 						} catch (ParseException e1) {
 							e1.printStackTrace();
 						}
-						
+
 						Calendar c = Calendar.getInstance();
-				        c.setTime(fechaInscrionFinal);
-				        c.add(Calendar.DATE, 1);
-				        fechaInscrionFinal = c.getTime();
-				        
-				        
-				        pcv.getTextFieldInscripcionInicio().setText(formatoDelTexto.format(fechaInscrionFinal));
-				        pcv.getTextFieldInscripcionInicio().setEditable(false);
-						pcv.getTextFieldInscripcionFin().setText("" );
+						c.setTime(fechaInscrionFinal);
+						c.add(Calendar.DATE, 1);
+						fechaInscrionFinal = c.getTime();
+
+						pcv.getTextFieldInscripcionInicio().setText(formatoDelTexto.format(fechaInscrionFinal));
+						pcv.getTextFieldInscripcionInicio().setEditable(false);
+						pcv.getTextFieldInscripcionFin().setText("");
 						pcv.getTextFieldInscripcionPrecio().setText("");
 					} else {
 						JOptionPane.showMessageDialog(null, "No se pueden añadir mas de 4 plazos");
 					}
-					
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Valide sus campos");
