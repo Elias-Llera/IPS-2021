@@ -9,6 +9,8 @@ public class InscripcionModel {
 	
 	private static final String SQL_FIND_INSCRIPCION = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where emailAtleta=? AND idCarrera = ?";
 	
+	private static final String SQL_FIND_INSCRIPCIONES_PARTICIPANTE = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where emailAtleta=?";
+	
 	private static final String SQL_FIND_INSCRIPCIONES_BY_ID_CARRERA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where idCarrera = ?";
 
 	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (emailAtleta, idCarrera, estado, idCategoria, dorsal) VALUES(?, ?, ?, ?, ?)";
@@ -20,6 +22,11 @@ public class InscripcionModel {
 	public InscripcionEntity findInscripcion(String email, int id_carrera) {
 		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_INSCRIPCION, email, id_carrera);
 		return (inscripciones == null || inscripciones.size() == 0) ? null : inscripciones.get(0);
+	}
+	
+	public List<InscripcionEntity> findInscripcionesParticipante(String email) {
+		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_INSCRIPCIONES_PARTICIPANTE, email);
+		return inscripciones;
 	}
 	
 	public List<InscripcionEntity> findInscripciones(int idCarrera){

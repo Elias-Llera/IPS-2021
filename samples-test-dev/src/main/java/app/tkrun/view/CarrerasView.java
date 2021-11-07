@@ -26,10 +26,11 @@ public class CarrerasView {
 	private JTextField txtFechaHoy;
 	private JButton btnTabCarreras;
 	private JTable tabCarreras;
+	private JTable tabParticipantes;
 	private JButton btnAceptar;
 	private JScrollPane tablePanel;
-	private JButton btnParticipantes;
-	private JButton btnCrearCarrera;
+	private JScrollPane tablePanelParticipantes;
+	private JButton btnInscripciones;
 	
 	/**
 	 * Create the application.
@@ -45,7 +46,7 @@ public class CarrerasView {
 		frame = new JFrame();
 		frame.setTitle("Carreras");
 		frame.setName("Carreras");
-		frame.setBounds(0, 0, 569, 298);
+		frame.setBounds(0, 0, 569, 403);
 		frame.setLocationRelativeTo(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][][][][]"));
@@ -72,21 +73,25 @@ public class CarrerasView {
 		tabCarreras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabCarreras.setDefaultEditor(Object.class, null); //readonly
 		tablePanel = new JScrollPane(tabCarreras);
-		frame.getContentPane().add(tablePanel, "cell 0 5,grow");
+		frame.getContentPane().add(tablePanel, "cell 0 6,grow");
 		
-		btnParticipantes = new JButton("Participantes");
-		btnParticipantes.setEnabled(false);
+		//Incluimos la tabla de particopantaews
+		tabParticipantes = new JTable();
+		tabParticipantes.setName("tabParticipantes");
+		tabParticipantes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabParticipantes.setDefaultEditor(Object.class, null); //readonly
+		tablePanelParticipantes = new JScrollPane(tabParticipantes);
+		frame.getContentPane().add(tablePanelParticipantes, "cell 0 5,grow");
 		
-		frame.getContentPane().add(btnParticipantes, "flowx,cell 0 7,alignx center");
+		btnInscripciones = new JButton("Inscripciones");
+		
+		frame.getContentPane().add(btnInscripciones, "flowx,cell 0 7,alignx center");
 		
 		btnAceptar = new JButton("Inscribirse");
 		btnAceptar.setEnabled(false);
 		btnAceptar.setMnemonic('I');
 		btnAceptar.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(btnAceptar, "cell 0 7,alignx right");
-		
-		btnCrearCarrera = new JButton("Crear carrera");
-		frame.getContentPane().add(btnCrearCarrera, "cell 0 7");
 	}
 
 	
@@ -97,9 +102,9 @@ public class CarrerasView {
 	public void setFechaHoy(String fechaIso)  { this.txtFechaHoy.setText(fechaIso); }
 	public JButton getBtnTablaCarreras() { return this.btnTabCarreras; }
 	public JTable getTablaCarreras() { return this.tabCarreras; }
+	public JTable getTablaParticipantes() { return this.tabParticipantes; }
 	public JButton getBtnAceptar() { return this.btnAceptar; }
-	public JButton getBtnParticipantes() { return this.btnParticipantes; }
-	public JButton getBtnCrearCarrera() { return this.btnCrearCarrera; }
+	public JButton getBtnInscripciones() { return this.btnInscripciones; }
 	public JScrollPane getTablePanel() {return this.tablePanel; };
 
 	
