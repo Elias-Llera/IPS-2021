@@ -24,3 +24,8 @@ values (1, 102, 18, 90, 'Hombre', 'Barklay absoluta masculina'),
 insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria)
 values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2),
        (102, 'juan@gmail.com', 'PRE-INSCRITO', 2, 1);
+
+insert into clasificaciones(idCarrera, idCategoria, nombreAtleta, genero, posicion, tiempo)
+values (102, 1,'juan', 'masculino', 1, '01:30:54'),
+       (102, 1,'pedro', 'masculino', 2, '---');
+

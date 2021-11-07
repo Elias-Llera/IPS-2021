@@ -30,6 +30,7 @@ public class CarrerasView {
 	private JScrollPane tablePanel;
 	private JButton btnParticipantes;
 	private JButton btnCrearCarrera;
+	private JButton btnClasificaciones;
 	
 	/**
 	 * Create the application.
@@ -74,10 +75,13 @@ public class CarrerasView {
 		tablePanel = new JScrollPane(tabCarreras);
 		frame.getContentPane().add(tablePanel, "cell 0 5,grow");
 		
+		btnClasificaciones = new JButton("Clasificaciones");
+		frame.getContentPane().add(btnClasificaciones, "flowx,cell 0 7");
+		
 		btnParticipantes = new JButton("Participantes");
 		btnParticipantes.setEnabled(false);
 		
-		frame.getContentPane().add(btnParticipantes, "flowx,cell 0 7,alignx center");
+		frame.getContentPane().add(btnParticipantes, "cell 0 7,alignx center");
 		
 		btnAceptar = new JButton("Inscribirse");
 		btnAceptar.setEnabled(false);
@@ -101,6 +105,7 @@ public class CarrerasView {
 	public JButton getBtnParticipantes() { return this.btnParticipantes; }
 	public JButton getBtnCrearCarrera() { return this.btnCrearCarrera; }
 	public JScrollPane getTablePanel() {return this.tablePanel; };
+	public JButton getBtnClasificaciones() { return this.btnClasificaciones; }
 
 	
 }

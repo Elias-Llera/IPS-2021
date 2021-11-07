@@ -18,6 +18,7 @@ import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.CarrerasView;
+import app.tkrun.view.DatosClasificacionView;
 import app.tkrun.view.ParticipantesView;
 import app.util.SwingUtil;
 
@@ -59,6 +60,13 @@ public class CarrerasController {
 		view.getBtnParticipantes().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarVentanaParticipantes();
+			}
+		});
+		
+		
+		view.getBtnClasificaciones().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarVentanaDatosClasificacion();
 			}
 		});
 		// En el caso del mouse listener (para detectar seleccion de una fila) no es un
@@ -103,6 +111,13 @@ public class CarrerasController {
 			}
 		});
 
+	}
+
+	protected void mostrarVentanaDatosClasificacion() {
+		DatosClasificacionView vp = new DatosClasificacionView();
+
+		vp.setLocationRelativeTo(null);
+		vp.setVisible(true);
 	}
 
 	protected void mostrarVentanaParticipantes() {
