@@ -49,8 +49,6 @@ public class InscripcionController {
 
 				}
 			}
-			
-
 			private void openInscriptionNoAtletaView() {
 				new InscripcionNoAtletaController().init(nombreCarrera, idCarrera, inscripcionView.getTextEmail().getText());
 			}
@@ -195,7 +193,7 @@ public class InscripcionController {
 			text += "Dorsal: " + inscripcion.getDorsal() + "\n";
 			text += "Estado de la inscripcion: " + inscripcion.getEstado() + "\n";
 			text += "Por favor, haga una transferencia de " + carrera.getPrecioInscripcion()
-					+ "€ a la siguiente cuenta:\n";
+					+ "ï¿½ a la siguiente cuenta:\n";
 			text += "*numero de cuenta*\n";
 			writer.write(text);
 			writer.flush();

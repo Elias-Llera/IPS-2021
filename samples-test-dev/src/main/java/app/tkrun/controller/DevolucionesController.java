@@ -1,9 +1,15 @@
 package app.tkrun.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 import app.tkrun.entities.DevolucionEntity;
 import app.tkrun.entities.InscripcionEntity;
@@ -11,8 +17,14 @@ import app.tkrun.entities.PlazoInscripcionEntity;
 import app.tkrun.model.DevolucionModel;
 import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.PlazoInscripcionModel;
+import app.tkrun.view.DevolucionesView;
+import app.util.SwingUtil;
 
 public class DevolucionesController {
+
+	private DevolucionesView view;
+	private DevolucionModel devolucionesModel = new DevolucionModel();
+	private InscripcionModel inscripcionModel = new InscripcionModel();
 
 	private class DevolucionesInfo {
 		int lineasNoAnalizadas = 0, inscripcionesConfirmadas = 0, inscripcionesRechazadas = 0,
@@ -32,7 +44,19 @@ public class DevolucionesController {
 	}
 
 	public void init() {
-		parseFileTransferencias();
+		view.getBtnGenerar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DevolucionesInfo res = parseFileTransferencias();
+				String text = "Lineas no analizadas: " + res.lineasNoAnalizadas + "\n";
+				text += "Información no consistente: " + res.transferenciasNoConsistentes + "\n";
+				text += "Inscripciones confirmadas: " + res.inscripcionesConfirmadas + "\n";
+				text += "Inscripciones rechazads: " + res.inscripcionesRechazadas + "\n";
+				text += "Devolucinoes calculadas: " + res.devolucionesCalculadas;
+				JOptionPane.showMessageDialog(view, text, "ERROR",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 	}
 
 	private DevolucionesInfo parseFileTransferencias() {
@@ -69,19 +93,17 @@ public class DevolucionesController {
 		devolucion.setCantidad(calculateDeuda(res, transferencia));
 
 		if (devolucion.getCantidad() != 0) {
-			new DevolucionModel().addDevolucion(devolucion);
+			devolucionesModel.addDevolucion(devolucion);
 			res.devolucionesCalculadas++;
 		}
 		for (InscripcionEntity inscripcion : new InscripcionModel().findExpiredPreinscriptions()) {
-			new InscripcionModel().rejectInscription(transferencia.email, transferencia.idCarrera);
-			res.inscripcionesRechazadas++;
+			rechazarInscripcion(res, inscripcion.getEmailAtleta(), inscripcion.getIdCarrera());
 		}
 	}
 
 	private double calculateDeuda(DevolucionesInfo res, TransferenciaInfo transferencia) {
-		
-		InscripcionEntity inscripcion = new InscripcionModel().findInscripcion(transferencia.email,
-				transferencia.idCarrera);
+
+		InscripcionEntity inscripcion = inscripcionModel.findInscripcion(transferencia.email, transferencia.idCarrera);
 		PlazoInscripcionEntity plazo = new PlazoInscripcionModel().findByInscripcion(inscripcion);
 
 		long DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -95,16 +117,16 @@ public class DevolucionesController {
 			if (inscripcion.getEstado().equals("PREINSCRITO")) {
 				if (inscripcion.getFecha().before(maximoParaPago)) {
 					double precioInscripcion = plazo.getPrecio();
-					if(precioInscripcion == transferencia.cantidadTransferencia) {
+					if (precioInscripcion == transferencia.cantidadTransferencia) {
 						deuda = 0;
 						aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
-					}else if (precioInscripcion < transferencia.cantidadTransferencia) {
+					} else if (precioInscripcion < transferencia.cantidadTransferencia) {
 						deuda = transferencia.cantidadTransferencia - precioInscripcion;
 						aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
 					} else {
 						deuda = transferencia.cantidadTransferencia;
 						rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
-					} 
+					}
 				} else {
 					deuda = transferencia.cantidadTransferencia;
 					rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
@@ -117,13 +139,21 @@ public class DevolucionesController {
 	}
 
 	private void rechazarInscripcion(DevolucionesInfo res, String email, int idCarrera) {
-		new InscripcionModel().rejectInscription(email, idCarrera);
+		inscripcionModel.rejectInscription(email, idCarrera);
 		res.inscripcionesRechazadas++;
 	}
 
 	private void aceptarInscripcion(DevolucionesInfo res, String email, int idCarrera) {
-		new InscripcionModel().acceptInscription(email, idCarrera);
+		inscripcionModel.acceptInscription(email, idCarrera);
 		res.inscripcionesConfirmadas++;
 	}
+	
+	public void getListaDevoluciones() {
+		List<DevolucionEntity> devoluciones = devolucionesModel.findAll();
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(devoluciones, new String[] { "email", "idCarrera", "cantidad" });
+		view.getTablaDevoluciones().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(view.getTablaDevoluciones());
+	}
+
 
 }

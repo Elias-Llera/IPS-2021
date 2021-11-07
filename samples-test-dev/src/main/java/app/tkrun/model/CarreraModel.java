@@ -5,7 +5,6 @@ import java.util.List;
 import app.tkrun.entities.CarreraEntity;
 import app.util.ApplicationException;
 import app.util.Database;
-import app.util.Util;
 
 public class CarreraModel {
 
@@ -20,7 +19,6 @@ public class CarreraModel {
 	 */
 	public CarreraEntity findCarrera(int id) {
 		List<CarreraEntity> carreras = db.executeQueryPojo(CarreraEntity.class, SQL_FIND_CARRERA, id);
-		Util.validateCondition(!carreras.isEmpty(), "Id de carrera no encontrado: " + id);
 		return carreras.get(0);
 	}
 
