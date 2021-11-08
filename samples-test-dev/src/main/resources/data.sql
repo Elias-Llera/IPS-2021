@@ -21,6 +21,8 @@ insert into categorias(idCategoria, idCarrera, edadInicio, edadFinal, sexo, nomb
 values (1, 102, 18, 90, 'Hombre', 'Barklay absoluta masculina'),
        (2, 104, 18, 90, 'Mujer', 'Barklay absoluta femenina');
 
-insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria)
-values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2),
-       (102, 'juan@gmail.com', 'PRE-INSCRITO', 2, 1);
+insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria, ultimaActualizacion)
+values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2, '2022-03-18'),
+       (102, 'juan@gmail.com', 'PRE-INSCRITO', 2, 1, '2022-03-15'),
+       (103, 'ana@gmail.com', 'PRE-INSCRITO', 2, 1,
+ '2022-03-03');

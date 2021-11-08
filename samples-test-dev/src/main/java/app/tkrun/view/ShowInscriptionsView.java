@@ -66,7 +66,8 @@ public class ShowInscriptionsView extends JFrame {
 			
 		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(inscripciones, new String[] { "emailAtleta", "idCarrera", "estado", "dorsal",
-				"idCategoria"});
+				"idCategoria", "ultimaActualizacion"});
+					
 		tableInscriptions.setModel(tmodel);
 		SwingUtil.autoAdjustColumns(tableInscriptions);
 

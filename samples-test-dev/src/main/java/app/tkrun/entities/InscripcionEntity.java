@@ -7,6 +7,15 @@ public class InscripcionEntity {
 	private String estado;
 	private int dorsal;
 	private int idCategoria;
+	private String ultimaActualizacion;
+
+	public void setUltimaActualizacion(String ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
+	}
+
+	public String getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
 
 	public String getEmailAtleta() {
 		return emailAtleta;

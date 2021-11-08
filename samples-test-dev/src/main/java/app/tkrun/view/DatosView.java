@@ -37,11 +37,11 @@ public class DatosView extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblPagoTarjeta = new JLabel("Pago con tarjeta");
-		lblPagoTarjeta.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblPagoTarjeta.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPagoTarjeta.setBounds(141, 29, 234, 42);
-		contentPane.add(lblPagoTarjeta);
+		JLabel lblDatosCorredor = new JLabel("Datos del corredor");
+		lblDatosCorredor.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblDatosCorredor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDatosCorredor.setBounds(122, 30, 281, 42);
+		contentPane.add(lblDatosCorredor);
 
 		JLabel lblDni = new JLabel("Dni:");
 		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -66,7 +66,7 @@ public class DatosView extends JDialog {
 		contentPane.add(getBtnListo());
 
 		JButton btnAtras = new JButton("Atras");
-		btnAtras.setBounds(314, 239, 89, 23);
+		btnAtras.setBounds(314, 233, 89, 23);
 		contentPane.add(btnAtras);
 	}
 
@@ -92,7 +92,7 @@ public class DatosView extends JDialog {
 					mostrarVentanaInscripciones();
 				}
 			});
-			btnListo.setBounds(413, 239, 89, 23);
+			btnListo.setBounds(413, 233, 89, 23);
 		}
 		return btnListo;
 	}

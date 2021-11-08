@@ -9,7 +9,7 @@ public class InscripcionModel {
 	
 	private static final String SQL_FIND_INSCRIPCION = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where emailAtleta=? AND idCarrera = ?";
 	
-	private static final String SQL_FIND_INSCRIPCIONES_PARTICIPANTE = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where emailAtleta=?";
+	private static final String SQL_FIND_INSCRIPCIONES_PARTICIPANTE = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal, ultimaActualizacion from INSCRIPCIONES where emailAtleta=? ORDER BY ultimaActualizacion DESC";
 	
 	private static final String SQL_FIND_INSCRIPCIONES_BY_ID_CARRERA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where idCarrera = ?";
 

@@ -185,7 +185,7 @@ public class InscripcionController {
 			text += "Categoria: " + categoria.getNombre() + "\n";
 			text += "Dorsal: " + inscripcion.getDorsal() + "\n";
 			text += "Estado de la inscripcion: " + inscripcion.getEstado() + "\n";
-			text += "Por favor, haga una transferencia de " + carrera.getPrecioInscripcion()
+			text += "Por favor, haga una transferencia de " + carrera.getPrecio()
 					+ "€ a la siguiente cuenta:\n";
 			text += "*numero de cuenta*\n";
 			writer.write(text);

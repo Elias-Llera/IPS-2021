@@ -192,7 +192,7 @@ public class CarrerasController {
 			
 		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras, new String[] { "idCarrera", "nombre", "fecha", "tipo",
-				"distancia", "precioInscripcion", "finInscripcion", "plazas" });
+				"distancia", "precio", "finInscripcion", "plazas" });
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 

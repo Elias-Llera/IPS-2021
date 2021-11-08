@@ -8,7 +8,7 @@ public class CarreraEntity {
     private String descripcion;
     private String inicioInscripcion;
     private String finInscripcion;
-    private double precioInscripcion;
+    private double precio;
     private String fecha;
     private int plazas;
     private double distancia;
@@ -53,12 +53,12 @@ public class CarreraEntity {
 		this.descripcion = descripcion;
 	}
 
-	public double getPrecioInscripcion() {
-		return precioInscripcion;
+	public double getPrecio() {
+		return precio;
 	}
 
-	public void setPrecioInscripcion(double precioInscripcion) {
-		this.precioInscripcion = precioInscripcion;
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 
 	public String getFinInscripcion() {

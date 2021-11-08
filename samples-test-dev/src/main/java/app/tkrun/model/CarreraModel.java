@@ -10,7 +10,7 @@ import app.util.Util;
 public class CarreraModel {
 
 	private static final String SQL_FIND_CARRERA = "SELECT idCarrera, nombre, tipo, descripcion, inicioInscripcion, finInscripcion, precioInscripcion, fecha, plazas from CARRERAS where idCarrera=?";
-	private static final String SQL_FIND_CARRERAS_DESDE_HOY = "SELECT idCarrera, nombre, fecha, tipo, distancia, precioInscripcion, finInscripcion, plazas from carreras where fecha>=? order by fecha";
+	private static final String SQL_FIND_CARRERAS_DESDE_HOY = "SELECT idCarrera, nombre, fecha, tipo, distancia, precio, plazas from carreras where fecha>=? order by fecha";
 	private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db = new Database();
