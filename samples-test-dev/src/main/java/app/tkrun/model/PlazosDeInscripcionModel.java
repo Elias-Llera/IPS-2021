@@ -2,11 +2,8 @@ package app.tkrun.model;
 
 import java.util.List;
 
-import app.tkrun.entities.CarreraEntity;
-import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.util.Database;
-import app.util.Util;
 
 public class PlazosDeInscripcionModel {
 

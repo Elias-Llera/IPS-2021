@@ -17,7 +17,7 @@ public class InscripcionModel {
 	
 	private static final String SQL_FIND_EXPIRED_PREINSCRIPTIONS = "SELECT * from INSCRIPCIONES where estado = 'PREINSCRITP' AND fecha < ?";
 
-	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (emailAtleta, idCarrera, estado, idCategoria, dorsal, fecha) VALUES(?, ?, ?, ?, ?, ?)";
+	private static final String SQL_ADD_INSCRIPCION = "INSERT INTO INSCRIPCIONES (emailAtleta, idCarrera, estado, idCategoria, dorsal, fecha, idPlazosDeInscripcion) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 	private static final String SQL_ACEPTAR_INSCRIPCION = "UPDATE Inscripciones SET estado = 'INSCRITO' WHERE emailAtleta = ? AND idCarrera = ?";
 	
@@ -44,7 +44,7 @@ public class InscripcionModel {
 	public void addInscripcion(InscripcionEntity inscripcion) {
 		db.executeUpdate(SQL_ADD_INSCRIPCION, inscripcion.getEmailAtleta(), inscripcion.getIdCarrera(),
 				inscripcion.getEstado(), inscripcion.getIdCategoria(), inscripcion.getDorsal(),
-				java.sql.Date.valueOf(LocalDate.now()));
+				java.sql.Date.valueOf(LocalDate.now()), inscripcion.getIdPlazoInscripcion());
 	}
 
 	public int calculateDorsal(int id_carrera) {

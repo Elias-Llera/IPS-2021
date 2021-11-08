@@ -3,7 +3,6 @@ package app.tkrun.model;
 import java.util.List;
 
 import app.tkrun.entities.CarreraEntity;
-import app.tkrun.entities.InscripcionEntity;
 import app.util.ApplicationException;
 import app.util.Database;
 

@@ -19,10 +19,12 @@ import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
 import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.InscripcionModel;
+import app.tkrun.model.PlazoInscripcionModel;
 import app.tkrun.view.InscripcionTarjetaView;
 import app.tkrun.view.InscripcionView;
 import app.util.SwingUtil;
@@ -33,6 +35,7 @@ public class InscripcionController {
 	AtletaModel atletaModel = new AtletaModel();
 	CarreraModel carreraModel = new CarreraModel();
 	CategoriaModel categoriaModel = new CategoriaModel();
+	PlazoInscripcionModel plazosModel = new PlazoInscripcionModel();
 
 	InscripcionView inscripcionView;// vista para añadirle el actionListener
 	InscripcionTarjetaView it = new InscripcionTarjetaView();
@@ -99,10 +102,14 @@ public class InscripcionController {
 			return;
 		}
 
-		// Comprobar que el plazo de inscripcion esta abierto
+		// Comprobar que hay un plazo de inscripcion esta abierto
 		Date now = new Date(System.currentTimeMillis());
-		if (Date.valueOf(ce.getFinInscripcion()).compareTo(now) < 0) {
-			JOptionPane.showMessageDialog(inscripcionView, "La inscripcion ya no esta abierta", "ERROR",
+		InscripcionEntity aux = new InscripcionEntity();
+		aux.setIdCarrera(ce.getIdCarrera());
+		aux.setFecha(now.toString());
+		PlazosDeInscripcionEntity plazo = plazosModel.findByInscripcion(aux);
+		if (plazo == null) {
+			JOptionPane.showMessageDialog(inscripcionView, "No hay plazos de inscripcion abiertos.", "ERROR",
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
@@ -141,6 +148,7 @@ public class InscripcionController {
 		inscripcion.setIdCategoria(categoria.getIdCategoria());
 		inscripcion.setIdCarrera(idCarrera);
 		inscripcion.setEmailAtleta(email);
+		inscripcion.setIdPlazoInscripcion(plazo.getIdPlazosDeInscripcion());
 
 		String selectedButtonText = inscripcionView.getSelectedButtonText();
 
@@ -158,7 +166,7 @@ public class InscripcionController {
 			JOptionPane.showMessageDialog(inscripcionView, text, "RECIBO", JOptionPane.INFORMATION_MESSAGE);
 		} else if (selectedButtonText.equals("Transferencia")) {
 			inscripcion.setEstado("Pendiente de Pago");
-			String text = reciboTransferencia(inscripcion, ae, ce, categoria);
+			String text = reciboTransferencia(inscripcion, ae, ce, categoria, plazo);
 			text += "Copia del recibo generada en la carpeta recibos";
 			JOptionPane.showMessageDialog(inscripcionView, text, "RECIBO", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -172,7 +180,7 @@ public class InscripcionController {
 	}
 
 	private String reciboTransferencia(InscripcionEntity inscripcion, AtletaEntity atleta, CarreraEntity carrera,
-			CategoriaEntity categoria) {
+			CategoriaEntity categoria, PlazosDeInscripcionEntity plazo) {
 		File file = new File("recibos/" + inscripcion.getEmailAtleta() + inscripcion.getIdCarrera() + ".txt");
 		String text = "";
 
@@ -192,7 +200,7 @@ public class InscripcionController {
 			text += "Categoria: " + categoria.getNombre() + "\n";
 			text += "Dorsal: " + inscripcion.getDorsal() + "\n";
 			text += "Estado de la inscripcion: " + inscripcion.getEstado() + "\n";
-			text += "Por favor, haga una transferencia de " + carrera.getPrecioInscripcion()
+			text += "Por favor, haga una transferencia de " + plazo.getPrecio()
 					+ "� a la siguiente cuenta:\n";
 			text += "*numero de cuenta*\n";
 			writer.write(text);

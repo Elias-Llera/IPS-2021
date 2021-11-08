@@ -49,7 +49,7 @@ public class PlanificacionCarrerasController {
 			
 		}
 
-		pcv.getBtnAñadir().addActionListener(new ActionListener() {
+		pcv.getBtnAdd().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (comprobarCampos() && comprobarFechas()) {
@@ -83,7 +83,7 @@ public class PlanificacionCarrerasController {
 						pcv.getTextFieldInscripcionFin().setText("");
 						pcv.getTextFieldInscripcionPrecio().setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "No se pueden añadir mas de 4 plazos");
+						JOptionPane.showMessageDialog(null, "No se pueden aï¿½adir mas de 4 plazos");
 					}
 
 				} else {

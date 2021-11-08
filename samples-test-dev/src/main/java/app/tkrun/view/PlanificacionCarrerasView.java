@@ -1,25 +1,27 @@
 package app.tkrun.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class PlanificacionCarrerasView extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	private JButton btnCancelar;
 	private JLabel lblInfo;
 	private JLabel lblPlazoInicio;
 	private JLabel lblPlazoFin;
 	private JLabel lblPrecio;
-	private JButton btnAñadir;
+	private JButton btnAdd;
 	private JTextField textFieldInscripcionInicio;
 	private JTextField textFieldInscripcionFin;
 	private JTextField textFieldInscripcionPrecio;
@@ -43,7 +45,7 @@ public class PlanificacionCarrerasView extends JDialog {
 			panel.add(getLblPlazoInicio());
 			panel.add(getLblPlazoFin());
 			panel.add(getLblPrecio());
-			panel.add(getBtnAñadir());
+			panel.add(getBtnAdd());
 			panel.add(getTextFieldInscripcionInicio());
 			panel.add(getTextFieldInscripcionFin());
 			panel.add(getTextFieldInscripcionPrecio());
@@ -96,12 +98,12 @@ public class PlanificacionCarrerasView extends JDialog {
 		return lblPrecio;
 	}
 
-	public JButton getBtnAñadir() {
-		if (btnAñadir == null) {
-			btnAñadir = new JButton("A\u00F1adir");
-			btnAñadir.setBounds(230, 227, 89, 23);
+	public JButton getBtnAdd() {
+		if (btnAdd == null) {
+			btnAdd = new JButton("A\u00F1adir");
+			btnAdd.setBounds(230, 227, 89, 23);
 		}
-		return btnAñadir;
+		return btnAdd;
 	}
 
 	public JTextField getTextFieldInscripcionInicio() {

@@ -1,23 +1,17 @@
 package app.tkrun.controller;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
-import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
-import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.view.CrearCarreraView;
-import app.tkrun.view.InscripcionNoAtletaView;
 import app.util.SwingUtil;
 
 public class CrearCarrerasController {
@@ -66,7 +60,7 @@ public class CrearCarrerasController {
 						crearCarreraView.getBtnPlazosInscripcion().setEnabled(true);
 						crearCarreraView.getBtnCategorias().setEnabled(true);
 					}else {
-						JOptionPane.showMessageDialog(null, "Como la carrera ya está creada se te permitirá añadirle plazos");
+						JOptionPane.showMessageDialog(null, "Como la carrera ya estï¿½ creada se te permitirï¿½ aï¿½adirle plazos");
 						CarreraEntity buscarId = carreraModel.findIdCarrera(carrera);
 						id=buscarId.getIdCarrera();
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);

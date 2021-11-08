@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -13,7 +15,7 @@ import javax.swing.table.TableModel;
 
 import app.tkrun.entities.DevolucionEntity;
 import app.tkrun.entities.InscripcionEntity;
-import app.tkrun.entities.PlazoInscripcionEntity;
+import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.DevolucionModel;
 import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.PlazoInscripcionModel;
@@ -104,7 +106,7 @@ public class DevolucionesController {
 	private double calculateDeuda(DevolucionesInfo res, TransferenciaInfo transferencia) {
 
 		InscripcionEntity inscripcion = inscripcionModel.findInscripcion(transferencia.email, transferencia.idCarrera);
-		PlazoInscripcionEntity plazo = new PlazoInscripcionModel().findByInscripcion(inscripcion);
+		PlazosDeInscripcionEntity plazo = new PlazoInscripcionModel().findByInscripcion(inscripcion);
 
 		long DAY_IN_MS = 1000 * 60 * 60 * 24;
 		Date maximoParaPago = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
@@ -115,21 +117,25 @@ public class DevolucionesController {
 			res.transferenciasNoConsistentes++;
 		} else {
 			if (inscripcion.getEstado().equals("PREINSCRITO")) {
-				if (inscripcion.getFecha().before(maximoParaPago)) {
-					double precioInscripcion = plazo.getPrecio();
-					if (precioInscripcion == transferencia.cantidadTransferencia) {
-						deuda = 0;
-						aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
-					} else if (precioInscripcion < transferencia.cantidadTransferencia) {
-						deuda = transferencia.cantidadTransferencia - precioInscripcion;
-						aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
+				try {
+					if (new SimpleDateFormat("yyyy/MM/dd").parse(inscripcion.getFecha()).before(maximoParaPago)) {
+						double precioInscripcion = plazo.getPrecio();
+						if (precioInscripcion == transferencia.cantidadTransferencia) {
+							deuda = 0;
+							aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
+						} else if (precioInscripcion < transferencia.cantidadTransferencia) {
+							deuda = transferencia.cantidadTransferencia - precioInscripcion;
+							aceptarInscripcion(res, transferencia.email, transferencia.idCarrera);
+						} else {
+							deuda = transferencia.cantidadTransferencia;
+							rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
+						}
 					} else {
 						deuda = transferencia.cantidadTransferencia;
 						rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
 					}
-				} else {
-					deuda = transferencia.cantidadTransferencia;
-					rechazarInscripcion(res, transferencia.email, transferencia.idCarrera);
+				} catch (ParseException e) {
+					e.printStackTrace();
 				}
 			} else {
 				deuda = transferencia.cantidadTransferencia;
