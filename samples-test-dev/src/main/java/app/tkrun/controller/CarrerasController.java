@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -32,6 +33,8 @@ public class CarrerasController {
 	AtletaModel atletaModel = new AtletaModel();
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
+	
+	private List<Integer> listaIds;
 
 	public CarrerasController(CarreraModel m, CarrerasView v) {
 		this.model = m;
@@ -83,8 +86,8 @@ public class CarrerasController {
 
 			private void openInscriptionView() {
 				JTable tabla = view.getTablaCarreras();
-				String nombreCarrera = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
-				int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
+				String nombreCarrera = (String) tabla.getValueAt(tabla.getSelectedRow(), 0);
+				int idCarrera = listaIds.get(tabla.getSelectedRow());
 				new InscripcionController().init(nombreCarrera, idCarrera);
 				;
 			}
@@ -102,6 +105,13 @@ public class CarrerasController {
 			}
 		});
 
+		
+		view.getBtnDevoluciones().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new DevolucionesController().init();
+			}
+		});;
 	}
 
 	protected void mostrarVentanaParticipantes() {
@@ -134,6 +144,7 @@ public class CarrerasController {
 	 */
 	public void getListaCarreras() {
 		PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
+		listaIds = new ArrayList<Integer>();
 
 		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
 		for (CarreraEntity carrera : carreras) {
@@ -147,6 +158,7 @@ public class CarrerasController {
 			if (plazasOcupadas > 0) {
 				carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
 			}
+			listaIds.add(carrera.getIdCarrera());
 
 		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,

@@ -34,9 +34,15 @@ public class CrearCarrerasController {
 			}
 
 			private void openPlazosParaCrearCarreraView() {
-
-				new PlanificacionCarrerasController().init(crearCarreraView.getTextFieldFechaCelebracion().getText(), id);
-
+				new PlanificacionCarrerasController().init(crearCarreraView.getTextFieldFechaCelebracion().getText(),
+						id);
+			}
+		});
+		
+		crearCarreraView.getBtnCategorias().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new CategoriaController().init(id);
 			}
 		});
 
@@ -45,7 +51,7 @@ public class CrearCarrerasController {
 			public void mouseClicked(MouseEvent e) {
 				if (comprobarCampos()) {
 					Random r = new Random();
-					id = r.nextInt(100000000)+1;
+					id = r.nextInt(100000000) + 1;
 					CarreraEntity carrera = new CarreraEntity();
 					carrera.setIdCarrera(id);
 					carrera.setNombre(crearCarreraView.getTextFieldNombreCarrera().getText());
@@ -54,20 +60,20 @@ public class CrearCarrerasController {
 					carrera.setFecha(crearCarreraView.getTextFieldFechaCelebracion().getText());
 					carrera.setPlazas(Integer.parseInt(crearCarreraView.getTextFieldNumeroPlazas().getText()));
 					carrera.setDistancia(Double.parseDouble(crearCarreraView.getTextFieldDistancia().getText()));
-					if(carreraModel.findCarreraIdentica(carrera)==0) {
+					if (carreraModel.findCarreraIdentica(carrera) == 0) {
 						carreraModel.addCarrera(carrera);
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);
 						crearCarreraView.getBtnPlazosInscripcion().setEnabled(true);
 						crearCarreraView.getBtnCategorias().setEnabled(true);
-					}else {
-						JOptionPane.showMessageDialog(null, "Como la carrera ya est� creada se te permitir� a�adirle plazos");
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Como la carrera ya est� creada se te permitir� a�adirle plazos");
 						CarreraEntity buscarId = carreraModel.findIdCarrera(carrera);
-						id=buscarId.getIdCarrera();
+						id = buscarId.getIdCarrera();
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);
 						crearCarreraView.getBtnPlazosInscripcion().setEnabled(true);
 						crearCarreraView.getBtnCategorias().setEnabled(true);
 					}
-					
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Valide sus campos");
@@ -88,10 +94,6 @@ public class CrearCarrerasController {
 		crearCarreraView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		crearCarreraView.setLocationRelativeTo(null);
 		crearCarreraView.setVisible(true);
-	}
-
-	public void addCarrera() {
-
 	}
 
 	private boolean comprobarCampos() {

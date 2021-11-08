@@ -15,6 +15,7 @@ public class DevolucionesView extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JTable tabDevoluciones;
 	private JScrollPane tablePanel;
+	private JButton generateButton;
 
 	/**
 	 * Launch the application.
@@ -36,7 +37,7 @@ public class DevolucionesView extends JDialog {
 		setBounds(100, 100, 600, 415);
 		getContentPane().setLayout(null);
 		{
-			JButton generateButton = new JButton("Generar devoluciones");
+			generateButton = new JButton("Generar devoluciones");
 			generateButton.setBounds(214, 333, 162, 32);
 			getContentPane().add(generateButton);
 			generateButton.setActionCommand("OK");
@@ -62,11 +63,7 @@ public class DevolucionesView extends JDialog {
 	}
 	
 	public JButton getBtnGenerar() {
-		return getBtnGenerar();
-	}
-	
-	public void showResults() {
-		
+		return generateButton;
 	}
 	
 }

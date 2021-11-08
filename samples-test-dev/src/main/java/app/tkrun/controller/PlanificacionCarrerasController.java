@@ -64,6 +64,7 @@ public class PlanificacionCarrerasController {
 						plazoInscripcion.setPrecio(Double.parseDouble(pcv.getTextFieldInscripcionPrecio().getText()));
 
 						pdiModel.addInscripcion(plazoInscripcion);
+						
 
 						SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
 						Date fechaInscrionFinal = null;

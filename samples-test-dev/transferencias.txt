@@ -1,0 +1,9 @@
+ana@gmail.com*10*102
+
+juan@gmail.com*5*102
+
+ejemplo1@gmail.com*5*106
+
+ejemplo2@gmail.com*4*106
+
+ejemplo3@gmail.com*10*106

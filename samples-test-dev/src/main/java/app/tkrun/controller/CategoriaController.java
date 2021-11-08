@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import app.tkrun.entities.CategoriaEntity;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.view.ConfiguracionCategoriasView;
@@ -33,54 +36,90 @@ public class CategoriaController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				List<CategoriaEntity> categorias = generateCategorias();
-				validateCategorias(categorias);
-				addCategorias(categorias);
+				if(validateCategorias(categorias)) {
+					addCategorias(categorias);
+					JOptionPane.showMessageDialog(view, "Categorias creadas");
+					view.getBtnConfirmar().setEnabled(false);
+					view.getBtnAdd().setEnabled(false);
+				}
 			}
 		});
 		this.idCarrera = idCarrera;
+		view.setModal(true);
+		view.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		view.setLocationRelativeTo(null);
+		view.setVisible(true);
 	}
 
-	private void validateCategorias(List<CategoriaEntity> categorias) {
+	private boolean validateCategorias(List<CategoriaEntity> categorias) {
 		List<CategoriaEntity> categoriasMasculinas = new ArrayList<>();
 		List<CategoriaEntity> categoriasFemeninas = new ArrayList<>();
 		for (CategoriaEntity categoria : categorias) {
+			if(categoria.getEdadFinal() == 100) {
+				categoria.setEdadFinal(Integer.MAX_VALUE);
+			}
 			if (categoria.getSexo().equals("HOMBRE")) {
 				if (categoriasMasculinas.size() != 0) {
-					if (categoriasMasculinas.get(categoriasMasculinas.size()).getEdadFinal() + 1 != categoria
+					if (categoriasMasculinas.get(categoriasMasculinas.size()-1).getEdadFinal() + 1 == categoria
 							.getEdadInicio()) {
 						categoriasMasculinas.add(categoria);
 					} else {
-						throw new IllegalArgumentException("Las categorias masculinas deben cubrir todo el rango de edades sin condlictos.");
+						System.out.println(categoriasMasculinas.get(categoriasMasculinas.size()-1).getEdadFinal() + 1);
+						System.out.println(categoria
+							.getEdadInicio());
+						JOptionPane.showMessageDialog(view, "Las categorias masculinas deben cubrir todo el rango de edades sin conflictos.");
+						return false;
 					}
 				} else {
 					if(categoria.getEdadInicio() != 18) {
-						throw new IllegalArgumentException("Las primera categoria masculina debe empezar en 18 a�os.");
+						JOptionPane.showMessageDialog(view, "Las primera categoria masculina debe empezar en 18 años.");
+						return false;
+					}else {
+						categoriasMasculinas.add(categoria);
 					}
 				}
 			} else if (categoria.getSexo().equals("MUJER")) {
 				if (categoriasFemeninas.size() != 0) {
-					if (categoriasFemeninas.get(categoriasFemeninas.size()).getEdadFinal() + 1 != categoria
+					if (categoriasFemeninas.get(categoriasFemeninas.size()-1).getEdadFinal() + 1 == categoria
 							.getEdadInicio()) {
 						categoriasFemeninas.add(categoria);
 					} else {
-						throw new IllegalArgumentException("Las categorias femeninas deben cubrir todo el rango de edades sin conflictos");
+						JOptionPane.showMessageDialog(view, "Las categorias femeninas deben cubrir todo el rango de edades sin conflictos");
+						return false;
 					}
 				} else {
 					if(categoria.getEdadInicio() != 18) {
-						throw new IllegalArgumentException("Las primera categoria femenina debe empezar en 18 a�os.");
+						JOptionPane.showMessageDialog(view, "Las primera categoria femenina debe empezar en 18 a�os.");
+						return false;
+					} else {
+						categoriasFemeninas.add(categoria);
 					}
 				}
 			} else {
-				throw new IllegalArgumentException("El sexo debe ser masculino o femenino.");
+				JOptionPane.showMessageDialog(view, "El sexo debe ser masculino o femenino.");
+				return false;
 			}
 		}
 		
-		if(categoriasMasculinas.get(categoriasMasculinas.size()).getEdadFinal() != Integer.MAX_VALUE) {
-			throw new IllegalArgumentException("La ultima categoria masculina no debe tener limite de edad");
+		if(categoriasFemeninas.size() == 0) {
+			JOptionPane.showMessageDialog(view, "Debe haber categorias para mujeres");
+			return false;
 		}
-		if(categoriasFemeninas.get(categoriasFemeninas.size()).getEdadFinal() != Integer.MAX_VALUE) {
-			throw new IllegalArgumentException("La ultima categoria femenina no debe tener limite de edad");
+		
+		if(categoriasMasculinas.size() == 0) {
+			JOptionPane.showMessageDialog(view, "Debe haber categorias para hombres");
+			return false;
 		}
+		
+		if(categoriasMasculinas.get(categoriasMasculinas.size()-1).getEdadFinal() != Integer.MAX_VALUE) {
+			JOptionPane.showMessageDialog(view, "La ultima categoria masculina no debe tener limite de edad");
+			return false;
+		}
+		if(categoriasFemeninas.get(categoriasFemeninas.size()-1).getEdadFinal() != Integer.MAX_VALUE) {
+			JOptionPane.showMessageDialog(view, "La ultima categoria femenina no debe tener limite de edad");
+			return false;
+		}
+		return true;
 	}
 	
 	private void addCategorias(List<CategoriaEntity> categorias) {
@@ -92,23 +131,26 @@ public class CategoriaController {
 	private List<CategoriaEntity> generateCategorias() {
 		List<Component> components = Arrays.asList(view.getPanelCategorias().getComponents());
 		List<CategoriaEntity> res = new ArrayList<>();
+		int nextId = cm.getNextId();
 		for (Component component : components) {
 			CategoriaEntity categoria = new CategoriaEntity();
-			categoria.setIdCategoria(cm.getNextId());
+			categoria.setIdCategoria(nextId);
 			categoria.setIdCarrera(idCarrera);
 			categoria.setNombre(((PanelCategoria)component).getNombre());
 			categoria.setSexo(((PanelCategoria)component).getSexo());
 			categoria.setEdadInicio(((PanelCategoria)component).getEdadInicial());
 			categoria.setEdadFinal(((PanelCategoria)component).getEdadFinal());
 			res.add(categoria);
+			nextId++;
 		}
 		Collections.sort(res, new Comparator<CategoriaEntity>() {
 		    @Override
 		    public int compare(CategoriaEntity lhs, CategoriaEntity rhs) {
 		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-		        return lhs.getEdadInicio() > rhs.getEdadInicio() ? 1 : (lhs.getEdadFinal() < rhs.getEdadFinal()) ? -1 : 0;
+		        return lhs.getEdadInicio() > rhs.getEdadInicio() ? 1 : (lhs.getEdadInicio() < rhs.getEdadInicio()) ? -1 : 0;
 		    }
 		});
 		return res;
 	}
+
 }

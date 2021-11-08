@@ -49,7 +49,7 @@ public class ConfiguracionCategoriasView extends JDialog {
 		panelCategorias = getPanelCategorias();
 		
 		JScrollPane scrollPane = new JScrollPane(panelCategorias);
-		panelCategorias.setLayout(new GridLayout(1, 0, 0, 0));
+		panelCategorias.setLayout(new GridLayout(0, 1, 0, 0));
 		scrollPane.setBounds(10, 26, 542, 224);
 		contentPanel.add(scrollPane);
 		

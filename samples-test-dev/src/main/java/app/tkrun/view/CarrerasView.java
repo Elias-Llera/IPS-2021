@@ -30,6 +30,7 @@ public class CarrerasView {
 	private JScrollPane tablePanel;
 	private JButton btnParticipantes;
 	private JButton btnCrearCarrera;
+	private JButton btnDevoluciones;
 	
 	/**
 	 * Create the application.
@@ -87,6 +88,9 @@ public class CarrerasView {
 		
 		btnCrearCarrera = new JButton("Crear carrera");
 		frame.getContentPane().add(btnCrearCarrera, "cell 0 7");
+		
+		btnDevoluciones = new JButton("Devoluciones");
+		frame.getContentPane().add(btnDevoluciones, "cell 0 7");
 	}
 
 	
@@ -101,6 +105,7 @@ public class CarrerasView {
 	public JButton getBtnParticipantes() { return this.btnParticipantes; }
 	public JButton getBtnCrearCarrera() { return this.btnCrearCarrera; }
 	public JScrollPane getTablePanel() {return this.tablePanel; };
+	public  JButton getBtnDevoluciones() {return this.btnDevoluciones;}
 
 	
 }

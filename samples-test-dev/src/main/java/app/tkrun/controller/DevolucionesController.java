@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
@@ -18,13 +19,13 @@ import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.DevolucionModel;
 import app.tkrun.model.InscripcionModel;
-import app.tkrun.model.PlazoInscripcionModel;
+import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.DevolucionesView;
 import app.util.SwingUtil;
 
 public class DevolucionesController {
 
-	private DevolucionesView view;
+	private DevolucionesView 	view = new DevolucionesView();
 	private DevolucionModel devolucionesModel = new DevolucionModel();
 	private InscripcionModel inscripcionModel = new InscripcionModel();
 
@@ -55,22 +56,28 @@ public class DevolucionesController {
 				text += "Inscripciones confirmadas: " + res.inscripcionesConfirmadas + "\n";
 				text += "Inscripciones rechazads: " + res.inscripcionesRechazadas + "\n";
 				text += "Devolucinoes calculadas: " + res.devolucionesCalculadas;
-				JOptionPane.showMessageDialog(view, text, "ERROR",
+				JOptionPane.showMessageDialog(view, text, "RES",
 						JOptionPane.INFORMATION_MESSAGE);
+				getListaDevoluciones();
 			}
 		});
+		view.setModal(true);
+		view.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		view.setLocationRelativeTo(null);
+		getListaDevoluciones();
+		view.setVisible(true);
 	}
 
 	private DevolucionesInfo parseFileTransferencias() {
 		DevolucionesInfo res = new DevolucionesInfo();
 
-		try (BufferedReader br = new BufferedReader(new FileReader("transferencia.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("transferencias.txt"))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (line.isBlank()) {
 					continue;
 				}
-				String[] datosTransferencia = line.split("*");
+				String[] datosTransferencia = line.split("\\*");
 				if (datosTransferencia.length != 3) {
 					res.lineasNoAnalizadas++;
 				} else {
@@ -83,7 +90,8 @@ public class DevolucionesController {
 				}
 			}
 		} catch (IOException e) {
-			return null;
+			JOptionPane.showMessageDialog(view, "Error al analizar el archivo");
+			e.printStackTrace();
 		}
 		return res;
 	}
@@ -93,6 +101,13 @@ public class DevolucionesController {
 		devolucion.setEmailAtleta(transferencia.email);
 		devolucion.setIdCarrera(transferencia.idCarrera);
 		devolucion.setCantidad(calculateDeuda(res, transferencia));
+		
+		DevolucionEntity aux = devolucionesModel.findByEmailAndIdCarrera(transferencia.email, transferencia.idCarrera);
+		
+		if(aux != null) {
+			res.transferenciasNoConsistentes++;
+			return;
+		}
 
 		if (devolucion.getCantidad() != 0) {
 			devolucionesModel.addDevolucion(devolucion);
@@ -106,7 +121,7 @@ public class DevolucionesController {
 	private double calculateDeuda(DevolucionesInfo res, TransferenciaInfo transferencia) {
 
 		InscripcionEntity inscripcion = inscripcionModel.findInscripcion(transferencia.email, transferencia.idCarrera);
-		PlazosDeInscripcionEntity plazo = new PlazoInscripcionModel().findByInscripcion(inscripcion);
+		PlazosDeInscripcionEntity plazo = new PlazosDeInscripcionModel().findByInscripcion(inscripcion);
 
 		long DAY_IN_MS = 1000 * 60 * 60 * 24;
 		Date maximoParaPago = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
@@ -118,7 +133,7 @@ public class DevolucionesController {
 		} else {
 			if (inscripcion.getEstado().equals("PREINSCRITO")) {
 				try {
-					if (new SimpleDateFormat("yyyy/MM/dd").parse(inscripcion.getFecha()).before(maximoParaPago)) {
+					if (new SimpleDateFormat("yyyy-MM-dd").parse(inscripcion.getFecha()).before(maximoParaPago)) {
 						double precioInscripcion = plazo.getPrecio();
 						if (precioInscripcion == transferencia.cantidadTransferencia) {
 							deuda = 0;
@@ -156,7 +171,7 @@ public class DevolucionesController {
 	
 	public void getListaDevoluciones() {
 		List<DevolucionEntity> devoluciones = devolucionesModel.findAll();
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(devoluciones, new String[] { "email", "idCarrera", "cantidad" });
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(devoluciones, new String[] { "emailAtleta", "idCarrera", "cantidad" });
 		view.getTablaDevoluciones().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaDevoluciones());
 	}

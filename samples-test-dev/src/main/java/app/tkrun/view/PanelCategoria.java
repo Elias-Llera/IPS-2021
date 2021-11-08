@@ -15,8 +15,6 @@ public class PanelCategoria extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldNombre;
-	
-	private JTextField textFieldnombre;
 	private JComboBox<String> comboBoxSexo;
 	private JSpinner spinnerEdadInicial;
 	private JSpinner spinnerEdadFinal;
@@ -59,13 +57,13 @@ public class PanelCategoria extends JPanel {
 		
 		spinnerEdadFinal = new JSpinner();
 		spinnerEdadFinal.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		spinnerEdadFinal.setModel(new SpinnerNumberModel(18,18, null, 1));
+		spinnerEdadFinal.setModel(new SpinnerNumberModel(18, 18, 100, 1));
 		add(spinnerEdadFinal);
 
 	}
 	
 	public String getNombre() {
-		return textFieldnombre.getText();
+		return textFieldNombre.getText();
 	}
 	
 	public String getSexo() {
