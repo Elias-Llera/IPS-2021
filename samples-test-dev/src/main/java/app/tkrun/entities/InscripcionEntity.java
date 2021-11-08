@@ -8,6 +8,20 @@ public class InscripcionEntity {
 	private int dorsal;
 	private int idCategoria;
 
+	private String ultimaActualizacion;
+
+	private String fecha;
+	private int idPlazoInscripcion;
+	
+
+	public void setUltimaActualizacion(String ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
+	}
+
+	public String getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
+	
 	public String getEmailAtleta() {
 		return emailAtleta;
 	}
@@ -46,6 +60,22 @@ public class InscripcionEntity {
 	
 	public void setIdCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public int getIdPlazoInscripcion() {
+		return idPlazoInscripcion;
+	}
+
+	public void setIdPlazoInscripcion(int idPlazoInscripcion) {
+		this.idPlazoInscripcion = idPlazoInscripcion;
 	}
 	
 }

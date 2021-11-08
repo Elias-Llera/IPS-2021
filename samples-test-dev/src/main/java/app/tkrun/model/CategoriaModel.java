@@ -7,9 +7,11 @@ import app.util.Database;
 
 public class CategoriaModel {
 
+	private static final String SQL_ADD_CATEGORIA = "INSERT INTO CATEGORIAS (idCategoria, idCarrera, nombre, edadInicio, edadFinal, sexo) VALUES(?, ?, ?, ?, ?, ?)";
 	private static final String SQL_FIND_CATEGORIA = "SELECT idCategoria, idCarrera, nombre, edadInicio, edadFinal, sexo from CATEGORIAS where idCategoria=?";
 	private static final String SQL_FIND_CATEGORIA_CARRERA = "SELECT idCategoria, idCarrera, nombre, edadInicio, edadFinal, sexo from CATEGORIAS where idCarrera=?";
 	private static final String SQL_FIND_CATEGORIA_PARA_ATLETA = "SELECT idCategoria, idCarrera, nombre, edadInicio, edadFinal, sexo from CATEGORIAS where idCarrera=? AND edadInicio <= ? AND edadFinal >= ? AND sexo = ?";
+	private static final String SQL_FIND_NEXT_ID = "SELECT max(idCategoria) from CATEGORIAS";
 
 	private Database db = new Database();
 
@@ -36,6 +38,16 @@ public class CategoriaModel {
 		List<CategoriaEntity> categorias = db.executeQueryPojo(CategoriaEntity.class, SQL_FIND_CATEGORIA_PARA_ATLETA,
 				id_carrera, edad, edad, sexo);
 		return categorias.size() == 0 ? null : categorias.get(0);
+	}
+
+	public void addCategoria(CategoriaEntity categoria) {
+		db.executeUpdate(SQL_ADD_CATEGORIA, categoria.getIdCategoria(), categoria.getIdCarrera(),
+				categoria.getNombre(), categoria.getEdadInicio(), categoria.getEdadFinal(), categoria.getSexo());
+	}
+
+	public int getNextId() {
+		Object o = db.executeQueryArray(SQL_FIND_NEXT_ID).get(0)[0];
+		return o.equals(null) ? 1 : ((Integer) o) + 1;
 	}
 
 }

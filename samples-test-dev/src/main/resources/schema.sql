@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS inscripciones;
 DROP TABLE IF EXISTS categorias;
 DROP TABLE IF EXISTS PlazosDeInscripcion;
 DROP TABLE IF EXISTS Clasificaciones;
+DROP TABLE IF EXISTS devoluciones;
 
 
 CREATE TABLE carreras(
@@ -19,9 +20,7 @@ CREATE TABLE carreras(
 	descripcion TEXT NOT NULL, 
 	fecha TEXT NOT NULL, 
 	plazas INT NOT NULL, 
-	distancia INT NOT NULL,
-	precio TEXT NOT NULL
-
+	distancia INT NOT NULL
 );
 
 CREATE TABLE atletas(
@@ -32,19 +31,26 @@ CREATE TABLE atletas(
 	sexo TEXT NOT NULL
 );
 
-CREATE table inscripciones(
+CREATE TABLE inscripciones(
 	idCarrera INT NOT NULL,
 	emailAtleta TEXT NOT NULL,
 	estado TEXT NOT NULL,
 	dorsal INT NOT NULL,
-    idCategoria INT NOT NULL,
+
+     idCategoria INT NOT NULL,
+	ultimaActualizacion TEXT NOT NULL,
+
+    
+	fecha TEXT,
+	idPlazosDeInscripcion NUMBER NOT NULL,
 	PRIMARY KEY(idCarrera, emailAtleta),
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
 	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
-	FOREIGN KEY (idCategoria) REFERENCES Atletas (idCategoria)
+	FOREIGN KEY (idPlazosDeInscripcion) REFERENCES PlazosDeInscripcion (idPlazosDeInscripcion),
+	FOREIGN KEY (idCategoria) REFERENCES Categorias (idCategoria)
 );
 
-create table Categorias(
+CREATE TABLE Categorias(
     idCategoria INT PRIMARY KEY NOT NULL,
     idCarrera INT NOT NULL,
     nombre TEXT,
@@ -55,14 +61,13 @@ create table Categorias(
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
 
-create table PlazosDeInscripcion(
+CREATE TABLE PlazosDeInscripcion(
     idPlazosDeInscripcion INT PRIMARY KEY NOT NULL,
     idCarrera INT NOT NULL,
     fechaInicio TEXT,
     fechaFin TEXT,
     precio INT,
 
-    
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
 
@@ -77,5 +82,15 @@ create table Clasificaciones(
 
     
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
+);
+
+CREATE TABLE devoluciones(
+    emailAtleta TEXT,
+    idCarrera INT,
+    cantidad NUMBER,
+
+    FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
+	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
+	PRIMARY KEY (emailAtleta, idCarrera)
 );
 

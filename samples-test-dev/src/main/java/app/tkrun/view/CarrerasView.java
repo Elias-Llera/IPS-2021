@@ -26,11 +26,17 @@ public class CarrerasView {
 	private JTextField txtFechaHoy;
 	private JButton btnTabCarreras;
 	private JTable tabCarreras;
+	private JTable tabParticipantes;
 	private JButton btnAceptar;
 	private JScrollPane tablePanel;
+
+	private JScrollPane tablePanelParticipantes;
+	private JButton btnInscripciones;
+
 	private JButton btnParticipantes;
 	private JButton btnCrearCarrera;
 	private JButton btnClasificaciones;
+	private JButton btnDevoluciones;
 	
 	/**
 	 * Create the application.
@@ -46,7 +52,7 @@ public class CarrerasView {
 		frame = new JFrame();
 		frame.setTitle("Carreras");
 		frame.setName("Carreras");
-		frame.setBounds(0, 0, 569, 298);
+		frame.setBounds(0, 0, 569, 403);
 		frame.setLocationRelativeTo(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][][][][]"));
@@ -78,19 +84,37 @@ public class CarrerasView {
 		btnClasificaciones = new JButton("Clasificaciones");
 		frame.getContentPane().add(btnClasificaciones, "flowx,cell 0 7");
 		
-		btnParticipantes = new JButton("Participantes");
-		btnParticipantes.setEnabled(false);
+		JLabel lblLbltableParticipantes = new JLabel("Participantes:");
+		frame.getContentPane().add(lblLbltableParticipantes, "cell 0 6");
+		//Incluimos la tabla de particopantaews
+		tabParticipantes = new JTable();
+		tabParticipantes.setName("tabParticipantes");
+		tabParticipantes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabParticipantes.setDefaultEditor(Object.class, null); //readonly
+		tablePanelParticipantes = new JScrollPane(tabParticipantes);
+		frame.getContentPane().add(tablePanelParticipantes, "cell 0 7,grow");
 		
-		frame.getContentPane().add(btnParticipantes, "cell 0 7,alignx center");
+		btnInscripciones = new JButton("Inscripciones");
+		
+		frame.getContentPane().add(btnInscripciones, "flowx,cell 0 8,alignx center");
+		
+		
 		
 		btnAceptar = new JButton("Inscribirse");
 		btnAceptar.setEnabled(false);
 		btnAceptar.setMnemonic('I');
 		btnAceptar.setHorizontalAlignment(SwingConstants.RIGHT);
-		frame.getContentPane().add(btnAceptar, "cell 0 7,alignx right");
+
+		frame.getContentPane().add(btnAceptar, "cell 0 8,alignx right");
+
+		
 		
 		btnCrearCarrera = new JButton("Crear carrera");
-		frame.getContentPane().add(btnCrearCarrera, "cell 0 7");
+		frame.getContentPane().add(btnCrearCarrera, "cell 0 8");
+		
+		btnDevoluciones = new JButton("Devoluciones");
+		frame.getContentPane().add(btnDevoluciones, "cell 0 8");
+
 	}
 
 	
@@ -101,11 +125,14 @@ public class CarrerasView {
 	public void setFechaHoy(String fechaIso)  { this.txtFechaHoy.setText(fechaIso); }
 	public JButton getBtnTablaCarreras() { return this.btnTabCarreras; }
 	public JTable getTablaCarreras() { return this.tabCarreras; }
+	public JTable getTablaParticipantes() { return this.tabParticipantes; }
 	public JButton getBtnAceptar() { return this.btnAceptar; }
-	public JButton getBtnParticipantes() { return this.btnParticipantes; }
-	public JButton getBtnCrearCarrera() { return this.btnCrearCarrera; }
+	public JButton getBtnInscripciones() { return this.btnInscripciones; }
 	public JScrollPane getTablePanel() {return this.tablePanel; };
 	public JButton getBtnClasificaciones() { return this.btnClasificaciones; }
+	public  JButton getBtnDevoluciones() {return this.btnDevoluciones;}
+	public  JButton getBtnCrearCarrera() {return this.btnCrearCarrera;}
+
 
 	
 }

@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -13,12 +14,18 @@ import javax.swing.table.TableModel;
 
 import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
+import app.tkrun.entities.CategoriaEntity;
+import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
+import app.tkrun.model.CategoriaModel;
+import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.CarrerasView;
 import app.tkrun.view.DatosClasificacionView;
+import app.tkrun.view.DatosView;
 import app.tkrun.view.ParticipantesView;
 import app.util.SwingUtil;
 
@@ -34,6 +41,8 @@ public class CarrerasController {
 	AtletaModel atletaModel = new AtletaModel();
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
+	
+	private List<Integer> listaIds;
 
 	public CarrerasController(CarreraModel m, CarrerasView v) {
 		this.model = m;
@@ -57,9 +66,9 @@ public class CarrerasController {
 		// que se encargue de las excepciones
 		view.getBtnTablaCarreras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getListaCarreras()));
 
-		view.getBtnParticipantes().addActionListener(new ActionListener() {
+		view.getBtnInscripciones().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mostrarVentanaParticipantes();
+				mostrarVentanaDatos();
 			}
 		});
 		
@@ -80,8 +89,16 @@ public class CarrerasController {
 				// carreras
 				// el usuario podria arrastrar el raton por varias filas e interesa solo la
 				// ultima
-				SwingUtil.exceptionWrapper(() -> updateDetail());
+				
+				
+				//SwingUtil.exceptionWrapper(() -> updateDetail());
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int idCarrera = listaIds.get(view.getTablaCarreras().getSelectedRow()); 
+				getParticipantes(idCarrera);
+			}
+			
 		});
 
 		view.getBtnAceptar().addMouseListener(new MouseAdapter() {
@@ -92,12 +109,15 @@ public class CarrerasController {
 
 			private void openInscriptionView() {
 				JTable tabla = view.getTablaCarreras();
-				String nombreCarrera = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
-				int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
+				String nombreCarrera = (String) tabla.getValueAt(tabla.getSelectedRow(), 0);
+				int idCarrera = listaIds.get(tabla.getSelectedRow());
 				new InscripcionController().init(nombreCarrera, idCarrera);
 				;
 			}
 		});
+
+		
+
 
 		view.getBtnCrearCarrera().addMouseListener(new MouseAdapter() {
 			@Override
@@ -111,7 +131,16 @@ public class CarrerasController {
 			}
 		});
 
+		
+		view.getBtnDevoluciones().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new DevolucionesController().init();
+			}
+		});;
+
 	}
+
 
 	protected void mostrarVentanaDatosClasificacion() {
 		DatosClasificacionView vp = new DatosClasificacionView();
@@ -125,6 +154,12 @@ public class CarrerasController {
 		int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
 
 		ParticipantesView vp = new ParticipantesView(idCarrera);
+	}
+
+	protected void mostrarVentanaDatos() {
+	
+		DatosView vp = new DatosView();
+		
 
 		vp.setLocationRelativeTo(null);
 		vp.setVisible(true);
@@ -134,46 +169,99 @@ public class CarrerasController {
 		// Inicializa la fecha de hoy a un valor que permitira mostrar carreras en
 		// diferentes fases
 		// y actualiza los datos de la vista
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String date = LocalDate.now().format(formatter);
 		view.setFechaHoy(date);
 		this.getListaCarreras();
+		
+		if(view.getTablaCarreras().getSelectedRow() != -1){
+			int index = (Integer) view.getTablaCarreras().getValueAt(view.getTablaCarreras().getSelectedRow(), 0);
+			this.getParticipantes(index);
+		}
 
 		// Abre la ventana (sustituye al main generado por WindowBuilder)
 		view.getFrame().setVisible(true);
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	private void getParticipantes(int idCarrera) {
+		
+		AtletaModel am = new AtletaModel();
+		InscripcionModel im;
+		CategoriaModel cm;
+		
+		List<AtletaEntity> atletas = am.findAtletasCarrera(idCarrera);
+		List<ParticipanteEntity> participantes = new ArrayList<ParticipanteEntity>();
+		
+		
+		
+
+		for (AtletaEntity a : atletas) {
+			im = new InscripcionModel();
+			InscripcionEntity inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
+			
+			cm = new CategoriaModel();
+			CategoriaEntity categoria = cm.findCategoriaCarrera(idCarrera);
+			ParticipanteEntity participante = new ParticipanteEntity();
+			participante.setEmailAtleta(a.getEmailAtleta());
+			participante.setNombreAtleta(a.getNombre());
+			participante.setApellidoAtleta(a.getApellido());
+			participante.setNombreCategoria(categoria.getNombre());
+			participante.setEstado(inscripcion.getEstado());
+			participante.setIdCarrera(inscripcion.getIdCarrera());
+			participante.setDorsal(inscripcion.getDorsal());
+			
+			
+			participantes.add(participante);
+		}
+
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(participantes, new String[] { "emailAtleta", "nombreAtleta", "idCarrera", "nombreCategoria", "estado", "dorsal"});
+		
+		view.getTablaParticipantes().setModel(tmodel);
+		
+	
+		SwingUtil.autoAdjustColumns(view.getTablaParticipantes());
+
+	}
+	
+	/**
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de
 	 * objetos del modelo y usar metodo de SwingUtil para crear un tablemodel que se
 	 * asigna finalmente a la tabla.
 	 */
 	public void getListaCarreras() {
-		PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
+        PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
+        listaIds = new ArrayList<Integer>();
 
-		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
-		for (CarreraEntity carrera : carreras) {
-			int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
-			PlazosDeInscripcionEntity precio = sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(),
-					view.getFechaHoy());
-			if (precio != null) {
-				carrera.setPrecio(Double.toString(precio.getPrecio()));
-			}
+        List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
+        for (CarreraEntity carrera : carreras) {
+            int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
+            PlazosDeInscripcionEntity precio = sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(),
+                    view.getFechaHoy());
+            if (precio != null) {
+                carrera.setPrecio(Double.toString(precio.getPrecio()));
+            } else {
+                carrera.setPrecio("No disponible");
+            }
 
-			if (plazasOcupadas > 0) {
-				carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
-			}
+            if (plazasOcupadas > 0) {
+                carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
+            }
+            listaIds.add(carrera.getIdCarrera());
 
-		}
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
-				new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
-		view.getTablaCarreras().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+        }
+        TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
+                new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
+        view.getTablaCarreras().setModel(tmodel);
+        SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 
-		// Como se guarda la clave del ultimo elemento seleccionado, restaura la
-		// seleccion de los detalles
-		this.restoreDetail();
-	}
+        // Como se guarda la clave del ultimo elemento seleccionado, restaura la
+        // seleccion de los detalles
+        this.restoreDetail();
+    }
 
 	/**
 	 * Restaura la informacion del detalle de la carrera para visualizar los valores
@@ -197,7 +285,7 @@ public class CarrerasController {
 		// futuras interacciones
 //		this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
 		view.getBtnAceptar().setEnabled(true);
-		view.getBtnParticipantes().setEnabled(true);
+		
 	}
 
 }
