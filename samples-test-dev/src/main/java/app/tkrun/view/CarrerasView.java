@@ -73,25 +73,28 @@ public class CarrerasView {
 		tabCarreras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabCarreras.setDefaultEditor(Object.class, null); //readonly
 		tablePanel = new JScrollPane(tabCarreras);
-		frame.getContentPane().add(tablePanel, "cell 0 6,grow");
+		frame.getContentPane().add(tablePanel, "cell 0 5,grow");
 		
+		
+		JLabel lblLbltableParticipantes = new JLabel("Participantes:");
+		frame.getContentPane().add(lblLbltableParticipantes, "cell 0 6");
 		//Incluimos la tabla de particopantaews
 		tabParticipantes = new JTable();
 		tabParticipantes.setName("tabParticipantes");
 		tabParticipantes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabParticipantes.setDefaultEditor(Object.class, null); //readonly
 		tablePanelParticipantes = new JScrollPane(tabParticipantes);
-		frame.getContentPane().add(tablePanelParticipantes, "cell 0 5,grow");
+		frame.getContentPane().add(tablePanelParticipantes, "cell 0 7,grow");
 		
 		btnInscripciones = new JButton("Inscripciones");
 		
-		frame.getContentPane().add(btnInscripciones, "flowx,cell 0 7,alignx center");
+		frame.getContentPane().add(btnInscripciones, "flowx,cell 0 8,alignx center");
 		
 		btnAceptar = new JButton("Inscribirse");
 		btnAceptar.setEnabled(false);
 		btnAceptar.setMnemonic('I');
 		btnAceptar.setHorizontalAlignment(SwingConstants.RIGHT);
-		frame.getContentPane().add(btnAceptar, "cell 0 7,alignx right");
+		frame.getContentPane().add(btnAceptar, "cell 0 8,alignx right");
 	}
 
 	
