@@ -29,8 +29,14 @@ public class CarrerasView {
 	private JTable tabParticipantes;
 	private JButton btnAceptar;
 	private JScrollPane tablePanel;
+
 	private JScrollPane tablePanelParticipantes;
 	private JButton btnInscripciones;
+
+	private JButton btnParticipantes;
+	private JButton btnCrearCarrera;
+	private JButton btnDevoluciones;
+
 	
 	/**
 	 * Create the application.
@@ -94,7 +100,17 @@ public class CarrerasView {
 		btnAceptar.setEnabled(false);
 		btnAceptar.setMnemonic('I');
 		btnAceptar.setHorizontalAlignment(SwingConstants.RIGHT);
+
 		frame.getContentPane().add(btnAceptar, "cell 0 8,alignx right");
+
+		
+		
+		btnCrearCarrera = new JButton("Crear carrera");
+		frame.getContentPane().add(btnCrearCarrera, "cell 0 8");
+		
+		btnDevoluciones = new JButton("Devoluciones");
+		frame.getContentPane().add(btnDevoluciones, "cell 0 8");
+
 	}
 
 	
@@ -109,6 +125,9 @@ public class CarrerasView {
 	public JButton getBtnAceptar() { return this.btnAceptar; }
 	public JButton getBtnInscripciones() { return this.btnInscripciones; }
 	public JScrollPane getTablePanel() {return this.tablePanel; };
+	public  JButton getBtnDevoluciones() {return this.btnDevoluciones;}
+	public  JButton getBtnCrearCarrera() {return this.btnCrearCarrera;}
+
 
 	
 }
