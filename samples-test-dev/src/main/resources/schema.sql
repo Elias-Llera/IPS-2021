@@ -8,20 +8,18 @@ DROP TABLE IF EXISTS carreras;
 DROP TABLE IF EXISTS atletas;
 DROP TABLE IF EXISTS inscripciones;
 DROP TABLE IF EXISTS categorias;
+DROP TABLE IF EXISTS PlazosDeInscripcion;
 
 CREATE TABLE carreras(
 	idCarrera INT PRIMARY KEY NOT NULL,
 	nombre TEXT NOT NULL,
 	tipo TEXT NOT NULL,
 	descripcion TEXT NOT NULL, 
-	inicioInscripcion TEXT NOT NULL, 
-	finInscripcion TEXT NOT NULL,
-	precioInscripcion REAL NOT NULL,
 	fecha TEXT NOT NULL, 
 	plazas INT NOT NULL, 
 	distancia INT NOT NULL,
-	CHECK(inicioInscripcion<=finInscripcion), 
-	CHECK(finInscripcion<fecha)
+	precio TEXT NOT NULL
+
 );
 
 CREATE TABLE atletas(
@@ -53,4 +51,15 @@ create table Categorias(
     sexo TEXT,
     
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
+);
+
+create table PlazosDeInscripcion(
+    idPlazosDeInscripcion INT PRIMARY KEY NOT NULL,
+    idCarrera INT NOT NULL,
+    fechaInicio TEXT,
+    fechaFin TEXT,
+    precio INT,
+
+    
+    FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );

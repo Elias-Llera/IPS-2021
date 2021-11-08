@@ -2,13 +2,13 @@
 delete
 from carreras;
 
-insert into carreras(idCarrera, nombre, tipo, descripcion, inicioInscripcion, finInscripcion, precioInscripcion, fecha,
-                     plazas, distancia)
-values (100, 'Barkley', 'Montaña', 'aaaaa', '2021-06-05', '2021-06-25', 10, '2021-07-09', 100, 6),
-       (101, 'Barkley2', 'Montaña', 'bbbb', '2021-10-05', '2021-10-11', 12.4, '2022-03-10', 90, 7),
-       (102, 'Barkley3', 'Asfalto', 'ccccc', '2021-10-05', '2022-03-09', 12, '2022-03-20', 80, 9),
-       (103, 'Barkley4', 'Asfalto', 'ddddd', '2022-11-10', '2022-11-15', 16.9, '2022-11-21', 70, 30),
-       (104, 'Barkley5', 'Montaña', 'fffff', '2021-09-01', '2021-11-07', 17, '2022-12-10', 60, 19);
+insert into carreras(idCarrera, nombre, tipo, descripcion, fecha,
+                     plazas, distancia, precio)
+values (100, 'Barkley', 'Montaña', 'aaaaa', '2021-07-09', 100, 6, 'No disponible'),
+       (101, 'Barkley2', 'Montaña', 'bbbb','2022-03-10', 90, 7,'No disponible'),
+       (102, 'Barkley3', 'Asfalto', 'ccccc', '2022-03-20', 80, 9,'No disponible'),
+       (103, 'Barkley4', 'Asfalto', 'ddddd', '2022-11-21', 70, 30,'No disponible'),
+       (104, 'Barkley5', 'Montaña', 'fffff', '2022-12-10', 60, 19,'No disponible');
 
 insert into atletas(emailAtleta, nombre, apellido, fechaNacimiento, sexo)
 values ('ana@gmail.com', 'Ana', 'Perez', '2000-06-14', 'Mujer'),

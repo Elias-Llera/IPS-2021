@@ -12,8 +12,10 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
 import app.tkrun.entities.CarreraEntity;
+import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
+import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.CarrerasView;
 import app.tkrun.view.ParticipantesView;
 import app.util.SwingUtil;
@@ -87,15 +89,27 @@ public class CarrerasController {
 				;
 			}
 		});
-		
+
+		view.getBtnCrearCarrera().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SwingUtil.exceptionWrapper(() -> openCrearCarreraView());
+			}
+
+			private void openCrearCarreraView() {
+				new CrearCarrerasController().init();
+
+			}
+		});
+
 	}
 
 	protected void mostrarVentanaParticipantes() {
 		JTable tabla = view.getTablaCarreras();
 		int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
-		
+
 		ParticipantesView vp = new ParticipantesView(idCarrera);
-		
+
 		vp.setLocationRelativeTo(null);
 		vp.setVisible(true);
 	}
@@ -104,7 +118,7 @@ public class CarrerasController {
 		// Inicializa la fecha de hoy a un valor que permitira mostrar carreras en
 		// diferentes fases
 		// y actualiza los datos de la vista
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String date = LocalDate.now().format(formatter);
 		view.setFechaHoy(date);
 		this.getListaCarreras();
@@ -119,16 +133,24 @@ public class CarrerasController {
 	 * asigna finalmente a la tabla.
 	 */
 	public void getListaCarreras() {
+		PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
+
 		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
-		for(CarreraEntity carrera: carreras) {
-			int plazasOcupadas=atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
-			if(plazasOcupadas > 0) {
-				carrera.setPlazas(carrera.getPlazas()-plazasOcupadas);
+		for (CarreraEntity carrera : carreras) {
+			int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
+			PlazosDeInscripcionEntity precio = sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(),
+					view.getFechaHoy());
+			if (precio != null) {
+				carrera.setPrecio(Double.toString(precio.getPrecio()));
 			}
-			
+
+			if (plazasOcupadas > 0) {
+				carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
+			}
+
 		}
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras, new String[] { "idCarrera", "nombre", "fecha", "tipo",
-				"distancia", "precioInscripcion", "finInscripcion", "plazas" });
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
+				new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 
