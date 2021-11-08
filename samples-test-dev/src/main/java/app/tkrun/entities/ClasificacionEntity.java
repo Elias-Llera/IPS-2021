@@ -5,12 +5,18 @@ public class ClasificacionEntity {
 	private int idCarrera;
 	private int idCategoria;
 	private String nombreAtleta;
-	
+	private String nombreCategoria;
 	private String genero;
 	private int posicion;
 	private String tiempo;
 	
 	
+	public String getNombreCategoria() {
+		return nombreCategoria;
+	}
+	public void setNombreCategoria(String nombreCategoria) {
+		this.nombreCategoria = nombreCategoria;
+	}
 	public void setIdCarrera(int idCarrera) {
 		this.idCarrera = idCarrera;
 	}

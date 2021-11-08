@@ -8,7 +8,8 @@ values (100, 'Barkley', 'Montaña', 'aaaaa', '2021-07-09', 100, 6, 'No disponibl
        (101, 'Barkley2', 'Montaña', 'bbbb','2022-03-10', 90, 7,'No disponible'),
        (102, 'Barkley3', 'Asfalto', 'ccccc', '2022-03-20', 80, 9,'No disponible'),
        (103, 'Barkley4', 'Asfalto', 'ddddd', '2022-11-21', 70, 30,'No disponible'),
-       (104, 'Barkley5', 'Montaña', 'fffff', '2022-12-10', 60, 19,'No disponible');
+       (104, 'Barkley5', 'Montaña', 'fffff', '2022-12-10', 60, 19,'No disponible'),
+       (105, 'Barkley6', 'Asfalto', 'ccccc', '2021-03-20', 80, 9,'No disponible');
 
 insert into atletas(emailAtleta, nombre, apellido, fechaNacimiento, sexo)
 values ('ana@gmail.com', 'Ana', 'Perez', '2000-06-14', 'Mujer'),
@@ -25,7 +26,10 @@ insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria)
 values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2),
        (102, 'juan@gmail.com', 'PRE-INSCRITO', 2, 1);
 
-insert into clasificaciones(idCarrera, idCategoria, nombreAtleta, genero, posicion, tiempo)
-values (102, 1,'juan', 'masculino', 1, '01:30:54'),
-       (102, 1,'pedro', 'masculino', 2, '---');
+insert into clasificaciones(idCarrera, idCategoria,nombreCategoria, nombreAtleta, genero, posicion, tiempo)
+values (102, 1, 'Barklay absoluta masculina', 'juan', 'masculino', 1, '01:30:54'),
+       (102, 1, 'Barklay absoluta masculina','pedro', 'masculino', 4, '---'),
+       (102, 1, 'Barklay absoluta masculina','alberto', 'masculino', 3, '01:30:54'),
+       (102, 1, 'Barklay absoluta masculina','manuel', 'masculino', 2, '01:30:54');
+       
 

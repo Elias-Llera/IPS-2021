@@ -104,11 +104,11 @@ public class InscripcionController {
 
 		// Comprobar que el plazo de inscripcion esta abierto
 		Date now = new Date(System.currentTimeMillis());
-		if (Date.valueOf(ce.getFinInscripcion()).compareTo(now) < 0) {
-			JOptionPane.showMessageDialog(inscripcionView, "La inscripcion ya no esta abierta", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
+//		if (Date.valueOf(ce.getFinInscripcion()).compareTo(now) < 0) {
+//			JOptionPane.showMessageDialog(inscripcionView, "La inscripcion ya no esta abierta", "ERROR",
+//					JOptionPane.INFORMATION_MESSAGE);
+//			return;
+//		}
 
 		// Comprobar que hay plazas libres
 		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripciones(idCarrera);
@@ -195,8 +195,8 @@ public class InscripcionController {
 			text += "Categoria: " + categoria.getNombre() + "\n";
 			text += "Dorsal: " + inscripcion.getDorsal() + "\n";
 			text += "Estado de la inscripcion: " + inscripcion.getEstado() + "\n";
-			text += "Por favor, haga una transferencia de " + carrera.getPrecioInscripcion()
-					+ "€ a la siguiente cuenta:\n";
+//			text += "Por favor, haga una transferencia de " + carrera.getPrecioInscripcion()
+	//				+ "€ a la siguiente cuenta:\n";
 			text += "*numero de cuenta*\n";
 			writer.write(text);
 			writer.flush();

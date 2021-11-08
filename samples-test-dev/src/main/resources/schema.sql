@@ -69,7 +69,8 @@ create table PlazosDeInscripcion(
 create table Clasificaciones(
     idCarrera INT NOT NULL,
     idCategoria INT NOT NULL,
-    nombreAtleta STRING NOT NULL,
+    nombreCategoria TEXT NOT NULL,
+    nombreAtleta TEXT NOT NULL,
     genero TEXT NOT NULL,
     posicion INT,
     tiempo TEXT NOT NULL,

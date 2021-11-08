@@ -1,8 +1,7 @@
 package app.tkrun.view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -10,12 +9,18 @@ import javax.swing.table.TableModel;
 
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.ClasificacionEntity;
-import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.model.CarreraModel;
 import app.tkrun.model.ClasificacionModel;
-import app.tkrun.model.InscripcionModel;
 import app.util.SwingUtil;
 
 import java.awt.GridLayout;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -31,6 +36,7 @@ public class ClasificacionesView extends JFrame {
 	private String genero;
 	private int idCarrera;
 	private ClasificacionModel im= new ClasificacionModel();
+	private CarreraModel cm= new CarreraModel();
 	private JTable tableClasificaciones;
 	private JScrollPane tablePanelInscripciones;
 	private List<ClasificacionEntity> clasificaciones;
@@ -61,14 +67,60 @@ public class ClasificacionesView extends JFrame {
 	}
 	
 	public void getListaCarreras() {
+		CarreraEntity ce = cm.findCarrera(idCarrera);
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
+		
+		Date fecha = new Date();
+		try {
+			fecha = formato.parse(ce.getFecha());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		Instant instant = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+		
+		Date actual = Date.from(instant);
+		
+		if(!actual.after(fecha)) {
+			
+			JOptionPane.showMessageDialog(this, "La carrera aun no se ha celebrado", "ERROR",
+					JOptionPane.INFORMATION_MESSAGE);
+			this.dispose();
+			return;
+		}
 		clasificaciones = im.findClasificacion(idCarrera, genero);
+		
+		if(clasificaciones.isEmpty()) {
+			
+			JOptionPane.showMessageDialog(this, "La clasificacion aun no se ha procesado", "ERROR",
+					JOptionPane.INFORMATION_MESSAGE);
+			
+			return;
+		}
+		List<ClasificacionEntity> noAcabadas = new ArrayList<ClasificacionEntity>();
+		List<ClasificacionEntity> acabadas = new ArrayList<ClasificacionEntity>();
+		List<ClasificacionEntity> definitiva = new ArrayList<ClasificacionEntity>();
+		
+		
 		for(ClasificacionEntity clasificacion: clasificaciones) {
 			if(clasificacion.getTiempo().equals("---")) {
-				clasificaciones.remove(clasificacion);
-				clasificaciones.add(clasificacion);
+				noAcabadas.add(clasificacion);
+				
+			}else {
+				acabadas.add(clasificacion);
 			}
 		}
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(clasificaciones, new String[] { "idCarrera", "idCategoria", "nombreAtleta", "genero",
+		
+		for(ClasificacionEntity clasificacion: acabadas) {
+			definitiva.add(clasificacion);
+		}
+		
+		for(ClasificacionEntity clasificacion: noAcabadas) {
+			definitiva.add(clasificacion);
+		}
+		
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(definitiva, new String[] { "idCarrera", "idCategoria","nombreCategoria", "nombreAtleta", "genero",
 				"posicion", "tiempo"});
 		tableClasificaciones.setModel(tmodel);
 		SwingUtil.autoAdjustColumns(tableClasificaciones);
