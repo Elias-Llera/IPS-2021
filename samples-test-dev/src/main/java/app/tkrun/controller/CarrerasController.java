@@ -91,7 +91,7 @@ public class CarrerasController {
 				// ultima
 				
 				
-				//SwingUtil.exceptionWrapper(() -> updateDetail());
+				SwingUtil.exceptionWrapper(() -> updateDetail());
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -169,7 +169,7 @@ public class CarrerasController {
 		// Inicializa la fecha de hoy a un valor que permitira mostrar carreras en
 		// diferentes fases
 		// y actualiza los datos de la vista
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String date = LocalDate.now().format(formatter);
 		view.setFechaHoy(date);
 		this.getListaCarreras();
@@ -281,11 +281,11 @@ public class CarrerasController {
 	 * entidad
 	 */
 	public void updateDetail() {
-		// Obtiene la clave seleccinada y la guarda para recordar la seleccion en
-		// futuras interacciones
-//		this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
-		view.getBtnAceptar().setEnabled(true);
-		
-	}
+        // Obtiene la clave seleccinada y la guarda para recordar la seleccion en
+        // futuras interacciones
+//        this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
+        view.getBtnAceptar().setEnabled(true);
+        
+    }
 
 }

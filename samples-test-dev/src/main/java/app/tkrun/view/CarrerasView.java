@@ -52,7 +52,7 @@ public class CarrerasView {
 		frame = new JFrame();
 		frame.setTitle("Carreras");
 		frame.setName("Carreras");
-		frame.setBounds(0, 0, 569, 403);
+		frame.setBounds(0, 0, 602, 403);
 		frame.setLocationRelativeTo(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][][][][]"));
@@ -81,9 +81,6 @@ public class CarrerasView {
 		tablePanel = new JScrollPane(tabCarreras);
 		frame.getContentPane().add(tablePanel, "cell 0 5,grow");
 		
-		btnClasificaciones = new JButton("Clasificaciones");
-		frame.getContentPane().add(btnClasificaciones, "flowx,cell 0 7");
-		
 		JLabel lblLbltableParticipantes = new JLabel("Participantes:");
 		frame.getContentPane().add(lblLbltableParticipantes, "cell 0 6");
 		//Incluimos la tabla de particopantaews
@@ -94,9 +91,12 @@ public class CarrerasView {
 		tablePanelParticipantes = new JScrollPane(tabParticipantes);
 		frame.getContentPane().add(tablePanelParticipantes, "cell 0 7,grow");
 		
+		btnClasificaciones = new JButton("Clasificaciones");
+		frame.getContentPane().add(btnClasificaciones, "flowx,cell 0 8");
+		
 		btnInscripciones = new JButton("Inscripciones");
 		
-		frame.getContentPane().add(btnInscripciones, "flowx,cell 0 8,alignx center");
+		frame.getContentPane().add(btnInscripciones, "cell 0 8,alignx center");
 		
 		
 		

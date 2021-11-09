@@ -66,6 +66,7 @@ public class DatosView extends JDialog {
 		contentPane.add(getBtnListo());
 
 		JButton btnAtras = new JButton("Atras");
+		
 		btnAtras.setBounds(314, 233, 89, 23);
 		contentPane.add(btnAtras);
 	}
@@ -89,7 +90,9 @@ public class DatosView extends JDialog {
 			btnListo = new JButton("Listo");
 			btnListo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					mostrarVentanaInscripciones();
+					if(comprobarCampos()) {
+						mostrarVentanaInscripciones();
+					}
 				}
 			});
 			btnListo.setBounds(413, 233, 89, 23);

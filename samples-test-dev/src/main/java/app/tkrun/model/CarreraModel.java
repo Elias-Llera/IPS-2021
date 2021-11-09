@@ -15,7 +15,7 @@ public class CarreraModel {
 	private static final String SQL_FIND_CARRERA = "SELECT idCarrera, nombre, tipo, descripcion, fecha, plazas, distancia from CARRERAS where idCarrera=?";
     private static final String SQL_FIND_CARRERAS_DESDE_HOY = "SELECT idCarrera, nombre, fecha, tipo, distancia, plazas from carreras where fecha>=? order by fecha";
     private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
-    private static final String SQL_ADD_CARRERA = "INSERT INTO carreras (idCarrera, nombre, tipo, descripcion, fecha, plazas, distancia, precio) VALUES(?, ?, ?, ?, ?,?,?,?)";
+    private static final String SQL_ADD_CARRERA = "INSERT INTO carreras (idCarrera, nombre, tipo, descripcion, fecha, plazas, distancia) VALUES(?, ?, ?, ?, ?,?,?)";
     private static final String SQL_FIND_CARRERA_IDENTICA = "SELECT  idCarrera,nombre, tipo, descripcion, fecha, plazas, distancia from CARRERAS where  nombre=? and tipo=? and descripcion=? and fecha=? and plazas=? and distancia=?";
     private Database db = new Database();
 
@@ -40,7 +40,7 @@ public class CarreraModel {
 
     public void addCarrera(CarreraEntity carrera) {
         db.executeUpdate(SQL_ADD_CARRERA, carrera.getIdCarrera(), carrera.getNombre(), carrera.getTipo(),
-                carrera.getDescripcion(), carrera.getFecha(), carrera.getPlazas(), carrera.getDistancia(), "No disponible");
+                carrera.getDescripcion(), carrera.getFecha(), carrera.getPlazas(), carrera.getDistancia());
 
     }
 

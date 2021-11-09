@@ -6,16 +6,17 @@ insert into carreras(idCarrera, nombre, tipo, descripcion, fecha,
                      plazas, distancia)
 values (100, 'Barkley', 'Montaña', 'aaaaa', '2021-07-09', 100, 6),
        (101, 'Barkley2', 'Montaña', 'bbbb','2022-03-10', 90, 7),
-       (102, 'Barkley3', 'Asfalto', 'ccccc', '2022-03-20', 80, 9),
+       (102, 'Barkley3', 'Asfalto', 'ccccc', '2020-03-20', 80, 9),
        (103, 'Barkley4', 'Asfalto', 'ddddd', '2022-11-21', 70, 30),
        (104, 'Barkley5', 'Montaña', 'fffff', '2022-12-10', 60, 19),
-       (105, 'ej no plazas', 'Montaña', 'fffff', '2022-12-10', 1, 19),
+       (105, 'ej no plazas', 'Montaña', 'fffff', '2020-12-10', 1, 19),
        (107, 'ej no plazos', 'Montaña', 'fffff', '2022-12-10', 50, 19),
        (106, 'ej todo ok', 'Montaña', 'fffff', '2022-12-10', 50, 19);
 
 insert into PlazosDeInscripcion(idPlazosDeInscripcion, idCarrera, fechaInicio, fechaFin, precio)
 values  (1, 105, '2020-10-01', '2022-11-11', 5),
-        (3, 102, '2020-10-01', '2022-11-11', 5),
+        (3, 102, '2019-10-01', '2019-11-11', 5),
+	  (10, 102, '2019-11-12', '2019-11-14', 15),	
         (2, 106, '2020-10-01', '2022-11-11', 5);
 
 insert into atletas(emailAtleta, nombre, apellido, fechaNacimiento, sexo)

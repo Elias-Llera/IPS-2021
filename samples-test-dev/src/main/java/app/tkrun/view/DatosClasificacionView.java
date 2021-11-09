@@ -80,6 +80,7 @@ public class DatosClasificacionView extends JDialog {
 		}else if(!(tfGenero.getText().toUpperCase().equals("MASCULINO")||tfGenero.getText().toUpperCase().equals("FEMENINO"))) {
 			JOptionPane.showMessageDialog(this, "El genero no es valido", "ERROR",
 					JOptionPane.INFORMATION_MESSAGE);
+			return false;
 		}
 		return true;
 	}
@@ -89,8 +90,9 @@ public class DatosClasificacionView extends JDialog {
 			btnListo = new JButton("Listo");
 			btnListo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					comprobarCampos();
-					mostrarVentanaClasificaciones();
+					if(comprobarCampos()) {
+						mostrarVentanaClasificaciones();
+					}
 				}
 			});
 			btnListo.setBounds(413, 220, 89, 23);

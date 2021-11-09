@@ -45,8 +45,9 @@ public class ClasificacionesView extends JFrame {
 	 * Create the frame.
 	 */
 	public ClasificacionesView(int idCarrera, String genero) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 558, 300);
+		setTitle("Clasificacion");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 583, 300);
 		this.genero = genero;
 		this.idCarrera = idCarrera;
 		contentPane = new JPanel();
