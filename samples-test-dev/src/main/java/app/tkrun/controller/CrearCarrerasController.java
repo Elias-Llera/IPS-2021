@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.swing.JDialog;
@@ -34,11 +37,12 @@ public class CrearCarrerasController {
 			}
 
 			private void openPlazosParaCrearCarreraView() {
+				
 				new PlanificacionCarrerasController().init(crearCarreraView.getTextFieldFechaCelebracion().getText(),
 						id);
 			}
 		});
-		
+
 		crearCarreraView.getBtnCategorias().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +53,7 @@ public class CrearCarrerasController {
 		crearCarreraView.getBtnCrearCarrera().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (comprobarCampos()) {
+				if (comprobarCampos() && comprobarFecha() && comprobarTipo()) {
 					Random r = new Random();
 					id = r.nextInt(100000000) + 1;
 					CarreraEntity carrera = new CarreraEntity();
@@ -67,7 +71,7 @@ public class CrearCarrerasController {
 						crearCarreraView.getBtnCategorias().setEnabled(true);
 					} else {
 						JOptionPane.showMessageDialog(null,
-								"Como la carrera ya estï¿½ creada se te permitirï¿½ aï¿½adirle plazos");
+								"Como la carrera ya esta creada se te permitira añadirle plazos");
 						CarreraEntity buscarId = carreraModel.findIdCarrera(carrera);
 						id = buscarId.getIdCarrera();
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);
@@ -75,6 +79,10 @@ public class CrearCarrerasController {
 						crearCarreraView.getBtnCategorias().setEnabled(true);
 					}
 
+				} else if (!comprobarFecha()) {
+					JOptionPane.showMessageDialog(null, "No se puede crear una carrera en el pasado o añadirle plazos");
+				} else if (!comprobarTipo()) {
+					JOptionPane.showMessageDialog(null, "Ese tipo de carrera no existe");
 				} else {
 					JOptionPane.showMessageDialog(null, "Valide sus campos");
 				}
@@ -106,6 +114,37 @@ public class CrearCarrerasController {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean comprobarFecha() {
+
+		if (crearCarreraView.getTextFieldFechaCelebracion().getText().isEmpty()) {
+			return false;
+		}
+		Date fechaactual = new Date(System.currentTimeMillis());
+		String fechaInicio = crearCarreraView.getTextFieldFechaCelebracion().getText();
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		Date fechaInicioDate = null;
+		try {
+			fechaInicioDate = date.parse(fechaInicio);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		if (fechaInicioDate.after(fechaactual)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean comprobarTipo() {
+		if (crearCarreraView.getTextFieldTipoCarrera().getText().toLowerCase().equals("montaña")
+				|| crearCarreraView.getTextFieldTipoCarrera().getText().toLowerCase().equals("asfalto")) {
+			return true;
+		}
+		return false;
+
 	}
 
 }

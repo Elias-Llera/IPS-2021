@@ -4,16 +4,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
+import app.tkrun.entities.AtletaEntity;
+import app.tkrun.entities.CarreraEntity;
+import app.tkrun.entities.CategoriaEntity;
+import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
+import app.tkrun.model.AtletaModel;
+import app.tkrun.model.CategoriaModel;
+import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.PlanificacionCarrerasView;
+import app.util.SwingUtil;
 
 public class PlanificacionCarrerasController {
 
@@ -52,7 +64,7 @@ public class PlanificacionCarrerasController {
 		pcv.getBtnAdd().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (comprobarCampos() && comprobarFechas()) {
+				if (comprobarCampos() && comprobarFechas() && comprobarFecha() ) {
 					if (pdiModel.findTodosLosPlazosParaUnaCarrera(id) < 4) {
 						Random r = new Random();
 						int idInscripcion = r.nextInt(100000000) + 1;
@@ -84,7 +96,7 @@ public class PlanificacionCarrerasController {
 						pcv.getTextFieldInscripcionFin().setText("");
 						pcv.getTextFieldInscripcionPrecio().setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "No se pueden a�adir mas de 4 plazos");
+						JOptionPane.showMessageDialog(null, "No se pueden meter mas de 4 plazos");
 					}
 
 				} else {
@@ -99,6 +111,14 @@ public class PlanificacionCarrerasController {
 				pcv.dispose();
 			}
 		});
+		pcv.getBtnRefrescar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 getPlazos();
+			}
+		});
+		
+		
 
 		pcv.setModal(true);
 		pcv.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -107,7 +127,7 @@ public class PlanificacionCarrerasController {
 	}
 
 	private boolean comprobarCampos() {
-		if (pcv.getTextFieldInscripcionFin().getText().isEmpty() || pcv.getTextFieldInscripcionFin().getText().isEmpty()
+		if (pcv.getTextFieldInscripcionFin().getText().isEmpty() || pcv.getTextFieldInscripcionInicio().getText().isEmpty()
 				|| pcv.getTextFieldInscripcionPrecio().getText().isEmpty()) {
 			return false;
 		}
@@ -127,6 +147,41 @@ public class PlanificacionCarrerasController {
 
 		return false;
 	}
+	
+	private void getPlazos() {
+
+		List<PlazosDeInscripcionEntity> plazos = pdiModel.getPlazos(id);
+
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(plazos,
+				new String[] { "fechaInicio", "fechaFin", "precio"});
+
+		pcv.getTable().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(pcv.getTable());
+
+	}
+	
+	private boolean comprobarFecha() {
+
+		if ( pcv.getTextFieldInscripcionInicio().getText().isEmpty()) {
+			return false;
+		}
+		Date fechaactual = new Date(System.currentTimeMillis());
+		String fechaInicio =  pcv.getTextFieldInscripcionInicio().getText();
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		Date fechaInicioDate = null;
+		try {
+			fechaInicioDate = date.parse(fechaInicio);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		if (fechaInicioDate.after(fechaactual)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 //	private boolean comprobarFechas() {
 //		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");

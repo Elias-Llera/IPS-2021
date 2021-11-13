@@ -9,6 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class PlanificacionCarrerasView extends JDialog {
 	/**
@@ -25,13 +33,17 @@ public class PlanificacionCarrerasView extends JDialog {
 	private JTextField textFieldInscripcionInicio;
 	private JTextField textFieldInscripcionFin;
 	private JTextField textFieldInscripcionPrecio;
+	private JButton btnRefrescar;
+	private JPanel panel_1;
+	private JScrollPane scrollPane;
+	private JTable table;
 
 	/**
 	 * Create the dialog.
 	 */
 	public PlanificacionCarrerasView() {
 		setTitle("Plazos de inscripcion");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 477, 416);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 	}
@@ -49,6 +61,8 @@ public class PlanificacionCarrerasView extends JDialog {
 			panel.add(getTextFieldInscripcionInicio());
 			panel.add(getTextFieldInscripcionFin());
 			panel.add(getTextFieldInscripcionPrecio());
+			panel.add(getBtnRefrescar());
+			panel.add(getPanel_1());
 		}
 		return panel;
 	}
@@ -56,7 +70,7 @@ public class PlanificacionCarrerasView extends JDialog {
 	public JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Salir");
-			btnCancelar.setBounds(335, 227, 89, 23);
+			btnCancelar.setBounds(352, 343, 89, 23);
 		}
 		return btnCancelar;
 	}
@@ -101,7 +115,7 @@ public class PlanificacionCarrerasView extends JDialog {
 	public JButton getBtnAdd() {
 		if (btnAdd == null) {
 			btnAdd = new JButton("A\u00F1adir");
-			btnAdd.setBounds(230, 227, 89, 23);
+			btnAdd.setBounds(253, 343, 89, 23);
 		}
 		return btnAdd;
 	}
@@ -131,5 +145,42 @@ public class PlanificacionCarrerasView extends JDialog {
 			textFieldInscripcionPrecio.setColumns(10);
 		}
 		return textFieldInscripcionPrecio;
+	}
+	public JButton getBtnRefrescar() {
+		if (btnRefrescar == null) {
+			btnRefrescar = new JButton("Refrescar");
+			btnRefrescar.setBounds(335, 165, 106, 23);
+		}
+		return btnRefrescar;
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			panel_1.setBounds(20, 203, 421, 118);
+			GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+			gl_panel_1.setHorizontalGroup(
+				gl_panel_1.createParallelGroup(Alignment.LEADING)
+					.addComponent(getScrollPane_1(), Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+			);
+			gl_panel_1.setVerticalGroup(
+				gl_panel_1.createParallelGroup(Alignment.LEADING)
+					.addComponent(getScrollPane_1(), Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+			);
+			panel_1.setLayout(gl_panel_1);
+		}
+		return panel_1;
+	}
+	private JScrollPane getScrollPane_1() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setViewportView(getTable());
+		}
+		return scrollPane;
+	}
+	public JTable getTable() {
+		if (table == null) {
+			table = new JTable();
+		}
+		return table;
 	}
 }

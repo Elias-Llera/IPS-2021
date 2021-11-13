@@ -41,7 +41,7 @@ public class CarrerasController {
 	AtletaModel atletaModel = new AtletaModel();
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
-	
+
 	private List<Integer> listaIds;
 
 	public CarrerasController(CarreraModel m, CarrerasView v) {
@@ -71,8 +71,7 @@ public class CarrerasController {
 				mostrarVentanaDatos();
 			}
 		});
-		
-		
+
 		view.getBtnClasificaciones().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarVentanaDatosClasificacion();
@@ -89,16 +88,16 @@ public class CarrerasController {
 				// carreras
 				// el usuario podria arrastrar el raton por varias filas e interesa solo la
 				// ultima
-				
-				
+
 				SwingUtil.exceptionWrapper(() -> updateDetail());
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int idCarrera = listaIds.get(view.getTablaCarreras().getSelectedRow()); 
+				int idCarrera = listaIds.get(view.getTablaCarreras().getSelectedRow());
 				getParticipantes(idCarrera);
 			}
-			
+
 		});
 
 		view.getBtnAceptar().addMouseListener(new MouseAdapter() {
@@ -116,9 +115,6 @@ public class CarrerasController {
 			}
 		});
 
-		
-
-
 		view.getBtnCrearCarrera().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -131,16 +127,15 @@ public class CarrerasController {
 			}
 		});
 
-		
 		view.getBtnDevoluciones().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new DevolucionesController().init();
 			}
-		});;
+		});
+		;
 
 	}
-
 
 	protected void mostrarVentanaDatosClasificacion() {
 		DatosClasificacionView vp = new DatosClasificacionView();
@@ -157,9 +152,8 @@ public class CarrerasController {
 	}
 
 	protected void mostrarVentanaDatos() {
-	
+
 		DatosView vp = new DatosView();
-		
 
 		vp.setLocationRelativeTo(null);
 		vp.setVisible(true);
@@ -173,8 +167,8 @@ public class CarrerasController {
 		String date = LocalDate.now().format(formatter);
 		view.setFechaHoy(date);
 		this.getListaCarreras();
-		
-		if(view.getTablaCarreras().getSelectedRow() != -1){
+
+		if (view.getTablaCarreras().getSelectedRow() != -1) {
 			int index = (Integer) view.getTablaCarreras().getValueAt(view.getTablaCarreras().getSelectedRow(), 0);
 			this.getParticipantes(index);
 		}
@@ -188,21 +182,18 @@ public class CarrerasController {
 	 * @return
 	 */
 	private void getParticipantes(int idCarrera) {
-		
+
 		AtletaModel am = new AtletaModel();
 		InscripcionModel im;
 		CategoriaModel cm;
-		
+
 		List<AtletaEntity> atletas = am.findAtletasCarrera(idCarrera);
 		List<ParticipanteEntity> participantes = new ArrayList<ParticipanteEntity>();
-		
-		
-		
 
 		for (AtletaEntity a : atletas) {
 			im = new InscripcionModel();
 			InscripcionEntity inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
-			
+
 			cm = new CategoriaModel();
 			CategoriaEntity categoria = cm.findCategoriaCarrera(idCarrera);
 			ParticipanteEntity participante = new ParticipanteEntity();
@@ -213,55 +204,54 @@ public class CarrerasController {
 			participante.setEstado(inscripcion.getEstado());
 			participante.setIdCarrera(inscripcion.getIdCarrera());
 			participante.setDorsal(inscripcion.getDorsal());
-			
-			
+
 			participantes.add(participante);
 		}
 
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(participantes, new String[] { "emailAtleta", "nombreAtleta", "idCarrera", "nombreCategoria", "estado", "dorsal"});
-		
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(participantes,
+				new String[] { "emailAtleta", "nombreAtleta", "idCarrera", "nombreCategoria", "estado", "dorsal" });
+
 		view.getTablaParticipantes().setModel(tmodel);
-		
-	
+
 		SwingUtil.autoAdjustColumns(view.getTablaParticipantes());
 
 	}
-	
+
 	/**
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de
 	 * objetos del modelo y usar metodo de SwingUtil para crear un tablemodel que se
 	 * asigna finalmente a la tabla.
 	 */
 	public void getListaCarreras() {
-        PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
-        listaIds = new ArrayList<Integer>();
+		PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
+		listaIds = new ArrayList<Integer>();
 
-        List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
-        for (CarreraEntity carrera : carreras) {
-            int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
-            PlazosDeInscripcionEntity precio = sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(),
-                    view.getFechaHoy());
-            if (precio != null) {
-                carrera.setPrecio(Double.toString(precio.getPrecio()));
-            } else {
-                carrera.setPrecio("No disponible");
-            }
+		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
+		for (CarreraEntity carrera : carreras) {
+			int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
+			PlazosDeInscripcionEntity precio = sacarPrecio.getListaPlazosInscripciones(carrera.getIdCarrera(),
+					view.getFechaHoy());
+			if (precio != null) {
+				carrera.setPrecio(Double.toString(precio.getPrecio()));
+			} else {
+				carrera.setPrecio("No disponible");
+			}
 
-            if (plazasOcupadas > 0) {
-                carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
-            }
-            listaIds.add(carrera.getIdCarrera());
+			if (plazasOcupadas > 0) {
+				carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
+			}
+			listaIds.add(carrera.getIdCarrera());
 
-        }
-        TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
-                new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
-        view.getTablaCarreras().setModel(tmodel);
-        SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+		}
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
+				new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
+		view.getTablaCarreras().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 
-        // Como se guarda la clave del ultimo elemento seleccionado, restaura la
-        // seleccion de los detalles
-        this.restoreDetail();
-    }
+		// Como se guarda la clave del ultimo elemento seleccionado, restaura la
+		// seleccion de los detalles
+		this.restoreDetail();
+	}
 
 	/**
 	 * Restaura la informacion del detalle de la carrera para visualizar los valores
@@ -281,11 +271,11 @@ public class CarrerasController {
 	 * entidad
 	 */
 	public void updateDetail() {
-        // Obtiene la clave seleccinada y la guarda para recordar la seleccion en
-        // futuras interacciones
+		// Obtiene la clave seleccinada y la guarda para recordar la seleccion en
+		// futuras interacciones
 //        this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
-        view.getBtnAceptar().setEnabled(true);
-        
-    }
+		view.getBtnAceptar().setEnabled(true);
+
+	}
 
 }

@@ -14,80 +14,99 @@ import app.tkrun.view.InscripcionNoAtletaView;
 
 public class InscripcionNoAtletaController {
 
-    InscripcionNoAtletaView inoAtletaView;
-    AtletaModel atletaModel = new AtletaModel();
-    InscripcionController ic = new InscripcionController();
+	InscripcionNoAtletaView inoAtletaView;
+	AtletaModel atletaModel = new AtletaModel();
+	InscripcionController ic = new InscripcionController();
 
-    public void init(String nombreCarrera, int idCarrera, String correo) {
-        inoAtletaView = new InscripcionNoAtletaView(nombreCarrera, correo);
-        inoAtletaView.getBtnOk().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (comprobarCampos() && comprobarMayorDeEdad()) {
-                    addInscripcion(inoAtletaView.getTextFieldEmail().getText(),
-                            inoAtletaView.getTextFieldNombre().getText(),
-                            inoAtletaView.getTextFieldApellido().getText(),
-                            inoAtletaView.getTextFieldFechaNacimiento().getText(),
-                            inoAtletaView.getTextFieldSexo().getText());
-                    inoAtletaView.dispose();
-                    ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera);
-                }else {
-                    if(atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
-                        JOptionPane.showMessageDialog(null,"No puede meter un email de un atleta que no se corresponde con usted");
-                    }else {
-                        JOptionPane.showMessageDialog(null,"Valide sus campos");
-                    }
-                    
-                }
+	public void init(String nombreCarrera, int idCarrera, String correo) {
+		inoAtletaView = new InscripcionNoAtletaView(nombreCarrera, correo);
+		inoAtletaView.getBtnOk().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (comprobarCampos() && comprobarMayorDeEdad() && comprobarGenero()) {
+					addInscripcion(inoAtletaView.getTextFieldEmail().getText(),
+							inoAtletaView.getTextFieldNombre().getText(),
+							inoAtletaView.getTextFieldApellido().getText(),
+							inoAtletaView.getTextFieldFechaNacimiento().getText(),
+							inoAtletaView.getTextFieldSexo().getText());
+					inoAtletaView.dispose();
+					ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera);
+				} else {
+					if (atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
+						JOptionPane.showMessageDialog(null,
+								"No puede meter un email de un atleta que no se corresponde con usted");
+					} else if (!comprobarMayorDeEdad()) {
+						JOptionPane.showMessageDialog(null, "No es mayor de edad");
+					} else if (!comprobarGenero()) {
 
-            }
+						JOptionPane.showMessageDialog(null, "Ese sexo no está comprendido");
+					} else {
+						JOptionPane.showMessageDialog(null, "Comprube que relleno todos los datos");
+					}
 
-        });
-        inoAtletaView.getBtnCancelar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                inoAtletaView.dispose();
-            }
-        });
+				}
 
-        inoAtletaView.setModal(true);
-        inoAtletaView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        inoAtletaView.setLocationRelativeTo(null);
-        inoAtletaView.setVisible(true);
-    }
+			}
 
-    public void addInscripcion(String email, String nombre, String apellido, String fechaNacimiento, String sexo) {
-        AtletaEntity atleta = new AtletaEntity();
-        atleta.setEmailAtleta(email);
-        atleta.setNombre(nombre);
-        atleta.setApellido(apellido);
-        atleta.setFechaNacimiento(fechaNacimiento);
-        atleta.setSexo(sexo);
-        atletaModel.addAtleta(atleta);
-    }
+		});
+		inoAtletaView.getBtnCancelar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inoAtletaView.dispose();
+			}
+		});
 
-    private boolean comprobarCampos() {
-        if (inoAtletaView.getTextFieldEmail().getText().isEmpty()
-                || inoAtletaView.getTextFieldNombre().getText().isEmpty()
-                || inoAtletaView.getTextFieldApellido().getText().isEmpty()
-                || inoAtletaView.getTextFieldFechaNacimiento().getText().isEmpty()
-                || inoAtletaView.getTextFieldSexo().getText().isEmpty()
-                || atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
-            return false;
-        }
-        return true;
-    }
-    
-    private boolean comprobarMayorDeEdad() {
-        DateTimeFormatter formatoDelTexto = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fechaCumple = null; 
-        fechaCumple = LocalDate.parse(inoAtletaView.getTextFieldFechaNacimiento().getText(), formatoDelTexto);
-        if ( LocalDate.now().minusYears(18).isAfter(fechaCumple) ) {
-            return true;
-        }
+		inoAtletaView.setModal(true);
+		inoAtletaView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		inoAtletaView.setLocationRelativeTo(null);
+		inoAtletaView.setVisible(true);
+	}
 
-        return false;
+	public void addInscripcion(String email, String nombre, String apellido, String fechaNacimiento, String sexo) {
+		AtletaEntity atleta = new AtletaEntity();
+		atleta.setEmailAtleta(email);
+		atleta.setNombre(nombre);
+		atleta.setApellido(apellido);
+		atleta.setFechaNacimiento(fechaNacimiento);
+		atleta.setSexo(sexo);
+		atletaModel.addAtleta(atleta);
+	}
 
-    }
+	private boolean comprobarCampos() {
+
+		if (inoAtletaView.getTextFieldEmail().getText().isEmpty()
+				|| inoAtletaView.getTextFieldNombre().getText().isEmpty()
+				|| inoAtletaView.getTextFieldApellido().getText().isEmpty()
+				|| inoAtletaView.getTextFieldFechaNacimiento().getText().isEmpty()
+				|| inoAtletaView.getTextFieldSexo().getText().isEmpty()
+				|| atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean comprobarMayorDeEdad() {
+		if(inoAtletaView.getTextFieldFechaNacimiento().getText().isEmpty()) {
+			return false;
+		}
+		DateTimeFormatter formatoDelTexto = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate fechaCumple = null;
+		fechaCumple = LocalDate.parse(inoAtletaView.getTextFieldFechaNacimiento().getText(), formatoDelTexto);
+		if (LocalDate.now().minusYears(18).isAfter(fechaCumple)) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	private boolean comprobarGenero() {
+		if (inoAtletaView.getTextFieldSexo().getText().toLowerCase().equals("hombre")
+				|| inoAtletaView.getTextFieldSexo().getText().toLowerCase().equals("mujer")) {
+			return true;
+		}
+		return false;
+
+	}
 
 }

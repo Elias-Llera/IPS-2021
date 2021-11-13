@@ -33,7 +33,7 @@ insert into categorias(idCategoria, idCarrera, edadInicio, edadFinal, sexo, nomb
 values (1, 102, 18, 999, 'Hombre', 'Barklay absoluta masculina'),
        (2, 102, 18, 999, 'Mujer', 'Barklay absoluta femenina'),
        (3, 105, 18, 999, 'Mujer', 'Ejemplo absoluta femenina'),
-       (4, 106, 18, 999, 'HOMBRE', 'Ejemplo absoluta femenina');
+       (4, 106, 18, 999, 'Hombre', 'Ejemplo absoluta femenina');
 
 
 insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria,idPlazosDeInscripcion, ultimaActualizacion, fecha)
