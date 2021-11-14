@@ -26,7 +26,6 @@ public class PlazosDeInscripcionModel {
 		db.executeUpdate(SQL_ADD_PLAZO_INSCRIPCION, plazo_inscripcion.getIdPlazosDeInscripcion(),
 				plazo_inscripcion.getIdCarrera(), plazo_inscripcion.getFechaInicio(), plazo_inscripcion.getFechaFin(),
 				plazo_inscripcion.getPrecio());
-
 	}
 
 	public int findTodosLosPlazosParaUnaCarrera(int idCarrera) {
@@ -42,7 +41,6 @@ public class PlazosDeInscripcionModel {
 			return carreras.get(0);
 		}
 		return null;
-
 	}
 	
 	public PlazosDeInscripcionEntity getListaPlazosInscripcionesPorFechaFin(int id) {

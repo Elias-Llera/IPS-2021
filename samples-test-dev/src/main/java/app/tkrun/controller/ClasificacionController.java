@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -21,11 +23,13 @@ import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
 import app.tkrun.entities.ClasificacionParaTabla;
 import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.entities.PuntoDeControlEntity;
 import app.tkrun.entities.TiempoEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.InscripcionModel;
+import app.tkrun.model.PuntoDeControlModel;
 import app.tkrun.model.TiempoModel;
 import app.tkrun.view.ClasificacionesView;
 
@@ -42,6 +46,7 @@ public class ClasificacionController {
 	private AtletaModel atletaModel = new AtletaModel();
 	private CarreraModel carreraModel = new CarreraModel();
 	private CategoriaModel categoriaModel = new CategoriaModel();
+	private PuntoDeControlModel puntosModel = new PuntoDeControlModel();
 
 	List<ClasificacionParaTabla> definitiva;
 
@@ -99,7 +104,7 @@ public class ClasificacionController {
 			return CARRERA_NO_CELEBRADA;
 		}
 		
-		List<TiempoEntity> clasificaciones = tiempoModel.findClasificacionForCarrera(idCarrera);
+		List<TiempoEntity> clasificaciones = tiempoModel.findClasificacionForCarrera(ce);
 
 		if (clasificaciones.isEmpty()) {
 			return CLASIFICACION_NO_GENERADA;
@@ -162,7 +167,8 @@ public class ClasificacionController {
 	}
 	
 	private void parseFileTiempos(String filename) throws IOException {
-		List<Integer> dorsales = new ArrayList<>();
+		Map<String, List<PuntoDeControlEntity>> puntosPorDorsal = new HashMap<String, List<PuntoDeControlEntity>>();
+
 		@SuppressWarnings("resource")
 		BufferedReader br = new BufferedReader(new FileReader(filename));
 		String line;
@@ -174,25 +180,71 @@ public class ClasificacionController {
 			if (datosTiempo.length != 2) {
 				throw new IllegalArgumentException("Formato de cronometraje no valido");
 			} else {
+				int dorsal = Integer.parseInt(datosTiempo[0]);
+				String tiempoValue = datosTiempo[1];
+				int km = Integer.parseInt(datosTiempo[2]);
+				
 				TiempoEntity tiempo = new TiempoEntity();
-				tiempo.setIdCarrera(idCarrera);
-				tiempo.setTiempo(datosTiempo[1]);
-				InscripcionEntity inscripcion = inscripcionModel.findByCarreraAndDorsal(idCarrera, Integer.parseInt(datosTiempo[0]));
+				InscripcionEntity inscripcion = inscripcionModel.findByCarreraAndDorsal(idCarrera, dorsal);
 				if(inscripcion == null) {
 					throw new IllegalArgumentException("Los resultados no son correctos: el dorsal no esta registrado en la carrera");
 				}
+				
+				tiempo.setIdCarrera(idCarrera);
+				tiempo.setTiempo(tiempoValue);
 				tiempo.setEmailAtleta(inscripcion.getEmailAtleta());
-				dorsales.add(Integer.parseInt(datosTiempo[0]));
+				tiempo.setKm(km);
 				tiempoModel.addTiempo(tiempo);
+				
+				if(puntosPorDorsal.containsKey(inscripcion.getEmailAtleta())) {
+					PuntoDeControlEntity punto = new PuntoDeControlEntity();
+					punto.setIdCarrera(idCarrera);
+					punto.setKm(km);
+					puntosPorDorsal.get(inscripcion.getEmailAtleta()).add(punto);
+				} else {
+					puntosPorDorsal.put(inscripcion.getEmailAtleta(), new ArrayList<>());
+				}
 			}
 		}
 		
 		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
+		CarreraEntity carrera = carreraModel.findCarrera(idCarrera);
+		
+		//INCLUIR LOS TIEMPOS DE LAS PERSONAS QUE NO SALIERON
 		for (InscripcionEntity inscripcion : inscripciones) {
-			if(!dorsales.contains(inscripcion.getDorsal())) {
+			if(!puntosPorDorsal.containsKey(inscripcion.getEmailAtleta())) {
 				TiempoEntity tiempo = new TiempoEntity();
 				tiempo.setEmailAtleta(inscripcion.getEmailAtleta());
 				tiempo.setIdCarrera(idCarrera);
+				tiempo.setKm(carrera.getDistancia());
+				tiempo.setTiempo("DNS");
+				tiempoModel.addTiempo(tiempo);
+			}
+		}
+		
+		
+		int puntosDeControlEnCarrera = puntosModel.findPuntosDeControlByIdCarrera(idCarrera).size();
+		
+		PuntoDeControlEntity finalCarrera = new PuntoDeControlEntity();
+		finalCarrera.setIdCarrera(idCarrera);
+		finalCarrera.setKm(carrera.getDistancia());
+		
+		//INCLUIR LOS TIEMPOS DE PERSONAS QUE NO TERMINAN O ESTAN DESCALIFICADAS
+		for (String email : puntosPorDorsal.keySet()) {
+			if(puntosPorDorsal.get(email).contains(finalCarrera)) { //TERMINARON LA CARRERA
+				if(puntosPorDorsal.get(email).size()!=puntosDeControlEnCarrera) { //NO SE PASO POR TODOS LOS PUNTOS, DESCALIFICADO
+					TiempoEntity tiempo = new TiempoEntity();
+					tiempo.setEmailAtleta(email);
+					tiempo.setIdCarrera(idCarrera);
+					tiempo.setKm(carrera.getDistancia());
+					tiempo.setTiempo("DQ");
+					tiempoModel.addTiempo(tiempo);
+				}
+			} else { //NO TERMINA
+				TiempoEntity tiempo = new TiempoEntity();
+				tiempo.setEmailAtleta(email);
+				tiempo.setIdCarrera(idCarrera);
+				tiempo.setKm(carrera.getDistancia());
 				tiempo.setTiempo("DNF");
 				tiempoModel.addTiempo(tiempo);
 			}

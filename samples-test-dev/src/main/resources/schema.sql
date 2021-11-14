@@ -23,7 +23,16 @@ CREATE TABLE carreras(
 	distancia INT NOT NULL
 );
 
-CREATE TABLE atletas(
+Create TABLE PuntosDeControl(
+	idCarrera INT NOT NULL,
+	km INT NOT NULL,
+
+	PRIMARY KEY(idCarrera, km),
+
+	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
+);
+
+CREATE TABLE Atletas(
 	emailAtleta TEXT PRIMARY KEY NOT NULL, 
 	nombre TEXT NOT NULL, 
 	apellido TEXT NOT NULL, 
@@ -31,19 +40,18 @@ CREATE TABLE atletas(
 	sexo TEXT NOT NULL
 );
 
-CREATE TABLE inscripciones(
+CREATE TABLE Inscripciones(
 	idCarrera INT NOT NULL,
 	emailAtleta TEXT NOT NULL,
 	estado TEXT NOT NULL,
 	dorsal INT NOT NULL,
-
-     idCategoria INT NOT NULL,
+    idCategoria INT NOT NULL,
 	ultimaActualizacion TEXT NOT NULL,
-
-    
 	fecha TEXT,
 	idPlazosDeInscripcion NUMBER NOT NULL,
+
 	PRIMARY KEY(idCarrera, emailAtleta),
+
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
 	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
 	FOREIGN KEY (idPlazosDeInscripcion) REFERENCES PlazosDeInscripcion (idPlazosDeInscripcion),
@@ -71,22 +79,25 @@ CREATE TABLE PlazosDeInscripcion(
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
 
-create table Tiempos(
+CREATE TABLE Tiempos(
     idCarrera INT NOT NULL,
     emailAtleta TEXT NOT NULL,
     tiempo TEXT NOT NULL,
+	km INT NOT NULL,
 
-    FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
-	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta)
+    FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
+	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
+	FOREIGN KEY (idCarrera, km) REFERENCES PuntosDeControl (idCarrera, km)
 );
 
-CREATE TABLE devoluciones(
+CREATE TABLE Devoluciones(
     emailAtleta TEXT,
     idCarrera INT,
     cantidad NUMBER,
 
+	PRIMARY KEY (emailAtleta, idCarrera),
+
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
-	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
-	PRIMARY KEY (emailAtleta, idCarrera)
+	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta)
 );
 

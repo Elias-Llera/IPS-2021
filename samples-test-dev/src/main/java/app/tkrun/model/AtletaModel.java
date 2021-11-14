@@ -41,7 +41,6 @@ public class AtletaModel {
     public void addAtleta(AtletaEntity atleta) {
         db.executeUpdate(SQL_INSERT_ATLETA, atleta.getEmailAtleta(), atleta.getNombre(), atleta.getApellido(),
                 atleta.getFechaNacimiento(), atleta.getSexo());
-        ;
     }
 
 }
