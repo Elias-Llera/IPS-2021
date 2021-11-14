@@ -13,13 +13,16 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import app.tkrun.entities.CarreraEntity;
+import app.tkrun.entities.PuntoDeControlEntity;
 import app.tkrun.model.CarreraModel;
+import app.tkrun.model.PuntoDeControlModel;
 import app.tkrun.view.CrearCarreraView;
 import app.util.SwingUtil;
 
 public class CrearCarrerasController {
 	CrearCarreraView crearCarreraView;
 	CarreraModel carreraModel = new CarreraModel();
+	PuntoDeControlModel puntosModel = new PuntoDeControlModel();
 	private int id;
 
 	public void init() {
@@ -37,7 +40,7 @@ public class CrearCarrerasController {
 			}
 
 			private void openPlazosParaCrearCarreraView() {
-				
+
 				new PlanificacionCarrerasController().init(crearCarreraView.getTextFieldFechaCelebracion().getText(),
 						id);
 			}
@@ -52,7 +55,7 @@ public class CrearCarrerasController {
 
 		crearCarreraView.getBtnCrearCarrera().addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent event) {
 				if (comprobarCampos() && comprobarFecha() && comprobarTipo()) {
 					Random r = new Random();
 					id = r.nextInt(100000000) + 1;
@@ -64,6 +67,27 @@ public class CrearCarrerasController {
 					carrera.setFecha(crearCarreraView.getTextFieldFechaCelebracion().getText());
 					carrera.setPlazas(Integer.parseInt(crearCarreraView.getTextFieldNumeroPlazas().getText()));
 					carrera.setDistancia(Double.parseDouble(crearCarreraView.getTextFieldDistancia().getText()));
+					String textPlazos = crearCarreraView.getTextFieldPuntosDeControl().getText();
+					String[] plazos = textPlazos.split(",");
+					for (String plazo : plazos) {
+						try {
+							int kmPunto = Integer.parseInt(plazo.trim());
+							if (kmPunto > carrera.getDistancia()) {
+								JOptionPane.showMessageDialog(crearCarreraView,
+										"Los puntos de control no pueden estar situados mas alla de la distancia de la carrera.");
+								return;
+							} else {
+								PuntoDeControlEntity punto = new PuntoDeControlEntity();
+								punto.setIdCarrera(id);
+								punto.setKm(kmPunto);
+								puntosModel.addPuntoDeControl(punto);
+							}
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(crearCarreraView,
+									"Error al parsear los puntos de control. Por favor, separe los puntos con comas e indique los decimales con puntos.");
+							return;
+						}
+					}
 					if (carreraModel.findCarreraIdentica(carrera) == 0) {
 						carreraModel.addCarrera(carrera);
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);
