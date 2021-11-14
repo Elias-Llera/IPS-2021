@@ -33,7 +33,6 @@ public class CarrerasView {
 	private JScrollPane tablePanelParticipantes;
 	private JButton btnInscripciones;
 
-	private JButton btnParticipantes;
 	private JButton btnCrearCarrera;
 	private JButton btnClasificaciones;
 	private JButton btnDevoluciones;

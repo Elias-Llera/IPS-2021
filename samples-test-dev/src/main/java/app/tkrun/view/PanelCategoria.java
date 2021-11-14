@@ -8,6 +8,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 
 public class PanelCategoria extends JPanel {
 	/**
@@ -18,6 +19,7 @@ public class PanelCategoria extends JPanel {
 	private JComboBox<String> comboBoxSexo;
 	private JSpinner spinnerEdadInicial;
 	private JSpinner spinnerEdadFinal;
+	private JButton btnDelete;
 
 	/**
 	 * Create the panel.
@@ -59,6 +61,8 @@ public class PanelCategoria extends JPanel {
 		spinnerEdadFinal.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spinnerEdadFinal.setModel(new SpinnerNumberModel(18, 18, 100, 1));
 		add(spinnerEdadFinal);
+		
+		add(getBtnDelete());
 
 	}
 	
@@ -76,6 +80,13 @@ public class PanelCategoria extends JPanel {
 	
 	public int getEdadFinal() {
 		return (Integer)spinnerEdadFinal.getValue();
+	}
+	
+	public JButton getBtnDelete() {
+		if(btnDelete == null) {
+			btnDelete = new JButton("X");
+		}
+		return btnDelete;
 	}
 
 }

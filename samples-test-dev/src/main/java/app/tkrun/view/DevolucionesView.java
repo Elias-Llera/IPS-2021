@@ -34,10 +34,11 @@ public class DevolucionesView extends JDialog {
 	 * Create the dialog.
 	 */
 	public DevolucionesView() {
+		setTitle("Confirmacion de pagos");
 		setBounds(100, 100, 600, 415);
 		getContentPane().setLayout(null);
 		{
-			generateButton = new JButton("Generar devoluciones");
+			generateButton = new JButton("Confirmacion de pagos");
 			generateButton.setBounds(214, 333, 162, 32);
 			getContentPane().add(generateButton);
 			generateButton.setActionCommand("OK");

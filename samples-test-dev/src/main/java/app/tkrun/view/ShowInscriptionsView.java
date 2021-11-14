@@ -1,23 +1,19 @@
 package app.tkrun.view;
 
-import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
-import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.model.InscripcionModel;
 import app.util.SwingUtil;
-
-import java.awt.GridLayout;
-import java.util.List;
-
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 
 public class ShowInscriptionsView extends JFrame {
 
@@ -58,13 +54,12 @@ public class ShowInscriptionsView extends JFrame {
 	
 	public void getListaCarreras() {
 		inscripciones = im.findInscripcionesParticipante(email);
-		for(InscripcionEntity inscripcion: inscripciones) {
+//		for(InscripcionEntity inscripcion: inscripciones) {
 //			int plazasOcupadas=atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
 //			if(plazasOcupadas > 0) {
 //				carrera.setPlazas(carrera.getPlazas()-plazasOcupadas);
-//			}
-			
-		}
+//			}			
+//		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(inscripciones, new String[] { "emailAtleta", "idCarrera", "estado", "dorsal",
 				"idCategoria", "ultimaActualizacion"});
 					

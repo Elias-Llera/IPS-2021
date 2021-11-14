@@ -26,7 +26,6 @@ import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.CarrerasView;
 import app.tkrun.view.DatosClasificacionView;
 import app.tkrun.view.DatosView;
-import app.tkrun.view.ParticipantesView;
 import app.util.SwingUtil;
 
 /**
@@ -144,12 +143,12 @@ public class CarrerasController {
 		vp.setVisible(true);
 	}
 
-	protected void mostrarVentanaParticipantes() {
-		JTable tabla = view.getTablaCarreras();
-		int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
-
-		ParticipantesView vp = new ParticipantesView(idCarrera);
-	}
+//	protected void mostrarVentanaParticipantes() {
+//		JTable tabla = view.getTablaCarreras();
+//		int idCarrera = (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
+//
+//		ParticipantesView vp = new ParticipantesView(idCarrera);
+//	}
 
 	protected void mostrarVentanaDatos() {
 

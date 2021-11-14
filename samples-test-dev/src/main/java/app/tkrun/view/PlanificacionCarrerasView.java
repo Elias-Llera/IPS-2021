@@ -3,20 +3,16 @@ package app.tkrun.view;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class PlanificacionCarrerasView extends JDialog {
 	/**

@@ -2,10 +2,8 @@ package app.tkrun.model;
 
 import java.util.List;
 
-
 import app.tkrun.entities.ClasificacionEntity;
 import app.util.Database;
-import app.util.Util;
 
 public class ClasificacionModel {
 

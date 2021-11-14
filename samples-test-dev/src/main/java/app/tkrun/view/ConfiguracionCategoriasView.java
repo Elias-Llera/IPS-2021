@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import java.awt.GridLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class ConfiguracionCategoriasView extends JDialog {
 
@@ -20,6 +22,7 @@ public class ConfiguracionCategoriasView extends JDialog {
 	private JButton btnConfirmar;
 	private JPanel panelCategorias;
 	private JButton btnAdd;
+	private JLabel lblCategorias;
 
 	/**
 	 * Launch the application.
@@ -38,6 +41,9 @@ public class ConfiguracionCategoriasView extends JDialog {
 	 * Create the dialog.
 	 */
 	public ConfiguracionCategoriasView() {
+		setResizable(false);
+		setModal(true);
+		setTitle("Creacion de categorias");
 		setBounds(100, 100, 578, 406);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -50,10 +56,11 @@ public class ConfiguracionCategoriasView extends JDialog {
 		
 		JScrollPane scrollPane = new JScrollPane(panelCategorias);
 		panelCategorias.setLayout(new GridLayout(0, 1, 0, 0));
-		scrollPane.setBounds(10, 26, 542, 224);
+		scrollPane.setBounds(10, 35, 542, 224);
 		contentPanel.add(scrollPane);
 		
 		btnAdd = getBtnAdd();
+		contentPanel.add(getLblCategorias());
 
 	}
 
@@ -77,9 +84,17 @@ public class ConfiguracionCategoriasView extends JDialog {
 	public JButton getBtnAdd() {
 		if(btnAdd== null) {
 			btnAdd = new JButton("+");
-			btnAdd.setBounds(43, 261, 80, 35);
+			btnAdd.setBounds(43, 273, 80, 35);
 			contentPanel.add(btnAdd);
 		}
 		return btnAdd;
+	}
+	private JLabel getLblCategorias() {
+		if (lblCategorias == null) {
+			lblCategorias = new JLabel("Categorias:");
+			lblCategorias.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblCategorias.setBounds(10, 11, 80, 19);
+		}
+		return lblCategorias;
 	}
 }
