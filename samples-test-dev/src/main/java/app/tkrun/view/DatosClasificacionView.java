@@ -1,6 +1,8 @@
 package app.tkrun.view;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -10,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import app.tkrun.controller.ClasificacionController;
 
 public class DatosClasificacionView extends JDialog {
 
@@ -103,11 +105,7 @@ public class DatosClasificacionView extends JDialog {
 
 
 	protected void mostrarVentanaClasificaciones() {
-		ClasificacionesView vp = new ClasificacionesView(Integer.parseInt(tfIdCarrera.getText()), tfGenero.getText());
-
-		vp.setLocationRelativeTo(null);
-		vp.setVisible(true);
-		
+		new ClasificacionController(Integer.parseInt(tfIdCarrera.getText()), tfGenero.getText().toUpperCase()).init();;
 	}
 
 }

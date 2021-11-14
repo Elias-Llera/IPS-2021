@@ -9,15 +9,9 @@ import app.util.Database;
 
 public class InscripcionModel {
 
-	
-	
-	
 	private static final String SQL_FIND_INSCRIPCIONES_PARTICIPANTE = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal, ultimaActualizacion from INSCRIPCIONES where emailAtleta=? ORDER BY ultimaActualizacion DESC";
 	
-
-
 	private static final String SQL_FIND_INSCRIPCION = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal, fecha from INSCRIPCIONES where emailAtleta=? AND idCarrera = ?";
-
 
 	private static final String SQL_FIND_INSCRIPCIONES_BY_ID_CARRERA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal from INSCRIPCIONES where idCarrera = ?";
 
@@ -32,7 +26,9 @@ public class InscripcionModel {
 	private static final String SQL_RECHAZAR_INSCRIPCION = "UPDATE Inscripciones SET estado = 'INSCRITO' WHERE emailAtleta = ? AND idCarrera = ?";
 
 	private static final String SQL_CALCULATE_DORSAL = "SELECT MAX dorsal FROM INSCRIPCIONES where idCarrera = ?";
-
+	
+	private static final String SQL_FIND_BY_CARRERA_AND_DORSAL = "SELECT * FROM Inscripciones WHERE idCarrera = ? AND dorsal = ?";
+	
 	private Database db = new Database();
 
 	public InscripcionEntity findInscripcion(String email, int id_carrera) {
@@ -46,8 +42,6 @@ public class InscripcionModel {
 		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_INSCRIPCIONES_PARTICIPANTE, email);
 		return inscripciones;
 	}
-	
-	
 
 
 	public List<InscripcionEntity> findInscripcionesByEmailAtleta(String emailAtleta) {
@@ -82,6 +76,11 @@ public class InscripcionModel {
 		long DAY_IN_MS = 1000 * 60 * 60 * 24;
 		Date maximoParaPago = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
 		return db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_EXPIRED_PREINSCRIPTIONS, maximoParaPago.toString());
+	}
+	
+	public InscripcionEntity findByCarreraAndDorsal(int idCarrera, int dorsal) {
+		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_BY_CARRERA_AND_DORSAL, idCarrera, dorsal);
+		return inscripciones.isEmpty() ? null : inscripciones.get(0);
 	}
 
 }
