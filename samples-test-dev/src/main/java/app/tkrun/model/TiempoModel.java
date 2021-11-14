@@ -8,9 +8,9 @@ import app.util.Database;
 public class TiempoModel {
 
 	
-	private static final String SQL_FIND_CLASIFICACIONES_FOR_CARRERA = "SELECT idCarrera, idAlteta, tiempo Tiempo where idCarrera=? ORDER BY tiempo DESC";
+	private static final String SQL_FIND_CLASIFICACIONES_FOR_CARRERA = "SELECT idCarrera, emailAtleta, tiempo from Tiempos where idCarrera=? ORDER BY tiempo ASC";
 
-	private static final String SQL_ADD_TIEMPO = "INSERT INTO Tiempo (emailAtleta, idCarrera, tiempo) VALUES(?, ?, ?)";
+	private static final String SQL_ADD_TIEMPO = "INSERT INTO Tiempos (emailAtleta, idCarrera, tiempo) VALUES(?, ?, ?)";
 
 	private Database db = new Database();
 

@@ -65,6 +65,7 @@ public class ClasificacionController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					generateTiempos();
+					view.dispose();
 					init();
 				}
 			});
@@ -117,7 +118,7 @@ public class ClasificacionController {
 
 			ClasificacionParaTabla aux = new ClasificacionParaTabla();
 			aux.setIdCarrera(carrera.getIdCarrera());
-			aux.setIdCatetoria(inscripcion.getIdCategoria());
+			aux.setIdCategoria(inscripcion.getIdCategoria());
 			aux.setNombreCategoria(categoria.getNombre());
 			aux.setNombreAtleta(atleta.getNombre());
 			aux.setGenero(genero);
@@ -154,13 +155,14 @@ public class ClasificacionController {
 			JOptionPane.showMessageDialog(view, "Error al analizar el archivo: archivo no encontrado");
 			return;
 		} catch (IllegalArgumentException e) {
-			JOptionPane.showMessageDialog(view, "Error al analizar el archivo: formato no correcto");
+			JOptionPane.showMessageDialog(view, e.getMessage());
 			return;
 		}
 		JOptionPane.showMessageDialog(view, "Archivo de tiempo analizado: clasificacion generada.");
 	}
 	
 	private void parseFileTiempos(String filename) throws IOException {
+		List<Integer> dorsales = new ArrayList<>();
 		@SuppressWarnings("resource")
 		BufferedReader br = new BufferedReader(new FileReader(filename));
 		String line;
@@ -176,7 +178,22 @@ public class ClasificacionController {
 				tiempo.setIdCarrera(idCarrera);
 				tiempo.setTiempo(datosTiempo[1]);
 				InscripcionEntity inscripcion = inscripcionModel.findByCarreraAndDorsal(idCarrera, Integer.parseInt(datosTiempo[0]));
+				if(inscripcion == null) {
+					throw new IllegalArgumentException("Los resultados no son correctos: el dorsal no esta registrado en la carrera");
+				}
 				tiempo.setEmailAtleta(inscripcion.getEmailAtleta());
+				dorsales.add(Integer.parseInt(datosTiempo[0]));
+				tiempoModel.addTiempo(tiempo);
+			}
+		}
+		
+		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
+		for (InscripcionEntity inscripcion : inscripciones) {
+			if(!dorsales.contains(inscripcion.getDorsal())) {
+				TiempoEntity tiempo = new TiempoEntity();
+				tiempo.setEmailAtleta(inscripcion.getEmailAtleta());
+				tiempo.setIdCarrera(idCarrera);
+				tiempo.setTiempo("DNF");
 				tiempoModel.addTiempo(tiempo);
 			}
 		}

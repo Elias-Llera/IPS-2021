@@ -2,7 +2,7 @@ package app.tkrun.entities;
 
 public class ClasificacionParaTabla {
 	private int idCarrera;
-	private int idCatetoria;
+	private int idCategoria;
 	private String nombreCategoria;
 	private String nombreAtleta;
 	private String genero;
@@ -25,12 +25,12 @@ public class ClasificacionParaTabla {
 		this.nombreAtleta = nombreAtleta;
 	}
 
-	public int getIdCatetoria() {
-		return idCatetoria;
+	public int getIdCategoria() {
+		return idCategoria;
 	}
 
-	public void setIdCatetoria(int idCatetoria) {
-		this.idCatetoria = idCatetoria;
+	public void setIdCategoria(int idCatetoria) {
+		this.idCategoria = idCatetoria;
 	}
 
 	public String getGenero() {

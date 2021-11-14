@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS atletas;
 DROP TABLE IF EXISTS inscripciones;
 DROP TABLE IF EXISTS categorias;
 DROP TABLE IF EXISTS PlazosDeInscripcion;
-DROP TABLE IF EXISTS Clasificaciones;
+DROP TABLE IF EXISTS Tiempos;
 DROP TABLE IF EXISTS devoluciones;
 
 
@@ -71,17 +71,13 @@ CREATE TABLE PlazosDeInscripcion(
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
 
-create table Clasificaciones(
+create table Tiempos(
     idCarrera INT NOT NULL,
-    idCategoria INT NOT NULL,
-    nombreCategoria TEXT NOT NULL,
-    nombreAtleta TEXT NOT NULL,
-    genero TEXT NOT NULL,
-    posicion INT,
+    emailAtleta TEXT NOT NULL,
     tiempo TEXT NOT NULL,
 
-    
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
+	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta)
 );
 
 CREATE TABLE devoluciones(
