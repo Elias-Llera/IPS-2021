@@ -46,17 +46,17 @@ public class InscripcionController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				
-
-				if(atletaModel.findSiEsAtleta(inscripcionView.getTextEmail().getText())==0) {
+				if (atletaModel.findSiEsAtleta(inscripcionView.getTextEmail().getText()) == 0) {
 					SwingUtil.exceptionWrapper(() -> openInscriptionNoAtletaView());
-				}else {
+				} else {
 					addInscripcion(inscripcionView.getTextEmail().getText(), idCarrera);
 
 				}
 			}
+
 			private void openInscriptionNoAtletaView() {
-				new InscripcionNoAtletaController().init(nombreCarrera, idCarrera, inscripcionView.getTextEmail().getText());
+				new InscripcionNoAtletaController().init(nombreCarrera, idCarrera,
+						inscripcionView.getTextEmail().getText(), true, "ninguno");
 
 			}
 		});
@@ -72,6 +72,18 @@ public class InscripcionController {
 					it.mostrarMensaje();
 					it.dispose();
 				}
+			}
+		});
+
+		inscripcionView.getBtnInscripcionGrupo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtil.exceptionWrapper(() -> openInscriptionGrupalView());
+			}
+
+			private void openInscriptionGrupalView() {
+				new InscripcionGrupalController().init(nombreCarrera, idCarrera);
+
 			}
 		});
 		inscripcionView.setModal(true);
@@ -118,7 +130,6 @@ public class InscripcionController {
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
-
 
 		// Comprobar que hay plazas libres
 		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
@@ -207,10 +218,7 @@ public class InscripcionController {
 			text += "Dorsal: " + inscripcion.getDorsal() + "\n";
 			text += "Estado de la inscripcion: " + inscripcion.getEstado() + "\n";
 
-
-			text += "Por favor, haga una transferencia de " + plazo.getPrecio()
-					+ "� a la siguiente cuenta:\n";
-
+			text += "Por favor, haga una transferencia de " + plazo.getPrecio() + "� a la siguiente cuenta:\n";
 
 			text += "*numero de cuenta*\n";
 			writer.write(text);

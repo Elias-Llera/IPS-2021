@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS categorias;
 DROP TABLE IF EXISTS PlazosDeInscripcion;
 DROP TABLE IF EXISTS Tiempos;
 DROP TABLE IF EXISTS devoluciones;
+DROP TABLE IF EXISTS inscripcionesGrupal;
 
 
 CREATE TABLE carreras(
@@ -32,22 +33,31 @@ CREATE TABLE atletas(
 );
 
 CREATE TABLE inscripciones(
-	idCarrera INT NOT NULL,
-	emailAtleta TEXT NOT NULL,
-	estado TEXT NOT NULL,
-	dorsal INT NOT NULL,
+	idCarrera INT,
+	emailAtleta TEXT,
+	estado TEXT,
+	dorsal INT,
 
-     idCategoria INT NOT NULL,
-	ultimaActualizacion TEXT NOT NULL,
+     	idCategoria INT,
+	ultimaActualizacion TEXT,
 
     
 	fecha TEXT,
-	idPlazosDeInscripcion NUMBER NOT NULL,
+	idPlazosDeInscripcion NUMBER,
 	PRIMARY KEY(idCarrera, emailAtleta),
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
 	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
 	FOREIGN KEY (idPlazosDeInscripcion) REFERENCES PlazosDeInscripcion (idPlazosDeInscripcion),
 	FOREIGN KEY (idCategoria) REFERENCES Categorias (idCategoria)
+);
+
+CREATE TABLE inscripcionesGrupal(
+	idCarrera INT NOT NULL,
+	emailAtleta TEXT NOT NULL,
+	club TEXT,
+	PRIMARY KEY(idCarrera, emailAtleta),
+	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
+	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
 
 CREATE TABLE Categorias(

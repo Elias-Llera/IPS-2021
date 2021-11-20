@@ -16,6 +16,10 @@ public class DevolucionModel {
 	public void addDevolucion(DevolucionEntity devolucion) {
 		db.executeUpdate(SQL_ADD_DEVOLUCION, devolucion.getEmailAtleta(), devolucion.getIdCarrera(), devolucion.getCantidad());
 	}
+	
+	public void addDevolucion(String email, int id, double cantidad) {
+		db.executeUpdate(SQL_ADD_DEVOLUCION, email, id, cantidad);
+	}
 
 	public List<DevolucionEntity> findAll() {
 		return db.executeQueryPojo(DevolucionEntity.class, SQL_FIND_ALL_DEVOLUCION);

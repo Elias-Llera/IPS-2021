@@ -15,6 +15,8 @@ public class AtletaModel {
 
     private static final String SQL_INSERT_ATLETA = "INSERT INTO ATLETAS (emailAtleta, nombre, apellido, fechaNacimiento, sexo) VALUES(?,?,?,?,?)";
 
+	private static final String SQL_FIND_ALL_ATLETA = "SELECT emailAtleta, nombre, apellido, fechaNacimiento, sexo from ATLETAS";
+
     private Database db = new Database();
 
     public AtletaEntity findAtleta(String email) {
@@ -30,6 +32,11 @@ public class AtletaModel {
 
     public List<AtletaEntity> findAtletasCarrera(int idCarrera) {
         List<AtletaEntity> atletas = db.executeQueryPojo(AtletaEntity.class, SQL_FIND_ATLETAS_CARRERA, idCarrera);
+        return atletas;
+    }
+    
+    public List<AtletaEntity> findAllAtletas() {
+        List<AtletaEntity> atletas = db.executeQueryPojo(AtletaEntity.class, SQL_FIND_ALL_ATLETA);
         return atletas;
     }
 

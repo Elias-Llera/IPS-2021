@@ -97,6 +97,8 @@ public class CrearCarrerasController {
 				crearCarreraView.dispose();
 			}
 		});
+		
+		
 
 		crearCarreraView.setModal(true);
 		crearCarreraView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
