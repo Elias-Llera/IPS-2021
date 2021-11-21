@@ -37,14 +37,12 @@ public class InscripcionModel {
 
 	public void addInscripcionGrupal(InscripcionEntity inscripcion) {
 		db.executeUpdate(SQL_ADD_INSCRIPCION_GRUPAL, inscripcion.getEmailAtleta(), inscripcion.getIdCarrera(),
-				inscripcion.getEstado(), inscripcion.getIdCategoria(), inscripcion.getDorsal(),
-				java.sql.Date.valueOf(LocalDate.now()), java.sql.Date.valueOf(LocalDate.now()),
-				inscripcion.getIdPlazoInscripcion());
+				inscripcion.getEstado(), inscripcion.getIdCategoria(), inscripcion.getDorsal(), LocalDate.now(),
+				LocalDate.now(), inscripcion.getIdPlazoInscripcion());
 	}
 
 	public void actualizarInscripcion(String email, int id) {
-		db.executeUpdate(SQL_UPDATE_INSCRIPCION_CLUB, java.sql.Date.valueOf(LocalDate.now()),
-				java.sql.Date.valueOf(LocalDate.now()), email, id);
+		db.executeUpdate(SQL_UPDATE_INSCRIPCION_CLUB, LocalDate.now(), LocalDate.now(), email, id);
 	}
 
 	public InscripcionEntity findInscripcion(String email, int id_carrera) {

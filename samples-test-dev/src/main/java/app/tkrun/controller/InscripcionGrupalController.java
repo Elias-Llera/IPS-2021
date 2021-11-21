@@ -14,6 +14,7 @@ import javax.swing.table.TableModel;
 import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
+import app.tkrun.entities.DevolucionEntity;
 import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
@@ -40,7 +41,7 @@ public class InscripcionGrupalController {
 	CarreraModel carreraModel = new CarreraModel();
 	CategoriaModel categoriaModel = new CategoriaModel();
 	PlazosDeInscripcionModel plazosModel = new PlazosDeInscripcionModel();
-	DevolucionModel devolucionM= new  DevolucionModel();
+	DevolucionModel devolucionM = new DevolucionModel();
 
 	InscripcionView inscripcionView;// vista para añadirle el actionListener
 	InscripcionTarjetaView it = new InscripcionTarjetaView();
@@ -60,17 +61,28 @@ public class InscripcionGrupalController {
 						InscripcionEntity ie = inscripcionModel
 								.findInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera);
 						if (!(ie == null)) {
-							InscripcionEntity i = inscripcionModel.findInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera);
-							if(i.getEstado().equals("INSCRITO")){
-								PlazosDeInscripcionEntity plazo = plazosModel.getListaPlazosInscripciones(idCarrera, i.getFecha());
-								devolucionM.addDevolucion(insGrupalView.getTextFieldEmail().getText(), idCarrera, plazo.getPrecio());
+
+							InscripcionEntity i = inscripcionModel
+									.findInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera);
+
+							if (i.getEstado().equals("INSCRITO")
+									&& igrupalmodel.findInscripcion(insGrupalView.getTextFieldEmail().getText(),
+											idCarrera, club) == 0) {
+
+								PlazosDeInscripcionEntity plazo = plazosModel.getListaPlazosInscripciones(idCarrera,
+										i.getFecha());
+								devolucionM.addDevolucion(insGrupalView.getTextFieldEmail().getText(), idCarrera,
+										plazo.getPrecio());
 							}
-							inscripcionModel.actualizarInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera);
+
+							inscripcionModel.actualizarInscripcion(insGrupalView.getTextFieldEmail().getText(),
+									idCarrera);
 							igrupalmodel.addInscripcion(idCarrera, insGrupalView.getTextFieldEmail().getText(), club);
 							JOptionPane.showMessageDialog(inscripcionView, "Actualizacion realizada", "SUCCESS",
 									JOptionPane.INFORMATION_MESSAGE);
+
 						} else {
-							addInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera,club);
+							addInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera, club);
 
 						}
 
@@ -80,13 +92,16 @@ public class InscripcionGrupalController {
 					JOptionPane.showMessageDialog(null,
 							"Obligatorio rellenar el nombre del club y el email del atleta");
 				}
+
+				getInscritos(idCarrera);
 			}
 
-			private void openInscriptionNoAtletaView() { // Modificarlo para que te ponga el estado a pagado
+			private void openInscriptionNoAtletaView() {
 				new InscripcionNoAtletaController().init(nombreCarrera, idCarrera,
-						insGrupalView.getTextFieldEmail().getText(), false,club);
+						insGrupalView.getTextFieldEmail().getText(), false, club);
 
 			}
+
 		});
 
 		insGrupalView.getBtnRefrescar().addActionListener(new ActionListener() {
@@ -94,6 +109,19 @@ public class InscripcionGrupalController {
 			public void actionPerformed(ActionEvent e) {
 				getInscritos(idCarrera);
 			}
+		});
+
+		insGrupalView.getBtnMedianteArchivo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtil.exceptionWrapper(() -> openInscripcionGrupalTXTView());
+			}
+
+			private void openInscripcionGrupalTXTView() {
+				new InscripcionGrupalTXTController().init(nombreCarrera, idCarrera);
+
+			}
+
 		});
 
 		insGrupalView.getBtnSalir().addActionListener(new ActionListener() {
@@ -113,6 +141,7 @@ public class InscripcionGrupalController {
 		AtletaModel am = new AtletaModel();
 		InscripcionModel im;
 		CategoriaModel cm;
+		InscripcionEntity inscripcion =null;
 
 		List<AtletaEntity> atletas = am.findAllAtletas();
 		List<ParticipanteEntity> participantes = new ArrayList<ParticipanteEntity>();
@@ -120,17 +149,18 @@ public class InscripcionGrupalController {
 		for (AtletaEntity a : atletas) {
 			im = new InscripcionModel();
 
-			InscripcionEntity inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
+			inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
 			if (igrupalmodel.findInscripcion(a.getEmailAtleta(), idCarrera,
 					insGrupalView.getTextFieldNombreClub().getText()) == 0) {
 				continue;
 			} else {
 				cm = new CategoriaModel();
-				CategoriaEntity categoria = cm.findCategoriaCarrera(idCarrera);
+				CategoriaEntity categoria = cm.findCategoria(inscripcion.getIdCategoria());
 				ParticipanteEntity participante = new ParticipanteEntity();
 				participante.setEmailAtleta(a.getEmailAtleta());
 				participante.setNombreAtleta(a.getNombre());
 				participante.setApellidoAtleta(a.getApellido());
+				
 				participante.setNombreCategoria(categoria.getNombre());
 				participante.setEstado(inscripcion.getEstado());
 				participante.setIdCarrera(inscripcion.getIdCarrera());

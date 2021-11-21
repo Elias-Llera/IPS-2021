@@ -29,6 +29,7 @@ public class InscripcionGrupalView extends JDialog {
 	private JScrollPane scrollPane;
 	private JTable tableIGrupal;
 	private JButton btnSalir;
+	private JButton btnMedianteArchivo;
 
 	/**
 	 * Launch the application.
@@ -67,6 +68,7 @@ public class InscripcionGrupalView extends JDialog {
 		contentPane.add(getBtnRefrescar());
 		contentPane.add(getBtnInsertar());
 		contentPane.add(getBtnSalir());
+		contentPane.add(getBtnMedianteArchivo());
 	}
 
 	public JLabel getLblNombreClub() {
@@ -152,5 +154,12 @@ public class InscripcionGrupalView extends JDialog {
 			btnSalir.setBounds(457, 353, 89, 23);
 		}
 		return btnSalir;
+	}
+	public JButton getBtnMedianteArchivo() {
+		if (btnMedianteArchivo == null) {
+			btnMedianteArchivo = new JButton("Mediante archivo");
+			btnMedianteArchivo.setBounds(22, 353, 135, 23);
+		}
+		return btnMedianteArchivo;
 	}
 }
