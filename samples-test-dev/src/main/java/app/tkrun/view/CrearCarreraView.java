@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
 
 public class CrearCarreraView extends JDialog {
 
@@ -27,20 +28,25 @@ public class CrearCarreraView extends JDialog {
 	private JTextField textFieldTipoCarrera;
 	private JTextField textFieldFechaCelebracion;
 	private JTextField textFieldNumeroPlazas;
-	private JTextField textFieldPuntosDeControl;
 	private JButton btnPlazosInscripcion;
 	private JButton btnCategorias;
 	private JButton btnCancelar;
 	private JButton btnCrearCarrera;
 	private JLabel lblDescripcion;
 	private JTextField textFieldDescripcion;
+	private JButton btnAddPuntoDeControl;
+	private JPanel puntosDeControlPanel;
 
+	public static void main(String[] args) {
+		new CrearCarreraView().setVisible(true);
+	}
+	
 	/**
 	 * Create the dialog.
 	 */
 	public CrearCarreraView() {
 		setTitle("Craer carrera");
-		setBounds(100, 100, 564, 370);
+		setBounds(100, 100, 564, 454);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -61,21 +67,35 @@ public class CrearCarreraView extends JDialog {
 		contentPanel.add(getBtnCrearCarrera());
 		contentPanel.add(getLblDescripcion());
 		contentPanel.add(getTextFieldDescripcion());
-		contentPanel.add(getTextFieldPuntosDeControl());
 		
 		JLabel lblDistancia_1 = new JLabel("Distancia (km)");
 		lblDistancia_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDistancia_1.setBounds(10, 56, 121, 23);
 		contentPanel.add(lblDistancia_1);
+		
+
+		JScrollPane scrollPanePuntos = new JScrollPane(getPuntosDeControlPanel());
+		scrollPanePuntos.setBounds(10, 124, 528, 73);
+		contentPanel.add(scrollPanePuntos);
+		
+		
+		contentPanel.add(getBtnAddPuntoDeControl());
+		
 	}
 	
-	public JTextField getTextFieldPuntosDeControl() {
-		if(textFieldPuntosDeControl == null) {
-			textFieldPuntosDeControl = new JTextField();
-			textFieldPuntosDeControl.setColumns(10);
-			textFieldPuntosDeControl.setBounds(159, 93, 243, 20);
+	public JPanel getPuntosDeControlPanel() {
+		if(puntosDeControlPanel == null) {
+			puntosDeControlPanel = new JPanel();
 		}
-		return textFieldPuntosDeControl;
+		return puntosDeControlPanel;
+	}
+	
+	public JButton getBtnAddPuntoDeControl(){
+		if(btnAddPuntoDeControl == null) {
+			btnAddPuntoDeControl = new JButton("+");
+			btnAddPuntoDeControl.setBounds(141, 92, 48, 23);
+		}
+		return btnAddPuntoDeControl;
 	}
 
 	public JLabel getLblNombreCarrera() {
@@ -100,7 +120,7 @@ public class CrearCarreraView extends JDialog {
 		if (lblTipo == null) {
 			lblTipo = new JLabel("Tipo de la carrera");
 			lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblTipo.setBounds(10, 124, 121, 23);
+			lblTipo.setBounds(10, 208, 121, 23);
 		}
 		return lblTipo;
 	}
@@ -109,7 +129,7 @@ public class CrearCarreraView extends JDialog {
 		if (lblFechaCelebracion == null) {
 			lblFechaCelebracion = new JLabel("Fecha de celebracion");
 			lblFechaCelebracion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblFechaCelebracion.setBounds(10, 158, 139, 23);
+			lblFechaCelebracion.setBounds(10, 242, 139, 23);
 		}
 		return lblFechaCelebracion;
 	}
@@ -118,7 +138,7 @@ public class CrearCarreraView extends JDialog {
 		if (lblNumeroPlazas == null) {
 			lblNumeroPlazas = new JLabel("N\u00FAmero de plazas");
 			lblNumeroPlazas.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNumeroPlazas.setBounds(10, 192, 121, 23);
+			lblNumeroPlazas.setBounds(10, 276, 121, 23);
 		}
 		return lblNumeroPlazas;
 	}
@@ -144,7 +164,7 @@ public class CrearCarreraView extends JDialog {
 	public JTextField getTextFieldTipoCarrera() {
 		if (textFieldTipoCarrera == null) {
 			textFieldTipoCarrera = new JTextField();
-			textFieldTipoCarrera.setBounds(159, 127, 243, 20);
+			textFieldTipoCarrera.setBounds(159, 211, 243, 20);
 			textFieldTipoCarrera.setColumns(10);
 		}
 		return textFieldTipoCarrera;
@@ -153,7 +173,7 @@ public class CrearCarreraView extends JDialog {
 	public JTextField getTextFieldFechaCelebracion() {
 		if (textFieldFechaCelebracion == null) {
 			textFieldFechaCelebracion = new JTextField();
-			textFieldFechaCelebracion.setBounds(159, 161, 243, 20);
+			textFieldFechaCelebracion.setBounds(159, 245, 243, 20);
 			textFieldFechaCelebracion.setColumns(10);
 		}
 		return textFieldFechaCelebracion;
@@ -162,7 +182,7 @@ public class CrearCarreraView extends JDialog {
 	public JTextField getTextFieldNumeroPlazas() {
 		if (textFieldNumeroPlazas == null) {
 			textFieldNumeroPlazas = new JTextField();
-			textFieldNumeroPlazas.setBounds(159, 195, 243, 20);
+			textFieldNumeroPlazas.setBounds(159, 279, 243, 20);
 			textFieldNumeroPlazas.setColumns(10);
 		}
 		return textFieldNumeroPlazas;
@@ -172,7 +192,7 @@ public class CrearCarreraView extends JDialog {
 		if (btnPlazosInscripcion == null) {
 			btnPlazosInscripcion = new JButton("Plazos inscripcion");
 			btnPlazosInscripcion.setEnabled(false);
-			btnPlazosInscripcion.setBounds(203, 263, 150, 23);
+			btnPlazosInscripcion.setBounds(203, 347, 150, 23);
 		}
 		return btnPlazosInscripcion;
 	}
@@ -181,7 +201,7 @@ public class CrearCarreraView extends JDialog {
 		if (btnCategorias == null) {
 			btnCategorias = new JButton("Configurar categorias");
 			btnCategorias.setEnabled(false);
-			btnCategorias.setBounds(363, 263, 175, 23);
+			btnCategorias.setBounds(363, 347, 175, 23);
 		}
 		return btnCategorias;
 	}
@@ -189,14 +209,14 @@ public class CrearCarreraView extends JDialog {
 	public JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Salir");
-			btnCancelar.setBounds(449, 297, 89, 23);
+			btnCancelar.setBounds(449, 381, 89, 23);
 		}
 		return btnCancelar;
 	}
 	public JButton getBtnCrearCarrera() {
 		if (btnCrearCarrera == null) {
 			btnCrearCarrera = new JButton("Crear");
-			btnCrearCarrera.setBounds(102, 263, 89, 23);
+			btnCrearCarrera.setBounds(102, 347, 89, 23);
 		}
 		return btnCrearCarrera;
 	}
@@ -204,14 +224,14 @@ public class CrearCarreraView extends JDialog {
 		if (lblDescripcion == null) {
 			lblDescripcion = new JLabel("Descripci\u00F3n");
 			lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblDescripcion.setBounds(10, 229, 105, 23);
+			lblDescripcion.setBounds(10, 313, 105, 23);
 		}
 		return lblDescripcion;
 	}
 	public JTextField getTextFieldDescripcion() {
 		if (textFieldDescripcion == null) {
 			textFieldDescripcion = new JTextField();
-			textFieldDescripcion.setBounds(159, 232, 243, 20);
+			textFieldDescripcion.setBounds(159, 316, 243, 20);
 			textFieldDescripcion.setColumns(10);
 		}
 		return textFieldDescripcion;

@@ -25,9 +25,9 @@ CREATE TABLE carreras(
 
 Create TABLE PuntosDeControl(
 	idCarrera INT NOT NULL,
-	km INT NOT NULL,
+	nombre INT NOT NULL,
 
-	PRIMARY KEY(idCarrera, km),
+	PRIMARY KEY(idCarrera, nombre),
 
 	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
 );
@@ -83,11 +83,11 @@ CREATE TABLE Tiempos(
     idCarrera INT NOT NULL,
     emailAtleta TEXT NOT NULL,
     tiempo TEXT NOT NULL,
-	km INT NOT NULL,
+	nombre TEXT NOT NULL,
 
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
 	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
-	FOREIGN KEY (idCarrera, km) REFERENCES PuntosDeControl (idCarrera, km)
+	FOREIGN KEY (idCarrera, nombre) REFERENCES PuntosDeControl (idCarrera, nombre)
 );
 
 CREATE TABLE Devoluciones(

@@ -5,7 +5,7 @@ public class TiempoEntity {
 	private int idCarrera;
 	private String emailAtleta;
 	private String tiempo;
-	private double km;
+	private String nombre;
 	
 	public void setIdCarrera(int idCarrera) {
 		this.idCarrera = idCarrera;
@@ -29,12 +29,12 @@ public class TiempoEntity {
 		this.emailAtleta = emailAtleta;
 	}
 
-	public double getKm() {
-		return km;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setKm(double km) {
-		this.km = km;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	

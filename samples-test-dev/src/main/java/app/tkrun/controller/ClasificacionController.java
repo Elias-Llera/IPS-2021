@@ -182,7 +182,7 @@ public class ClasificacionController {
 			} else {
 				int dorsal = Integer.parseInt(datosTiempo[0]);
 				String tiempoValue = datosTiempo[1];
-				int km = Integer.parseInt(datosTiempo[2]);
+				String nombre = datosTiempo[2];
 				
 				TiempoEntity tiempo = new TiempoEntity();
 				InscripcionEntity inscripcion = inscripcionModel.findByCarreraAndDorsal(idCarrera, dorsal);
@@ -193,13 +193,13 @@ public class ClasificacionController {
 				tiempo.setIdCarrera(idCarrera);
 				tiempo.setTiempo(tiempoValue);
 				tiempo.setEmailAtleta(inscripcion.getEmailAtleta());
-				tiempo.setKm(km);
+				tiempo.setNombre(nombre);
 				tiempoModel.addTiempo(tiempo);
 				
 				if(puntosPorDorsal.containsKey(inscripcion.getEmailAtleta())) {
 					PuntoDeControlEntity punto = new PuntoDeControlEntity();
 					punto.setIdCarrera(idCarrera);
-					punto.setKm(km);
+					punto.setNombre(nombre);
 					puntosPorDorsal.get(inscripcion.getEmailAtleta()).add(punto);
 				} else {
 					puntosPorDorsal.put(inscripcion.getEmailAtleta(), new ArrayList<>());
@@ -208,7 +208,6 @@ public class ClasificacionController {
 		}
 		
 		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
-		CarreraEntity carrera = carreraModel.findCarrera(idCarrera);
 		
 		//INCLUIR LOS TIEMPOS DE LAS PERSONAS QUE NO SALIERON
 		for (InscripcionEntity inscripcion : inscripciones) {
@@ -216,7 +215,7 @@ public class ClasificacionController {
 				TiempoEntity tiempo = new TiempoEntity();
 				tiempo.setEmailAtleta(inscripcion.getEmailAtleta());
 				tiempo.setIdCarrera(idCarrera);
-				tiempo.setKm(carrera.getDistancia());
+				tiempo.setNombre("FINAL");
 				tiempo.setTiempo("DNS");
 				tiempoModel.addTiempo(tiempo);
 			}
@@ -227,7 +226,7 @@ public class ClasificacionController {
 		
 		PuntoDeControlEntity finalCarrera = new PuntoDeControlEntity();
 		finalCarrera.setIdCarrera(idCarrera);
-		finalCarrera.setKm(carrera.getDistancia());
+		finalCarrera.setNombre("FINAL");
 		
 		//INCLUIR LOS TIEMPOS DE PERSONAS QUE NO TERMINAN O ESTAN DESCALIFICADAS
 		for (String email : puntosPorDorsal.keySet()) {
@@ -236,7 +235,7 @@ public class ClasificacionController {
 					TiempoEntity tiempo = new TiempoEntity();
 					tiempo.setEmailAtleta(email);
 					tiempo.setIdCarrera(idCarrera);
-					tiempo.setKm(carrera.getDistancia());
+					tiempo.setNombre("FINAL");
 					tiempo.setTiempo("DQ");
 					tiempoModel.addTiempo(tiempo);
 				}
@@ -244,7 +243,7 @@ public class ClasificacionController {
 				TiempoEntity tiempo = new TiempoEntity();
 				tiempo.setEmailAtleta(email);
 				tiempo.setIdCarrera(idCarrera);
-				tiempo.setKm(carrera.getDistancia());
+				tiempo.setNombre("FINAL");
 				tiempo.setTiempo("DNF");
 				tiempoModel.addTiempo(tiempo);
 			}

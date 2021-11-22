@@ -7,7 +7,7 @@ import app.util.Database;
 
 public class PuntoDeControlModel {
 
-	private static final String SQL_ADD_PUNTO_DE_CONTROL = "INSERT INTO PuntosDeControl (idCarrera, km) values (?, ?)";
+	private static final String SQL_ADD_PUNTO_DE_CONTROL = "INSERT INTO PuntosDeControl (idCarrera, nombre) values (?, ?)";
 	private static final String SQL_FIND_PUNTO_BY_ID_CARRERA = "SELECT * FROM PuntosDeControl WHERE idCarrera = ?";
 	
 	private Database db = new Database();
@@ -18,7 +18,7 @@ public class PuntoDeControlModel {
     }
 
     public void addPuntoDeControl(PuntoDeControlEntity punto) {
-        db.executeUpdate(SQL_ADD_PUNTO_DE_CONTROL, punto.getIdCarrera(), punto.getKm());
+        db.executeUpdate(SQL_ADD_PUNTO_DE_CONTROL, punto.getIdCarrera(), punto.getNombre());
     }
 	
 }

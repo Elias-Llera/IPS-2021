@@ -3,22 +3,22 @@ package app.tkrun.entities;
 public class PuntoDeControlEntity {
 
 	private int idCarrera;
-	private double km;
+	private String nombre;
 	
 	public int getIdCarrera() {
 		return idCarrera;
 	}
 	
-	public double getKm() {
-		return km;
+	public String getNombre() {
+		return nombre;
 	}
 	
 	public void setIdCarrera(int idCarrera) {
 		this.idCarrera = idCarrera;
 	}
 	
-	public void setKm(double km) {
-		this.km = km;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	@Override
@@ -26,9 +26,7 @@ public class PuntoDeControlEntity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + idCarrera;
-		long temp;
-		temp = Double.doubleToLongBits(km);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
 
@@ -43,9 +41,14 @@ public class PuntoDeControlEntity {
 		PuntoDeControlEntity other = (PuntoDeControlEntity) obj;
 		if (idCarrera != other.idCarrera)
 			return false;
-		if (Double.doubleToLongBits(km) != Double.doubleToLongBits(other.km))
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
 	}
+
+
 
 }
