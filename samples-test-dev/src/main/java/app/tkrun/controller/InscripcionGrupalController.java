@@ -14,7 +14,6 @@ import javax.swing.table.TableModel;
 import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
-import app.tkrun.entities.DevolucionEntity;
 import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;

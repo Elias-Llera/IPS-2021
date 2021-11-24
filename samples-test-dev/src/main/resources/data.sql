@@ -47,7 +47,12 @@ values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2, 1, '2022-03-18', '2022-03-18
        (108, 'ejemplo1@gmail.com', 'INSCRITO', 1, 6, 4, '2021-10-15', '2021-10-15'),
        (108, 'ejemplo2@gmail.com', 'INSCRITO', 2, 5, 4, '2021-10-15', '2021-10-15'),
        (108, 'ejemplo3@gmail.com', 'INSCRITO', 3, 5, 4, '2021-10-15', '2021-10-15'),
-       (108, 'rosa@gmail.com', 'INSCRITO', 4, 6, 4, '2021-10-15', '2021-10-15');
+       (108, 'rosa@gmail.com', 'INSCRITO', 4, 6, 4, '2021-10-15', '2021-10-15'),
+       (108, 'eugenio@hotmail.com', 'INSCRITO', 5, 5, 4, '2021-10-15', '2021-10-15');
+
+insert into PuntosDeControl(idCarrera, nombre)
+values  (108, "punto1"),
+        (108, "punto2");
 
 
 

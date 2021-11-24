@@ -38,11 +38,8 @@ public class CrearCarrerasController {
 				} else {
 					JOptionPane.showMessageDialog(null, "Valide sus campos");
 				}
-
 			}
-
 			private void openPlazosParaCrearCarreraView() {
-
 				new PlanificacionCarrerasController().init(crearCarreraView.getTextFieldFechaCelebracion().getText(),
 						id);
 			}
@@ -87,18 +84,21 @@ public class CrearCarrerasController {
 					carrera.setFecha(crearCarreraView.getTextFieldFechaCelebracion().getText());
 					carrera.setPlazas(Integer.parseInt(crearCarreraView.getTextFieldNumeroPlazas().getText()));
 					carrera.setDistancia(Double.parseDouble(crearCarreraView.getTextFieldDistancia().getText()));
+
 					for (Component panelPunto : crearCarreraView.getPuntosDeControlPanel().getComponents()) {
-						try {
-							PuntoDeControlEntity punto = new PuntoDeControlEntity();
-							punto.setIdCarrera(id);
-							punto.setNombre(((PuntoDeControlPanel) panelPunto).getNombrePunto());
-							puntosModel.addPuntoDeControl(punto);
-						} catch (Exception e) {
+						String nombrePunto = ((PuntoDeControlPanel) panelPunto).getNombrePunto();
+						if (nombrePunto.isBlank()) {
 							JOptionPane.showMessageDialog(crearCarreraView,
-									"Error al parsear los puntos de control. Por favor, separe los puntos con comas e indique los decimales con puntos.");
+									"Error al crear los puntos de control. Por favor, indique el nombre de todos ellos.");
 							return;
 						}
+						PuntoDeControlEntity punto = new PuntoDeControlEntity();
+						punto.setIdCarrera(id);
+						punto.setNombre(nombrePunto);
+						puntosModel.addPuntoDeControl(punto);
+
 					}
+					
 					if (carreraModel.findCarreraIdentica(carrera) == 0) {
 						carreraModel.addCarrera(carrera);
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);
@@ -121,9 +121,7 @@ public class CrearCarrerasController {
 				} else {
 					JOptionPane.showMessageDialog(null, "Valide sus campos");
 				}
-
 			}
-
 		});
 
 		crearCarreraView.getBtnCancelar().addActionListener(new ActionListener() {
@@ -132,8 +130,6 @@ public class CrearCarrerasController {
 				crearCarreraView.dispose();
 			}
 		});
-		
-		
 
 		crearCarreraView.setModal(true);
 		crearCarreraView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -154,7 +150,6 @@ public class CrearCarrerasController {
 	}
 
 	private boolean comprobarFecha() {
-
 		if (crearCarreraView.getTextFieldFechaCelebracion().getText().isEmpty()) {
 			return false;
 		}
@@ -167,7 +162,6 @@ public class CrearCarrerasController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
 		if (fechaInicioDate.after(fechaactual)) {
 			return true;
 		} else {
@@ -181,7 +175,6 @@ public class CrearCarrerasController {
 			return true;
 		}
 		return false;
-
 	}
 
 }
