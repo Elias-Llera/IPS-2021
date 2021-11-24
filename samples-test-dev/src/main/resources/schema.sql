@@ -59,6 +59,15 @@ CREATE TABLE Inscripciones(
 	FOREIGN KEY (idCategoria) REFERENCES Categorias (idCategoria)
 );
 
+CREATE TABLE inscripcionesGrupal(
+	idCarrera INT NOT NULL,
+	emailAtleta TEXT NOT NULL,
+	club TEXT,
+	PRIMARY KEY(idCarrera, emailAtleta),
+	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta),
+	FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera)
+);
+
 CREATE TABLE Categorias(
     idCategoria INT PRIMARY KEY NOT NULL,
     idCarrera INT NOT NULL,
