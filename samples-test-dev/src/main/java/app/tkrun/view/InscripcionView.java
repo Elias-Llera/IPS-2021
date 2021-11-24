@@ -31,6 +31,7 @@ public class InscripcionView extends JDialog {
 	private ButtonGroup buttonGroup;
 
 	private String nombreCarrera;
+	private JButton btnInscripcionGrupo;
 
 	/**
 	 * Launch the application.
@@ -84,6 +85,7 @@ public class InscripcionView extends JDialog {
 		buttonGroup = new ButtonGroup();
 		buttonGroup.add(rdbtnTarjeta);
 		buttonGroup.add(rdbtnTransferencia);
+		contentPane.add(getBtnInscripcionGrupo());
 		
 	}
 	
@@ -140,5 +142,12 @@ public class InscripcionView extends JDialog {
 			textEmail.setColumns(10);
 		}
 		return textEmail;
+	}
+	public JButton getBtnInscripcionGrupo() {
+		if (btnInscripcionGrupo == null) {
+			btnInscripcionGrupo = new JButton("Incripcion Grupal");
+			btnInscripcionGrupo.setBounds(87, 213, 147, 47);
+		}
+		return btnInscripcionGrupo;
 	}
 }

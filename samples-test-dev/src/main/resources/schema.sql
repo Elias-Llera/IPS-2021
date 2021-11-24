@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS PlazosDeInscripcion;
 DROP TABLE IF EXISTS Tiempos;
 DROP TABLE IF EXISTS devoluciones;
 DROP TABLE IF EXISTS PuntosDeControl;
+DROP TABLE IF EXISTS inscripcionesGrupal;
 
 CREATE TABLE carreras(
 	idCarrera INT PRIMARY KEY NOT NULL,

@@ -6,7 +6,7 @@ insert into carreras(idCarrera, nombre, tipo, descripcion, fecha,
                      plazas, distancia)
 values (100, 'Barkley', 'Montaña', 'aaaaa', '2021-07-09', 100, 6),
        (101, 'Barkley2', 'Montaña', 'bbbb','2022-03-10', 90, 7),
-       (102, 'Barkley3', 'Asfalto', 'ccccc', '2020-03-20', 80, 9),
+       (102, 'Barkley3', 'Asfalto', 'ccccc', '2023-03-20', 80, 9),
        (103, 'Barkley4', 'Asfalto', 'ddddd', '2022-11-21', 70, 30),
        (104, 'Barkley5', 'Montaña', 'fffff', '2022-12-10', 60, 19),
        (105, 'ej no plazas', 'Montaña', 'fffff', '2020-12-10', 1, 19),
@@ -17,7 +17,7 @@ values (100, 'Barkley', 'Montaña', 'aaaaa', '2021-07-09', 100, 6),
 insert into PlazosDeInscripcion(idPlazosDeInscripcion, idCarrera, fechaInicio, fechaFin, precio)
 values  (1, 105, '2020-10-01', '2022-11-11', 5),
         (3, 102, '2019-10-01', '2019-11-11', 5),
-	(10, 102, '2019-11-12', '2019-11-14', 15),	
+	(10, 102, '2019-11-12', '2022-11-14', 15),	
         (2, 106, '2020-10-01', '2022-11-11', 5),
         (4, 108, '2021-10-10', '2021-11-05', 5);
 
@@ -42,12 +42,15 @@ values (1, 102, 18, 999, 'Hombre', 'Barklay absoluta masculina'),
 
 insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria, idPlazosDeInscripcion, ultimaActualizacion, fecha)
 values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2, 1, '2022-03-18', '2022-03-18'),
-       (102, 'juan@gmail.com', 'PRE-INSCRITO', 2, 1, 1, '2022-03-15', '2022-03-18'),
+       (102, 'juan@gmail.com', 'INSCRITO', 2, 1, 1, '2022-03-15', '2022-03-18'),
        --test clasificacion
        (108, 'ejemplo1@gmail.com', 'INSCRITO', 1, 6, 4, '2021-10-15', '2021-10-15'),
        (108, 'ejemplo2@gmail.com', 'INSCRITO', 2, 5, 4, '2021-10-15', '2021-10-15'),
        (108, 'ejemplo3@gmail.com', 'INSCRITO', 3, 5, 4, '2021-10-15', '2021-10-15'),
        (108, 'rosa@gmail.com', 'INSCRITO', 4, 6, 4, '2021-10-15', '2021-10-15');
+
+
+
 
 
 --insert into clasificaciones(idCarrera, idCategoria,nombreCategoria, nombreAtleta, genero, posicion, tiempo)

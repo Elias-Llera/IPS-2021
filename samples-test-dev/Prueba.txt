@@ -1,0 +1,6 @@
+Mieres
+ana@gmail.com Ana Perez 2000-06-14 Mujer
+juan@gmail.com Juan Peres 2000-12-30 Hombre
+pedro@gmail.com Pedro Perez 2000-01-14 Hombre
+alvaro@gmail Alvaro Lopez 2000-05-06 Hombre
+eugenio@hotmail.com Eugenio Perez 2000-05-06 Hombre

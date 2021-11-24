@@ -17,8 +17,9 @@ public class InscripcionNoAtletaController {
 	InscripcionNoAtletaView inoAtletaView;
 	AtletaModel atletaModel = new AtletaModel();
 	InscripcionController ic = new InscripcionController();
+	InscripcionGrupalController igc = new InscripcionGrupalController();
 
-	public void init(String nombreCarrera, int idCarrera, String correo) {
+	public void init(String nombreCarrera, int idCarrera, String correo, boolean condicion, String club) {
 		inoAtletaView = new InscripcionNoAtletaView(nombreCarrera, correo);
 		inoAtletaView.getBtnOk().addActionListener(new ActionListener() {
 			@Override
@@ -30,7 +31,12 @@ public class InscripcionNoAtletaController {
 							inoAtletaView.getTextFieldFechaNacimiento().getText(),
 							inoAtletaView.getTextFieldSexo().getText());
 					inoAtletaView.dispose();
-					ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera);
+					if(condicion) {
+						ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera);
+					}else {
+						igc.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera,club);
+					}
+					
 				} else {
 					if (atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
 						JOptionPane.showMessageDialog(null,
