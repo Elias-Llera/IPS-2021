@@ -55,21 +55,19 @@ public class CrearCarrerasController {
 			}
 		});
 
-		crearCarreraView.getBtnAddPuntoDeControl().addMouseListener(new MouseAdapter() {
+		crearCarreraView.getBtnAddPuntoDeControl().addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent event) {
-				PuntoDeControlPanel puntoDeControlPanel = new PuntoDeControlPanel();
-				puntoDeControlPanel.getBtnDelete().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				PuntoDeControlPanel pn = new PuntoDeControlPanel();
+				pn.getBtnDelete().addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						crearCarreraView.getPuntosDeControlPanel().remove(puntoDeControlPanel);
-						crearCarreraView.revalidate();
-						crearCarreraView.repaint();
+						crearCarreraView.getPuntosDeControlPanel().remove(pn);
+						crearCarreraView.getPuntosDeControlPanel().revalidate();
+						crearCarreraView.getPuntosDeControlPanel().repaint();
 					}
 				});
-				{
-				}
-				crearCarreraView.getPuntosDeControlPanel().add(new PuntoDeControlPanel());
+				crearCarreraView.getPuntosDeControlPanel().add(pn);
 				crearCarreraView.revalidate();
 				crearCarreraView.repaint();
 			}
