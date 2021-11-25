@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class CrearCarreraView extends JDialog {
 
@@ -33,13 +35,19 @@ public class CrearCarreraView extends JDialog {
 	private JButton btnCrearCarrera;
 	private JLabel lblDescripcion;
 	private JTextField textFieldDescripcion;
+	private JLabel lblNumeroDorsales;
+	private JTextField textFieldDorsalesReservados;
+	private JLabel lblPoliticaAsignacion;
+	private JRadioButton rdbtnSecuencial;
+	private JRadioButton rdbtnAleatorio;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Create the dialog.
 	 */
 	public CrearCarreraView() {
 		setTitle("Craer carrera");
-		setBounds(100, 100, 564, 370);
+		setBounds(100, 100, 564, 425);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -60,6 +68,11 @@ public class CrearCarreraView extends JDialog {
 		contentPanel.add(getBtnCrearCarrera());
 		contentPanel.add(getLblDescripcion());
 		contentPanel.add(getTextFieldDescripcion());
+		contentPanel.add(getLblNumeroDorsales());
+		contentPanel.add(getTextFieldDorsalesReservados());
+		contentPanel.add(getLblPoliticaAsignacion());
+		contentPanel.add(getRdbtnSecuencial());
+		contentPanel.add(getRdbtnAleatorio());
 	}
 
 	public JLabel getLblNombreCarrera() {
@@ -156,7 +169,7 @@ public class CrearCarreraView extends JDialog {
 		if (btnPlazosInscripcion == null) {
 			btnPlazosInscripcion = new JButton("Plazos inscripcion");
 			btnPlazosInscripcion.setEnabled(false);
-			btnPlazosInscripcion.setBounds(203, 263, 150, 23);
+			btnPlazosInscripcion.setBounds(201, 318, 150, 23);
 		}
 		return btnPlazosInscripcion;
 	}
@@ -165,7 +178,7 @@ public class CrearCarreraView extends JDialog {
 		if (btnCategorias == null) {
 			btnCategorias = new JButton("Configurar categorias");
 			btnCategorias.setEnabled(false);
-			btnCategorias.setBounds(363, 263, 175, 23);
+			btnCategorias.setBounds(363, 318, 175, 23);
 		}
 		return btnCategorias;
 	}
@@ -173,14 +186,14 @@ public class CrearCarreraView extends JDialog {
 	public JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Salir");
-			btnCancelar.setBounds(449, 297, 89, 23);
+			btnCancelar.setBounds(449, 352, 89, 23);
 		}
 		return btnCancelar;
 	}
 	public JButton getBtnCrearCarrera() {
 		if (btnCrearCarrera == null) {
 			btnCrearCarrera = new JButton("Crear");
-			btnCrearCarrera.setBounds(102, 263, 89, 23);
+			btnCrearCarrera.setBounds(102, 318, 89, 23);
 		}
 		return btnCrearCarrera;
 	}
@@ -199,5 +212,46 @@ public class CrearCarreraView extends JDialog {
 			textFieldDescripcion.setColumns(10);
 		}
 		return textFieldDescripcion;
+	}
+	public JLabel getLblNumeroDorsales() {
+		if (lblNumeroDorsales == null) {
+			lblNumeroDorsales = new JLabel("Dorsales reservados");
+			lblNumeroDorsales.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblNumeroDorsales.setBounds(10, 253, 139, 14);
+		}
+		return lblNumeroDorsales;
+	}
+	public JTextField getTextFieldDorsalesReservados() {
+		if (textFieldDorsalesReservados == null) {
+			textFieldDorsalesReservados = new JTextField();
+			textFieldDorsalesReservados.setBounds(157, 252, 67, 20);
+			textFieldDorsalesReservados.setColumns(10);
+		}
+		return textFieldDorsalesReservados;
+	}
+	public JLabel getLblPoliticaAsignacion() {
+		if (lblPoliticaAsignacion == null) {
+			lblPoliticaAsignacion = new JLabel("Politica de asignacion");
+			lblPoliticaAsignacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblPoliticaAsignacion.setBounds(10, 288, 139, 19);
+		}
+		return lblPoliticaAsignacion;
+	}
+	public JRadioButton getRdbtnSecuencial() {
+		if (rdbtnSecuencial == null) {
+			rdbtnSecuencial = new JRadioButton("Secuencial");
+			buttonGroup.add(rdbtnSecuencial);
+			rdbtnSecuencial.setSelected(true);
+			rdbtnSecuencial.setBounds(159, 288, 109, 23);
+		}
+		return rdbtnSecuencial;
+	}
+	public JRadioButton getRdbtnAleatorio() {
+		if (rdbtnAleatorio == null) {
+			rdbtnAleatorio = new JRadioButton("Aleatorio");
+			buttonGroup.add(rdbtnAleatorio);
+			rdbtnAleatorio.setBounds(281, 288, 109, 23);
+		}
+		return rdbtnAleatorio;
 	}
 }

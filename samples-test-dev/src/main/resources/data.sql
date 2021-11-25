@@ -51,6 +51,8 @@ values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2, 1, '2022-03-18', '2022-03-18
 
 
 
+insert into limiteDorsales(idCarrera, numero, secuencial)
+values (102, 5,'secuencial');
 
 
 --insert into clasificaciones(idCarrera, idCategoria,nombreCategoria, nombreAtleta, genero, posicion, tiempo)
