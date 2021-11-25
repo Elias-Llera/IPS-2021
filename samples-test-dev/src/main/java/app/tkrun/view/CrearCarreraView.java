@@ -61,7 +61,7 @@ public class CrearCarreraView extends JDialog {
 	public CrearCarreraView() {
 		setTitle("Craer carrera");
 
-		setBounds(100, 100, 564, 454);
+		setBounds(100, 100, 564, 563);
 
 
 		getContentPane().setLayout(new BorderLayout());
@@ -156,7 +156,7 @@ public class CrearCarreraView extends JDialog {
 		if (lblFechaCelebracion == null) {
 			lblFechaCelebracion = new JLabel("Fecha de celebracion");
 			lblFechaCelebracion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblFechaCelebracion.setBounds(10, 242, 139, 23);
+			lblFechaCelebracion.setBounds(10, 249, 139, 23);
 		}
 		return lblFechaCelebracion;
 	}
@@ -165,7 +165,7 @@ public class CrearCarreraView extends JDialog {
 		if (lblNumeroPlazas == null) {
 			lblNumeroPlazas = new JLabel("N\u00FAmero de plazas");
 			lblNumeroPlazas.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNumeroPlazas.setBounds(10, 276, 121, 23);
+			lblNumeroPlazas.setBounds(10, 320, 121, 23);
 		}
 		return lblNumeroPlazas;
 	}
@@ -209,7 +209,7 @@ public class CrearCarreraView extends JDialog {
 	public JTextField getTextFieldNumeroPlazas() {
 		if (textFieldNumeroPlazas == null) {
 			textFieldNumeroPlazas = new JTextField();
-			textFieldNumeroPlazas.setBounds(159, 279, 243, 20);
+			textFieldNumeroPlazas.setBounds(159, 323, 243, 20);
 			textFieldNumeroPlazas.setColumns(10);
 		}
 		return textFieldNumeroPlazas;
@@ -220,7 +220,7 @@ public class CrearCarreraView extends JDialog {
 			btnPlazosInscripcion = new JButton("Plazos inscripcion");
 			btnPlazosInscripcion.setEnabled(false);
 
-			btnPlazosInscripcion.setBounds(203, 347, 150, 23);
+			btnPlazosInscripcion.setBounds(203, 455, 150, 23);
 
 		}
 		return btnPlazosInscripcion;
@@ -231,7 +231,7 @@ public class CrearCarreraView extends JDialog {
 			btnCategorias = new JButton("Configurar categorias");
 			btnCategorias.setEnabled(false);
 
-			btnCategorias.setBounds(363, 347, 175, 23);
+			btnCategorias.setBounds(363, 455, 175, 23);
 
 
 		}
@@ -242,7 +242,7 @@ public class CrearCarreraView extends JDialog {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Salir");
 
-			btnCancelar.setBounds(449, 381, 89, 23);
+			btnCancelar.setBounds(449, 490, 89, 23);
 
 
 		}
@@ -252,7 +252,7 @@ public class CrearCarreraView extends JDialog {
 		if (btnCrearCarrera == null) {
 			btnCrearCarrera = new JButton("Crear");
 
-			btnCrearCarrera.setBounds(102, 347, 89, 23);
+			btnCrearCarrera.setBounds(104, 455, 89, 23);
 
 
 		}
@@ -262,14 +262,14 @@ public class CrearCarreraView extends JDialog {
 		if (lblDescripcion == null) {
 			lblDescripcion = new JLabel("Descripci\u00F3n");
 			lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblDescripcion.setBounds(10, 313, 105, 23);
+			lblDescripcion.setBounds(10, 286, 105, 23);
 		}
 		return lblDescripcion;
 	}
 	public JTextField getTextFieldDescripcion() {
 		if (textFieldDescripcion == null) {
 			textFieldDescripcion = new JTextField();
-			textFieldDescripcion.setBounds(159, 316, 243, 20);
+			textFieldDescripcion.setBounds(159, 289, 243, 20);
 			textFieldDescripcion.setColumns(10);
 		}
 		return textFieldDescripcion;
@@ -278,14 +278,14 @@ public class CrearCarreraView extends JDialog {
 		if (lblNumeroDorsales == null) {
 			lblNumeroDorsales = new JLabel("Dorsales reservados");
 			lblNumeroDorsales.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNumeroDorsales.setBounds(10, 253, 139, 14);
+			lblNumeroDorsales.setBounds(10, 361, 139, 14);
 		}
 		return lblNumeroDorsales;
 	}
 	public JTextField getTextFieldDorsalesReservados() {
 		if (textFieldDorsalesReservados == null) {
 			textFieldDorsalesReservados = new JTextField();
-			textFieldDorsalesReservados.setBounds(157, 252, 67, 20);
+			textFieldDorsalesReservados.setBounds(159, 360, 67, 20);
 			textFieldDorsalesReservados.setColumns(10);
 		}
 		return textFieldDorsalesReservados;
@@ -294,7 +294,7 @@ public class CrearCarreraView extends JDialog {
 		if (lblPoliticaAsignacion == null) {
 			lblPoliticaAsignacion = new JLabel("Politica de asignacion");
 			lblPoliticaAsignacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblPoliticaAsignacion.setBounds(10, 288, 139, 19);
+			lblPoliticaAsignacion.setBounds(10, 401, 139, 19);
 		}
 		return lblPoliticaAsignacion;
 	}
@@ -303,7 +303,7 @@ public class CrearCarreraView extends JDialog {
 			rdbtnSecuencial = new JRadioButton("Secuencial");
 			buttonGroup.add(rdbtnSecuencial);
 			rdbtnSecuencial.setSelected(true);
-			rdbtnSecuencial.setBounds(159, 288, 109, 23);
+			rdbtnSecuencial.setBounds(159, 401, 109, 23);
 		}
 		return rdbtnSecuencial;
 	}
@@ -311,7 +311,7 @@ public class CrearCarreraView extends JDialog {
 		if (rdbtnAleatorio == null) {
 			rdbtnAleatorio = new JRadioButton("Aleatorio");
 			buttonGroup.add(rdbtnAleatorio);
-			rdbtnAleatorio.setBounds(281, 288, 109, 23);
+			rdbtnAleatorio.setBounds(271, 401, 109, 23);
 		}
 		return rdbtnAleatorio;
 	}
