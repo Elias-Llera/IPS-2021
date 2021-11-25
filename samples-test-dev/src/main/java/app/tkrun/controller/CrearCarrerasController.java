@@ -14,9 +14,17 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import app.tkrun.entities.CarreraEntity;
+
 import app.tkrun.entities.PuntoDeControlEntity;
+
+import app.tkrun.entities.LimiteDorsalesEntity;
+
 import app.tkrun.model.CarreraModel;
+
 import app.tkrun.model.PuntoDeControlModel;
+
+import app.tkrun.model.LimiteDorsalesModel;
+
 import app.tkrun.view.CrearCarreraView;
 import app.tkrun.view.PuntoDeControlPanel;
 import app.util.SwingUtil;
@@ -24,7 +32,11 @@ import app.util.SwingUtil;
 public class CrearCarrerasController {
 	CrearCarreraView crearCarreraView;
 	CarreraModel carreraModel = new CarreraModel();
+
 	PuntoDeControlModel puntosModel = new PuntoDeControlModel();
+
+	LimiteDorsalesModel limiteModel = new LimiteDorsalesModel();
+
 	private int id;
 
 	public void init() {
@@ -77,6 +89,7 @@ public class CrearCarrerasController {
 					Random r = new Random();
 					id = r.nextInt(100000000) + 1;
 					CarreraEntity carrera = new CarreraEntity();
+					LimiteDorsalesEntity limite = new LimiteDorsalesEntity();
 					carrera.setIdCarrera(id);
 					carrera.setNombre(crearCarreraView.getTextFieldNombreCarrera().getText());
 					carrera.setTipo(crearCarreraView.getTextFieldTipoCarrera().getText());
@@ -84,6 +97,7 @@ public class CrearCarrerasController {
 					carrera.setFecha(crearCarreraView.getTextFieldFechaCelebracion().getText());
 					carrera.setPlazas(Integer.parseInt(crearCarreraView.getTextFieldNumeroPlazas().getText()));
 					carrera.setDistancia(Double.parseDouble(crearCarreraView.getTextFieldDistancia().getText()));
+
 
 					for (Component panelPunto : crearCarreraView.getPuntosDeControlPanel().getComponents()) {
 						String nombrePunto = ((PuntoDeControlPanel) panelPunto).getNombrePunto();
@@ -99,6 +113,17 @@ public class CrearCarrerasController {
 
 					}
 					
+
+					limite.setNumero(Integer.parseInt(crearCarreraView.getTextFieldDorsalesReservados().getText()));
+					limite.setIdCarrera(id);
+					if(crearCarreraView.getRdbtnAleatorio().isSelected()) {
+						limite.setSecuencial("aleatorio");
+						limiteModel.addLimiteDorsales(limite);
+					}else {
+						limite.setSecuencial("secuencial");
+						limiteModel.addLimiteDorsales(limite);
+					}
+
 					if (carreraModel.findCarreraIdentica(carrera) == 0) {
 						carreraModel.addCarrera(carrera);
 						crearCarreraView.getBtnCrearCarrera().setEnabled(false);

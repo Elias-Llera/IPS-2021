@@ -14,6 +14,10 @@ DROP TABLE IF EXISTS devoluciones;
 DROP TABLE IF EXISTS PuntosDeControl;
 DROP TABLE IF EXISTS inscripcionesGrupal;
 
+
+DROP TABLE IF EXISTS limiteDorsales;
+
+
 CREATE TABLE carreras(
 	idCarrera INT PRIMARY KEY NOT NULL,
 	nombre TEXT NOT NULL,
@@ -110,4 +114,14 @@ CREATE TABLE Devoluciones(
     FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
 	FOREIGN KEY (emailAtleta) REFERENCES Atletas (emailAtleta)
 );
+
+CREATE TABLE limiteDorsales(
+    idCarrera INT NOT NULL,
+    numero INT NOT NULL,
+    secuencial TEXT NOT NULL,
+
+    FOREIGN KEY (idCarrera) REFERENCES Carreras (idCarrera),
+    PRIMARY KEY (idCarrera)
+);
+
 
