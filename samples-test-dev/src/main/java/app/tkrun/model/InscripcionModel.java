@@ -32,6 +32,8 @@ public class InscripcionModel {
 	private static final String SQL_FIND_BY_CARRERA_AND_DORSAL = "SELECT * FROM Inscripciones WHERE idCarrera = ? AND dorsal = ?";
 
 	private static final String SQL_UPDATE_INSCRIPCION_CLUB = "UPDATE Inscripciones SET estado = 'INSCRITO', ultimaActualizacion = ?, fecha = ?  WHERE emailAtleta = ? AND idCarrera = ?";
+	
+	private static final String SQL_UPDATE_INSCRIPCION_DORSAL = "UPDATE Inscripciones SET dorsal = ?  WHERE emailAtleta = ? AND idCarrera = ?";
 
 	private Database db = new Database();
 
@@ -43,6 +45,10 @@ public class InscripcionModel {
 
 	public void actualizarInscripcion(String email, int id) {
 		db.executeUpdate(SQL_UPDATE_INSCRIPCION_CLUB, LocalDate.now(), LocalDate.now(), email, id);
+	}
+	
+	public void actualizarDorsal(String email, int id, int dorsal) {
+		db.executeUpdate(SQL_UPDATE_INSCRIPCION_DORSAL, dorsal, email, id);
 	}
 
 	public InscripcionEntity findInscripcion(String email, int id_carrera) {

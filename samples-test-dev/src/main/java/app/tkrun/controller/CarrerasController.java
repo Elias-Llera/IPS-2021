@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -16,12 +17,14 @@ import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
 import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.entities.LimiteDorsalesEntity;
 import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.InscripcionModel;
+import app.tkrun.model.LimiteDorsalesModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.CarrerasView;
 import app.tkrun.view.DatosClasificacionView;
@@ -37,7 +40,9 @@ import app.util.SwingUtil;
 public class CarrerasController {
 	private CarreraModel model;
 	private CarrerasView view;
-	AtletaModel atletaModel = new AtletaModel();
+	private AtletaModel atletaModel = new AtletaModel();
+	private InscripcionModel inscripcionModel = new InscripcionModel();
+	private LimiteDorsalesModel dorsalesModel= new LimiteDorsalesModel();
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
 
@@ -76,6 +81,14 @@ public class CarrerasController {
 				mostrarVentanaDatosClasificacion();
 			}
 		});
+		
+		
+		view.getBtnDorsales().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int idCarrera = listaIds.get(view.getTablaCarreras().getSelectedRow());
+				generarDorsales(idCarrera);
+			}
+		});
 		// En el caso del mouse listener (para detectar seleccion de una fila) no es un
 		// interfaz funcional puesto que tiene varios metodos
 		// ver discusion:
@@ -99,6 +112,7 @@ public class CarrerasController {
 
 		});
 
+		
 		view.getBtnAceptar().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -134,6 +148,54 @@ public class CarrerasController {
 		});
 		;
 
+	}
+
+	protected void generarDorsales(int idCarrera) {
+		LimiteDorsalesEntity limite = dorsalesModel.findLimite(idCarrera);
+		CarreraEntity carrera = model.findCarrera(idCarrera);
+		
+		if(limite.getSecuencial().equals("secuencial")) {
+			generarSecuencial(idCarrera, limite.getNumero(), carrera.getPlazas());
+		}else {
+			generarAleatorio(idCarrera, limite.getNumero(), carrera.getPlazas());
+		}
+	
+		
+	}
+
+	private void generarAleatorio(int idCarrera, int numero, int plazas) {
+		Random r = new Random();
+		
+		int contador = r.nextInt(plazas-numero) + numero;
+		
+		ArrayList<Integer> ocupados = new ArrayList<Integer>();
+		
+		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
+		
+		for(InscripcionEntity inscripcion: inscripciones) {
+			while(ocupados.contains(contador)) {
+				contador = r.nextInt(plazas-numero) + numero;
+			}
+			
+			inscripcionModel.actualizarDorsal(inscripcion.getEmailAtleta(), idCarrera, contador);
+			
+			ocupados.add(contador);
+			
+			System.out.println("actualizado" + contador);
+		}
+	}
+
+	private void generarSecuencial(int idCarrera, int numero, int plazas) {
+		int contador = numero + 1 ;
+		
+		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
+		
+		for(InscripcionEntity inscripcion: inscripciones) {
+			inscripcionModel.actualizarDorsal(inscripcion.getEmailAtleta(), idCarrera, contador);
+			contador++; 
+			
+			System.out.println("actualizado" + contador);
+		}
 	}
 
 	protected void mostrarVentanaDatosClasificacion() {

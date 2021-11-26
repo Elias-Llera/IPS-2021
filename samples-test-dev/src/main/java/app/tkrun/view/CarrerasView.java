@@ -36,6 +36,7 @@ public class CarrerasView {
 	private JButton btnCrearCarrera;
 	private JButton btnClasificaciones;
 	private JButton btnDevoluciones;
+	private JButton btnDorsales;
 	
 	/**
 	 * Create the application.
@@ -51,7 +52,7 @@ public class CarrerasView {
 		frame = new JFrame();
 		frame.setTitle("Carreras");
 		frame.setName("Carreras");
-		frame.setBounds(0, 0, 602, 403);
+		frame.setBounds(0, 0, 636, 403);
 		frame.setLocationRelativeTo(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][][][][]"));
@@ -113,6 +114,9 @@ public class CarrerasView {
 		
 		btnDevoluciones = new JButton("Devoluciones");
 		frame.getContentPane().add(btnDevoluciones, "cell 0 8");
+		
+		btnDorsales = new JButton("Genera Dorsales");
+		frame.getContentPane().add(btnDorsales, "cell 0 8");
 
 	}
 
@@ -131,6 +135,7 @@ public class CarrerasView {
 	public JButton getBtnClasificaciones() { return this.btnClasificaciones; }
 	public  JButton getBtnDevoluciones() {return this.btnDevoluciones;}
 	public  JButton getBtnCrearCarrera() {return this.btnCrearCarrera;}
+	public  JButton getBtnDorsales() {return this.btnDorsales;}
 
 
 	

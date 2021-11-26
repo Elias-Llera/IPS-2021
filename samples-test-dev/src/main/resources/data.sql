@@ -57,7 +57,7 @@ values  (108, "punto1"),
 
 
 insert into limiteDorsales(idCarrera, numero, secuencial)
-values (102, 5,'secuencial');
+values (102, 5,'aleatorio');
 
 
 --insert into clasificaciones(idCarrera, idCategoria,nombreCategoria, nombreAtleta, genero, posicion, tiempo)
