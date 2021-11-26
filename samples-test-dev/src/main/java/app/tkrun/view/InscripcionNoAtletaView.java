@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
 
 public class InscripcionNoAtletaView extends JDialog {
 
@@ -33,7 +34,7 @@ public class InscripcionNoAtletaView extends JDialog {
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellido;
 	private JTextField textFieldFechaNacimiento;
-	private JTextField textFieldSexo;
+	private JComboBox<String> comboBoxSexo;
 
 	/**
 	 * Create the dialog.
@@ -59,7 +60,7 @@ public class InscripcionNoAtletaView extends JDialog {
 		contentPanel.add(getTextFieldNombre());
 		contentPanel.add(getTextFieldApellido());
 		contentPanel.add(getTextFieldFechaNacimiento());
-		contentPanel.add(getTextFieldSexo());
+		contentPanel.add(getComboBoxSexo());
 	}
 
 	public JButton getBtnOk() {
@@ -171,13 +172,13 @@ public class InscripcionNoAtletaView extends JDialog {
 		}
 		return textFieldFechaNacimiento;
 	}
-
-	public JTextField getTextFieldSexo() {
-		if (textFieldSexo == null) {
-			textFieldSexo = new JTextField();
-			textFieldSexo.setBounds(90, 244, 328, 20);
-			textFieldSexo.setColumns(10);
+	public JComboBox<String> getComboBoxSexo() {
+		if (comboBoxSexo == null) {
+			comboBoxSexo = new JComboBox<String>();
+			comboBoxSexo.setBounds(150, 243, 268, 22);
+			comboBoxSexo.addItem("Hombre");
+			comboBoxSexo.addItem("Mujer");
 		}
-		return textFieldSexo;
+		return comboBoxSexo;
 	}
 }

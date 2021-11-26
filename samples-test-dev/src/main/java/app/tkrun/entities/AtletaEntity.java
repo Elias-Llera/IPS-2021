@@ -7,6 +7,15 @@ public class AtletaEntity {
 	private String apellido;
 	private String fechaNacimiento;
 	private String sexo;
+	private String causa;
+
+	public String getCausa() {
+		return causa;
+	}
+
+	public void setCausa(String causa) {
+		this.causa = causa;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -37,7 +46,7 @@ public class AtletaEntity {
 	}
 
 	public void setSexo(String sexo) {
-		this.sexo = sexo ;
+		this.sexo = sexo;
 	}
 
 	public String getEmailAtleta() {

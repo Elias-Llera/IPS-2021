@@ -32,7 +32,6 @@ public class InscripcionGrupalTXTView extends JDialog {
 	private JTextField textFieldNumeroIns;
 	private JLabel lblNumeroTotalNoIns;
 	private JTextField textFieldNumeroNoIns;
-	private JButton btnRefrescar;
 	private JScrollPane scrollPane;
 	private JTable tableInscritosArchivo;
 	private JScrollPane scrollPane_1;
@@ -75,7 +74,6 @@ public class InscripcionGrupalTXTView extends JDialog {
 		contentPanel.add(getTextFieldNumeroIns());
 		contentPanel.add(getLblNumeroTotalNoIns());
 		contentPanel.add(getTextFieldNumeroNoIns());
-		contentPanel.add(getBtnRefrescar());
 		contentPanel.add(getLblTotal());
 		contentPanel.add(getTextFieldTotal());
 	}
@@ -129,7 +127,7 @@ public class InscripcionGrupalTXTView extends JDialog {
 	public JButton getBtnInsertar() {
 		if (btnInsertar == null) {
 			btnInsertar = new JButton("Insertar");
-			btnInsertar.setBounds(349, 107, 89, 23);
+			btnInsertar.setBounds(395, 105, 169, 23);
 		}
 		return btnInsertar;
 	}
@@ -192,14 +190,6 @@ public class InscripcionGrupalTXTView extends JDialog {
 			textFieldNumeroNoIns.setBounds(187, 536, 89, 36);
 		}
 		return textFieldNumeroNoIns;
-	}
-
-	public JButton getBtnRefrescar() {
-		if (btnRefrescar == null) {
-			btnRefrescar = new JButton("Actualizar");
-			btnRefrescar.setBounds(448, 107, 116, 23);
-		}
-		return btnRefrescar;
 	}
 
 	private JScrollPane getScrollPane() {

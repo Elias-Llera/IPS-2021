@@ -15,6 +15,7 @@ import app.tkrun.entities.AtletaEntity;
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
 import app.tkrun.entities.InscripcionEntity;
+import app.tkrun.entities.LimiteDorsalesEntity;
 import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
 import app.tkrun.model.AtletaModel;
@@ -23,6 +24,7 @@ import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.DevolucionModel;
 import app.tkrun.model.InscripcionGrupalModel;
 import app.tkrun.model.InscripcionModel;
+import app.tkrun.model.LimiteDorsalesModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.InscripcionGrupalView;
 import app.tkrun.view.InscripcionTarjetaView;
@@ -41,6 +43,7 @@ public class InscripcionGrupalController {
 	CategoriaModel categoriaModel = new CategoriaModel();
 	PlazosDeInscripcionModel plazosModel = new PlazosDeInscripcionModel();
 	DevolucionModel devolucionM = new DevolucionModel();
+	LimiteDorsalesModel ldm = new LimiteDorsalesModel();
 
 	InscripcionView inscripcionView;// vista para añadirle el actionListener
 	InscripcionTarjetaView it = new InscripcionTarjetaView();
@@ -79,10 +82,12 @@ public class InscripcionGrupalController {
 							igrupalmodel.addInscripcion(idCarrera, insGrupalView.getTextFieldEmail().getText(), club);
 							JOptionPane.showMessageDialog(inscripcionView, "Actualizacion realizada", "SUCCESS",
 									JOptionPane.INFORMATION_MESSAGE);
+							
+							insGrupalView.getTextFieldNombreClub().setEditable(false);
 
 						} else {
 							addInscripcion(insGrupalView.getTextFieldEmail().getText(), idCarrera, club);
-
+							insGrupalView.getTextFieldNombreClub().setEditable(false);
 						}
 
 					}
@@ -93,6 +98,7 @@ public class InscripcionGrupalController {
 				}
 
 				getInscritos(idCarrera);
+				
 			}
 
 			private void openInscriptionNoAtletaView() {
@@ -171,7 +177,7 @@ public class InscripcionGrupalController {
 		}
 
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(participantes,
-				new String[] { "emailAtleta", "nombreAtleta", "nombreCategoria", "estado", "dorsal" });
+				new String[] { "emailAtleta", "nombreAtleta", "nombreCategoria", "estado" });
 
 		insGrupalView.getTableIGrupal().setModel(tmodel);
 
@@ -250,9 +256,11 @@ public class InscripcionGrupalController {
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
+		
 
 		// Calcular dorsal
 		int dorsal = inscripciones.size() + 1;
+		
 
 		// Guardar inscripcion
 		InscripcionEntity inscripcion = new InscripcionEntity();
@@ -270,5 +278,7 @@ public class InscripcionGrupalController {
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
+	
+
 
 }
