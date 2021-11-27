@@ -41,7 +41,7 @@ values (1, 102, 18, 999, 'Hombre', 'Barklay absoluta masculina'),
 
 
 insert into inscripciones(idCarrera, emailAtleta, estado, dorsal, idCategoria, idPlazosDeInscripcion, ultimaActualizacion, fecha)
-values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2, 1, '2022-03-18', '2022-03-18'),
+values (102, 'ana@gmail.com', 'INSCRITO', 1, 2, 1, '2022-03-18', '2022-03-18'),
        (102, 'juan@gmail.com', 'INSCRITO', 2, 1, 1, '2022-03-15', '2022-03-18'),
        --test clasificacion
        (108, 'ejemplo1@gmail.com', 'INSCRITO', 1, 6, 4, '2021-10-15', '2021-10-15'),
@@ -53,6 +53,10 @@ values (102, 'ana@gmail.com', 'PRE-INSCRITO', 1, 2, 1, '2022-03-18', '2022-03-18
 insert into PuntosDeControl(idCarrera, nombre)
 values  (108, "punto1"),
         (108, "punto2");
+
+insert into tiempos(idCarrera, emailAtleta, tiempo, nombre)
+values (102, 'juan@gmail.com','02:25:35', 'FINAL'),
+(102, 'ana@gmail.com','01:25:35', 'FINAL');
 
 
 
