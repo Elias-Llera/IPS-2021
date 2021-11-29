@@ -58,7 +58,7 @@ public class CarrerasView {
 		frame.setName("Carreras");
 
 
-		frame.setBounds(0, 0, 821, 403);
+		frame.setBounds(0, 0, 911, 403);
 
 		frame.setLocationRelativeTo(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

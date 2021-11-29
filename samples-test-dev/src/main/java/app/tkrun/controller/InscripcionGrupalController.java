@@ -82,7 +82,7 @@ public class InscripcionGrupalController {
 							igrupalmodel.addInscripcion(idCarrera, insGrupalView.getTextFieldEmail().getText(), club);
 							JOptionPane.showMessageDialog(inscripcionView, "Actualizacion realizada", "SUCCESS",
 									JOptionPane.INFORMATION_MESSAGE);
-							
+
 							insGrupalView.getTextFieldNombreClub().setEditable(false);
 
 						} else {
@@ -98,7 +98,7 @@ public class InscripcionGrupalController {
 				}
 
 				getInscritos(idCarrera);
-				
+
 			}
 
 			private void openInscriptionNoAtletaView() {
@@ -146,7 +146,7 @@ public class InscripcionGrupalController {
 		AtletaModel am = new AtletaModel();
 		InscripcionModel im;
 		CategoriaModel cm;
-		InscripcionEntity inscripcion =null;
+		InscripcionEntity inscripcion = null;
 
 		List<AtletaEntity> atletas = am.findAllAtletas();
 		List<ParticipanteEntity> participantes = new ArrayList<ParticipanteEntity>();
@@ -165,7 +165,7 @@ public class InscripcionGrupalController {
 				participante.setEmailAtleta(a.getEmailAtleta());
 				participante.setNombreAtleta(a.getNombre());
 				participante.setApellidoAtleta(a.getApellido());
-				
+
 				participante.setNombreCategoria(categoria.getNombre());
 				participante.setEstado(inscripcion.getEstado());
 				participante.setIdCarrera(inscripcion.getIdCarrera());
@@ -256,11 +256,10 @@ public class InscripcionGrupalController {
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
-		
 
 		// Calcular dorsal
-		int dorsal = inscripciones.size() + 1;
-		
+		// int dorsal = inscripciones.size() + 1;
+		int dorsal = 0;
 
 		// Guardar inscripcion
 		InscripcionEntity inscripcion = new InscripcionEntity();
@@ -278,7 +277,5 @@ public class InscripcionGrupalController {
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
-	
-
 
 }
