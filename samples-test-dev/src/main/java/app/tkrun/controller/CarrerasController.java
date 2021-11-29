@@ -27,6 +27,7 @@ import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.LimiteDorsalesModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.CarrerasView;
+import app.tkrun.view.ClasificacionesCategoriaView;
 import app.tkrun.view.DatosClasificacionView;
 import app.tkrun.view.DatosView;
 import app.util.SwingUtil;
@@ -73,6 +74,13 @@ public class CarrerasController {
 		view.getBtnInscripciones().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarVentanaDatos();
+			}
+		});
+		
+		view.getBtnClasificacionesCategoria().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = listaIds.get(view.getTablaCarreras().getSelectedRow());;
+				mostrarVentanaClasificacionCategoria(index);
 			}
 		});
 
@@ -150,6 +158,7 @@ public class CarrerasController {
 
 	}
 
+
 	protected void generarDorsales(int idCarrera) {
 		LimiteDorsalesEntity limite = dorsalesModel.findLimite(idCarrera);
 		CarreraEntity carrera = model.findCarrera(idCarrera);
@@ -195,7 +204,18 @@ public class CarrerasController {
 			contador++; 
 			
 			System.out.println("actualizado" + contador);
+		
 		}
+	}
+
+	protected void mostrarVentanaClasificacionCategoria(int index) {
+		ClasificacionesCategoriaView vp = new ClasificacionesCategoriaView(index);
+
+		vp.setLocationRelativeTo(null);
+		vp.setVisible(true);
+		
+		
+
 	}
 
 	protected void mostrarVentanaDatosClasificacion() {

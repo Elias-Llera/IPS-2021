@@ -33,7 +33,11 @@ public class InscripcionModel {
 
 	private static final String SQL_UPDATE_INSCRIPCION_CLUB = "UPDATE Inscripciones SET estado = 'INSCRITO', ultimaActualizacion = ?, fecha = ?  WHERE emailAtleta = ? AND idCarrera = ?";
 	
+
 	private static final String SQL_UPDATE_INSCRIPCION_DORSAL = "UPDATE Inscripciones SET dorsal = ?  WHERE emailAtleta = ? AND idCarrera = ?";
+
+	private static final String SQL_FIND_INSCRIPCION_BY_IDCARRERA_CATEGORIA = "SELECT emailAtleta, idCarrera, estado, idCategoria, dorsal, fecha from INSCRIPCIONES where idCarrera=? AND idCategoria = ?";
+
 
 	private Database db = new Database();
 
@@ -102,6 +106,13 @@ public class InscripcionModel {
 		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class,
 				SQL_FIND_BY_CARRERA_AND_DORSAL, idCarrera, dorsal);
 		return inscripciones.isEmpty() ? null : inscripciones.get(0);
+	}
+
+	public List<InscripcionEntity> findByCarreraCategoria(int id, int idCategoria) {
+		List<InscripcionEntity> inscripciones = db.executeQueryPojo(InscripcionEntity.class, SQL_FIND_INSCRIPCION_BY_IDCARRERA_CATEGORIA,
+				id, idCategoria);
+		return (inscripciones == null || inscripciones.size() == 0) ? null : inscripciones;
+		
 	}
 
 }

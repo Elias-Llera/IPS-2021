@@ -1,6 +1,6 @@
 package app.tkrun.entities;
 
-public class TiempoEntity {
+public class TiempoEntity implements Comparable<TiempoEntity>{
 
 	private int idCarrera;
 	private String emailAtleta;
@@ -35,6 +35,19 @@ public class TiempoEntity {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@Override
+	public int compareTo(TiempoEntity o) {
+		if(tiempo.compareTo(o.tiempo) < 0) {
+			return -1;
+		}
+		
+		if(tiempo.compareTo(o.tiempo) > 0) {
+			return 1;
+		}
+		
+		return 0;
 	}
 	
 	

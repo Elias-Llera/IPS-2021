@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -28,6 +30,7 @@ import app.tkrun.model.InscripcionGrupalModel;
 import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.InscripcionGrupalTXTView;
+import app.tkrun.view.InscripcionGrupalView;
 import app.util.SwingUtil;
 
 public class InscripcionGrupalTXTController {
@@ -52,6 +55,9 @@ public class InscripcionGrupalTXTController {
 		nscripcionGrupalView.getBtnInsertar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				contIns = 0;
+				contNotIns = 0;
+				noInscritos.clear();
 				if (comprobarCampos()) {
 
 					logicaRellenar(nombreCarrera, idCarrera, leerFichero());
@@ -68,14 +74,6 @@ public class InscripcionGrupalTXTController {
 
 			}
 
-		});
-
-		nscripcionGrupalView.getBtnRefrescar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getInscritos(idCarrera);
-				getNoInscritos();
-			}
 		});
 
 		nscripcionGrupalView.getBtnSalir().addActionListener(new ActionListener() {
@@ -98,8 +96,11 @@ public class InscripcionGrupalTXTController {
 
 			if (atletaModel.findSiEsAtleta(atleta[0]) == 0) {
 				// no atleta no inscito
-				addInscripcionNoAttleta(atleta[0], atleta[1], atleta[2], atleta[3], atleta[4]);
-				addInscripcion(atleta[0], idCarrera, club);
+				if(addInscripcionNoAttleta(atleta[0], atleta[1], atleta[2], atleta[3], atleta[4])) {
+					addInscripcion(atleta[0], idCarrera, club);
+				}
+				
+				
 			} else {
 				// atleta y inscrito
 				InscripcionEntity ie = inscripcionModel.findInscripcion(atleta[0], idCarrera);
@@ -114,10 +115,10 @@ public class InscripcionGrupalTXTController {
 
 					}
 					inscripcionModel.actualizarInscripcion(atleta[0], idCarrera);
-					if(igrupalmodel.findInscripcion(atleta[0], idCarrera, club) == 0) {
+					if (igrupalmodel.findInscripcion(atleta[0], idCarrera, club) == 0) {
 						igrupalmodel.addInscripcion(idCarrera, atleta[0], club);
 					}
-					
+
 					contIns++;
 
 				} else {
@@ -163,7 +164,7 @@ public class InscripcionGrupalTXTController {
 		}
 
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(participantes,
-				new String[] { "emailAtleta", "nombreAtleta", "nombreCategoria", "estado", "dorsal" });
+				new String[] { "emailAtleta", "nombreAtleta", "nombreCategoria", "estado" });
 
 		nscripcionGrupalView.getTableInscritosArchivo().setModel(tmodel);
 
@@ -173,7 +174,7 @@ public class InscripcionGrupalTXTController {
 	private void getNoInscritos() {
 
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(noInscritos,
-				new String[] { "emailAtleta", "nombre", "apellido", "fechaNacimiento", "sexo" });
+				new String[] { "emailAtleta", "nombre", "apellido", "fechaNacimiento", "sexo", "causa" });
 
 		nscripcionGrupalView.getTableNoInscritosArchivo().setModel(tmodel);
 
@@ -188,19 +189,51 @@ public class InscripcionGrupalTXTController {
 		return true;
 	}
 
-	public void addInscripcionNoAttleta(String email, String nombre, String apellido, String fechaNacimiento,
+	public boolean addInscripcionNoAttleta(String email, String nombre, String apellido, String fechaNacimiento,
 			String sexo) {
-		AtletaEntity atleta = new AtletaEntity();
-		atleta.setEmailAtleta(email);
-		atleta.setNombre(nombre);
-		atleta.setApellido(apellido);
-		atleta.setFechaNacimiento(fechaNacimiento);
-		atleta.setSexo(sexo);
-		atletaModel.addAtleta(atleta);
+		
+		if(comprobarMayorDeEdad(fechaNacimiento) && comprobarGenero(sexo)) {
+			AtletaEntity atleta = new AtletaEntity();
+			atleta.setEmailAtleta(email);
+			atleta.setNombre(nombre);
+			atleta.setApellido(apellido);
+			atleta.setFechaNacimiento(fechaNacimiento);
+			atleta.setSexo(sexo);
+			atletaModel.addAtleta(atleta);
+			return true;
+		}else {
+			contNotIns++;
+			return false;
+		}
+		
+		
+	}
+
+	private boolean comprobarMayorDeEdad(String fechaNacimiento) {
+
+		DateTimeFormatter formatoDelTexto = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate fechaCumple = null;
+		fechaCumple = LocalDate.parse(fechaNacimiento, formatoDelTexto);
+		if (LocalDate.now().minusYears(18).isAfter(fechaCumple)) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	private boolean comprobarGenero(String sexo) {
+		if (sexo.toLowerCase().equals("hombre")
+				||sexo.toLowerCase().equals("mujer")) {
+			return true;
+		}
+		return false;
+
 	}
 
 	public void addInscripcion(String email, int idCarrera, String Club) {
 		System.out.println("add inscripcion");
+		InscripcionEntity inscripcion = new InscripcionEntity();
 
 		// Obtener atleta
 		AtletaEntity ae = atletaModel.findAtleta(email);
@@ -208,6 +241,7 @@ public class InscripcionGrupalTXTController {
 
 			contNotIns++;
 			noInscritos.add(ae);
+			noInscritos.get(noInscritos.size() - 1).setCausa("No atleta");
 			return;
 		}
 
@@ -217,6 +251,7 @@ public class InscripcionGrupalTXTController {
 
 			contNotIns++;
 			noInscritos.add(ae);
+			noInscritos.get(noInscritos.size() - 1).setCausa("No carrera");
 			return;
 		}
 
@@ -231,6 +266,7 @@ public class InscripcionGrupalTXTController {
 
 			contNotIns++;
 			noInscritos.add(ae);
+			noInscritos.get(noInscritos.size() - 1).setCausa("No plazo");
 			return;
 		}
 
@@ -240,6 +276,7 @@ public class InscripcionGrupalTXTController {
 
 			contNotIns++;
 			noInscritos.add(ae);
+			noInscritos.get(noInscritos.size() - 1).setCausa("No plazas");
 			return;
 		}
 
@@ -257,7 +294,9 @@ public class InscripcionGrupalTXTController {
 		if (categoria == null) {
 
 			contNotIns++;
+
 			noInscritos.add(ae);
+			noInscritos.get(noInscritos.size() - 1).setCausa("No categoria");
 			return;
 		}
 
@@ -265,7 +304,7 @@ public class InscripcionGrupalTXTController {
 		int dorsal = inscripciones.size() + 1;
 
 		// Guardar inscripcion
-		InscripcionEntity inscripcion = new InscripcionEntity();
+
 		inscripcion.setDorsal(dorsal);
 		inscripcion.setIdCategoria(categoria.getIdCategoria());
 		inscripcion.setIdCarrera(idCarrera);

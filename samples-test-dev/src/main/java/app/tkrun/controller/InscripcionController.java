@@ -49,14 +49,14 @@ public class InscripcionController {
 				if (atletaModel.findSiEsAtleta(inscripcionView.getTextEmail().getText()) == 0) {
 					SwingUtil.exceptionWrapper(() -> openInscriptionNoAtletaView());
 				} else {
-					addInscripcion(inscripcionView.getTextEmail().getText(), idCarrera);
+					addInscripcion(inscripcionView.getTextEmail().getText(), idCarrera,inscripcionView.getSelectedButtonText());
 
 				}
 			}
 
 			private void openInscriptionNoAtletaView() {
 				new InscripcionNoAtletaController().init(nombreCarrera, idCarrera,
-						inscripcionView.getTextEmail().getText(), true, "ninguno");
+						inscripcionView.getTextEmail().getText(), true, inscripcionView.getSelectedButtonText());
 
 			}
 		});
@@ -92,7 +92,7 @@ public class InscripcionController {
 		inscripcionView.setVisible(true);
 	}
 
-	public void addInscripcion(String email, int idCarrera) {
+	public void addInscripcion(String email, int idCarrera, String seleccionado) {
 		System.out.println("add inscripcion");
 		// Comprobar que no existe otra inscripcion
 		InscripcionEntity ie = inscripcionModel.findInscripcion(email, idCarrera);
@@ -167,7 +167,7 @@ public class InscripcionController {
 		inscripcion.setEmailAtleta(email);
 		inscripcion.setIdPlazoInscripcion(plazo.getIdPlazosDeInscripcion());
 
-		String selectedButtonText = inscripcionView.getSelectedButtonText();
+		String selectedButtonText = seleccionado;
 
 		if (selectedButtonText == null) {
 			JOptionPane.showMessageDialog(inscripcionView, "Seleccione un metodo de pago", "ERROR",
@@ -188,12 +188,12 @@ public class InscripcionController {
 			JOptionPane.showMessageDialog(inscripcionView, text, "RECIBO", JOptionPane.INFORMATION_MESSAGE);
 		}
 
-		inscripcionModel.addInscripcion(inscripcion);
+		inscripcionModel.addInscripcionGrupal(inscripcion);
 
 		JOptionPane.showMessageDialog(inscripcionView, "Inscripcion realizada", "SUCCESS",
 				JOptionPane.INFORMATION_MESSAGE);
 
-		inscripcionView.dispose();
+		//inscripcionView.dispose();
 	}
 
 	private String reciboTransferencia(InscripcionEntity inscripcion, AtletaEntity atleta, CarreraEntity carrera,

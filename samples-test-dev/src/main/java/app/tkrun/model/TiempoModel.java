@@ -10,6 +10,8 @@ public class TiempoModel {
 
 	
 	private static final String SQL_FIND_CLASIFICACIONES_FOR_CARRERA = "SELECT * from Tiempos where idCarrera=? AND NOMBRE = 'FINAL' ORDER BY tiempo ASC";
+	
+	private static final String SQL_FIND_CLASIFICACIONES_FOR_CARRERA_CATEGORIA = "SELECT * from Tiempos where idCarrera=? AND emailAtleta =? AND NOMBRE = 'FINAL' ORDER BY tiempo ASC";
 
 	private static final String SQL_ADD_TIEMPO = "INSERT INTO Tiempos (emailAtleta, idCarrera, tiempo, nombre) VALUES(?, ?, ?, ?)";
 
@@ -17,6 +19,11 @@ public class TiempoModel {
 
 	public List<TiempoEntity> findClasificacionForCarrera (CarreraEntity carrera) {
 		List<TiempoEntity> clasificaciones = db.executeQueryPojo(TiempoEntity.class, SQL_FIND_CLASIFICACIONES_FOR_CARRERA, carrera.getIdCarrera());
+		return clasificaciones;
+	}
+	
+	public List<TiempoEntity> findClasificacionForCarreraCategoria (int idCarrera, String email) {
+		List<TiempoEntity> clasificaciones = db.executeQueryPojo(TiempoEntity.class, SQL_FIND_CLASIFICACIONES_FOR_CARRERA_CATEGORIA, idCarrera, email);
 		return clasificaciones;
 	}
 	

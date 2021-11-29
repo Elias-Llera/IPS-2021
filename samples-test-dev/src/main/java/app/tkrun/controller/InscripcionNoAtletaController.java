@@ -24,17 +24,21 @@ public class InscripcionNoAtletaController {
 		inoAtletaView.getBtnOk().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (comprobarCampos() && comprobarMayorDeEdad() && comprobarGenero()) {
+				if (comprobarCampos() && comprobarMayorDeEdad() ) {
 					addInscripcion(inoAtletaView.getTextFieldEmail().getText(),
 							inoAtletaView.getTextFieldNombre().getText(),
 							inoAtletaView.getTextFieldApellido().getText(),
 							inoAtletaView.getTextFieldFechaNacimiento().getText(),
-							inoAtletaView.getTextFieldSexo().getText());
-					inoAtletaView.dispose();
+							String.valueOf(inoAtletaView.getComboBoxSexo().getSelectedItem()));
 					if(condicion) {
-						ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera);
+						String botonSelccionado=club;
+						ic.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera, botonSelccionado);
+						inoAtletaView.dispose();
 					}else {
+						
+						
 						igc.addInscripcion(inoAtletaView.getTextFieldEmail().getText(), idCarrera,club);
+						inoAtletaView.dispose();
 					}
 					
 				} else {
@@ -43,9 +47,6 @@ public class InscripcionNoAtletaController {
 								"No puede meter un email de un atleta que no se corresponde con usted");
 					} else if (!comprobarMayorDeEdad()) {
 						JOptionPane.showMessageDialog(null, "No es mayor de edad");
-					} else if (!comprobarGenero()) {
-
-						JOptionPane.showMessageDialog(null, "Ese sexo no está comprendido");
 					} else {
 						JOptionPane.showMessageDialog(null, "Comprube que relleno todos los datos");
 					}
@@ -84,7 +85,7 @@ public class InscripcionNoAtletaController {
 				|| inoAtletaView.getTextFieldNombre().getText().isEmpty()
 				|| inoAtletaView.getTextFieldApellido().getText().isEmpty()
 				|| inoAtletaView.getTextFieldFechaNacimiento().getText().isEmpty()
-				|| inoAtletaView.getTextFieldSexo().getText().isEmpty()
+				|| String.valueOf(inoAtletaView.getComboBoxSexo().getSelectedItem()).isEmpty()
 				|| atletaModel.findSiEsAtleta(inoAtletaView.getTextFieldEmail().getText()) != 0) {
 			return false;
 		}
@@ -106,13 +107,5 @@ public class InscripcionNoAtletaController {
 
 	}
 
-	private boolean comprobarGenero() {
-		if (inoAtletaView.getTextFieldSexo().getText().toLowerCase().equals("hombre")
-				|| inoAtletaView.getTextFieldSexo().getText().toLowerCase().equals("mujer")) {
-			return true;
-		}
-		return false;
-
-	}
 
 }

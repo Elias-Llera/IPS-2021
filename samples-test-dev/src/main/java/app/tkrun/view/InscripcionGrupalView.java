@@ -93,7 +93,7 @@ public class InscripcionGrupalView extends JDialog {
 
 	public JLabel getLblEmail() {
 		if (lblEmail == null) {
-			lblEmail = new JLabel("Email");
+			lblEmail = new JLabel("Email del atleta");
 			lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblEmail.setBounds(22, 97, 109, 27);
 		}

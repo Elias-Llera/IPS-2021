@@ -30,6 +30,17 @@ public class CategoriaModel {
 		List<CategoriaEntity> categorias = db.executeQueryPojo(CategoriaEntity.class, SQL_FIND_CATEGORIA_CARRERA, id);
 		return categorias.size() == 0 ? null : categorias.get(0);
 	}
+	
+	/**
+	 * Obtiene todas las categorias de una carrera
+	 * @param id
+	 * @return
+	 */
+	public List<CategoriaEntity> findCategoriasCarrera(int id) {
+		List<CategoriaEntity> categorias = db.executeQueryPojo(CategoriaEntity.class, SQL_FIND_CATEGORIA_CARRERA, id);
+		return categorias.size() == 0 ? null : categorias;
+	}
+
 
 	/**
 	 * Obtiene todos los datos de la carrera para un atleta en concreto
