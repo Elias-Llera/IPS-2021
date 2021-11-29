@@ -162,7 +162,8 @@ public class InscripcionController {
 		}
 
 		// Calcular dorsal
-		int dorsal = inscripciones.size() + 1;
+		//int dorsal = inscripciones.size() + 1;
+		int dorsal = 0;
 
 		// Guardar inscripcion
 		InscripcionEntity inscripcion = new InscripcionEntity();

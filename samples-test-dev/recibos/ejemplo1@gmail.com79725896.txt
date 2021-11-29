@@ -1,0 +1,8 @@
+Justificante de inscripcion
+20211129/nAtleta: Ejemplo1 Ejemplo1
+Carrera: prueba plazos
+Categoria: f
+Dorsal: 1
+Estado de la inscripcion: Pendiente de Pago
+Por favor, haga una transferencia de 6.0� a la siguiente cuenta:
+*numero de cuenta*

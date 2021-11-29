@@ -95,11 +95,10 @@ public class InscripcionGrupalTXTController {
 
 			if (atletaModel.findSiEsAtleta(atleta[0]) == 0) {
 				// no atleta no inscito
-				if(addInscripcionNoAttleta(atleta[0], atleta[1], atleta[2], atleta[3], atleta[4])) {
+				if (addInscripcionNoAttleta(atleta[0], atleta[1], atleta[2], atleta[3], atleta[4])) {
 					addInscripcion(atleta[0], idCarrera, club);
 				}
-				
-				
+
 			} else {
 				// atleta y inscrito
 				InscripcionEntity ie = inscripcionModel.findInscripcion(atleta[0], idCarrera);
@@ -190,8 +189,8 @@ public class InscripcionGrupalTXTController {
 
 	public boolean addInscripcionNoAttleta(String email, String nombre, String apellido, String fechaNacimiento,
 			String sexo) {
-		
-		if(comprobarMayorDeEdad(fechaNacimiento) && comprobarGenero(sexo)) {
+
+		if (comprobarMayorDeEdad(fechaNacimiento) && comprobarGenero(sexo)) {
 			AtletaEntity atleta = new AtletaEntity();
 			atleta.setEmailAtleta(email);
 			atleta.setNombre(nombre);
@@ -200,12 +199,11 @@ public class InscripcionGrupalTXTController {
 			atleta.setSexo(sexo);
 			atletaModel.addAtleta(atleta);
 			return true;
-		}else {
+		} else {
 			contNotIns++;
 			return false;
 		}
-		
-		
+
 	}
 
 	private boolean comprobarMayorDeEdad(String fechaNacimiento) {
@@ -222,8 +220,7 @@ public class InscripcionGrupalTXTController {
 	}
 
 	private boolean comprobarGenero(String sexo) {
-		if (sexo.toLowerCase().equals("hombre")
-				||sexo.toLowerCase().equals("mujer")) {
+		if (sexo.toLowerCase().equals("hombre") || sexo.toLowerCase().equals("mujer")) {
 			return true;
 		}
 		return false;
@@ -300,7 +297,8 @@ public class InscripcionGrupalTXTController {
 		}
 
 		// Calcular dorsal
-		int dorsal = inscripciones.size() + 1;
+		// int dorsal = inscripciones.size() + 1;
+		int dorsal = 0;
 
 		// Guardar inscripcion
 
