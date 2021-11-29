@@ -3,7 +3,6 @@ package app.tkrun.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
@@ -93,7 +92,6 @@ public class InscripcionController {
 	}
 
 	public void addInscripcion(String email, int idCarrera, String seleccionado) {
-		System.out.println("add inscripcion");
 		// Comprobar que no existe otra inscripcion
 		InscripcionEntity ie = inscripcionModel.findInscripcion(email, idCarrera);
 		if (!(ie == null)) {
@@ -119,11 +117,18 @@ public class InscripcionController {
 		}
 
 		// Comprobar que hay un plazo de inscripcion esta abierto
-		Date now = new Date(System.currentTimeMillis());
-
+		Date fechaActual = new Date(System.currentTimeMillis());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fechaActual);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date fechaActualTruncada = new Date(cal.getTimeInMillis());
+		
 		InscripcionEntity aux = new InscripcionEntity();
 		aux.setIdCarrera(ce.getIdCarrera());
-		aux.setFecha(now.toString());
+		aux.setFecha(fechaActualTruncada.toString());
 		PlazosDeInscripcionEntity plazo = plazosModel.findByInscripcion(aux);
 		if (plazo == null) {
 			JOptionPane.showMessageDialog(inscripcionView, "No hay plazos de inscripcion abiertos.", "ERROR",
@@ -141,14 +146,14 @@ public class InscripcionController {
 
 		// Calcular categoria
 		Calendar calNow = Calendar.getInstance();
-		calNow.setTime(now);
+		calNow.setTime(fechaActualTruncada);
 		Calendar calBirth = Calendar.getInstance();
 		calBirth.setTime(Date.valueOf(ae.getFechaNacimiento()));
 		int edad = calNow.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
 
 		System.out.println(edad + " " + idCarrera + " " + ae.getSexo());
 
-		CategoriaEntity categoria = categoriaModel.findCategoria(idCarrera, edad, ae.getSexo());
+		CategoriaEntity categoria = categoriaModel.findCategoria(idCarrera, edad, ae.getSexo().toUpperCase());
 
 		if (categoria == null) {
 			JOptionPane.showMessageDialog(inscripcionView, "No hay categoria para esa carrera", "ERROR",
@@ -211,7 +216,7 @@ public class InscripcionController {
 			text += "Justificante de inscripcion\n";
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 			String date = LocalDate.now().format(formatter);
-			text += (date.toString() + "/n");
+			text += (date.toString() + "\n");
 			text += "Atleta: " + atleta.getNombre() + " " + atleta.getApellido() + "\n";
 			text += "Carrera: " + carrera.getNombre() + "\n";
 			text += "Categoria: " + categoria.getNombre() + "\n";
@@ -225,16 +230,7 @@ public class InscripcionController {
 			writer.flush();
 			writer.close();
 
-			// Creates a FileReader Object
-			FileReader fr = new FileReader(file);
-			char[] a = new char[50];
-			fr.read(a); // reads the content to the array
-
-			for (char c : a)
-				System.out.print(c); // prints the characters one by one
-			fr.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return text;
 		}
@@ -267,16 +263,7 @@ public class InscripcionController {
 			writer.flush();
 			writer.close();
 
-			// Creates a FileReader Object
-			FileReader fr = new FileReader(file);
-			char[] a = new char[50];
-			fr.read(a); // reads the content to the array
-
-			for (char c : a)
-				System.out.print(c); // prints the characters one by one
-			fr.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return text;
 		}

@@ -2,16 +2,24 @@ package app.tkrun.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
 import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
-import app.tkrun.entities.ClasificacionParaTabla;
 import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.TiempoEntity;
 import app.tkrun.model.CarreraModel;
@@ -20,20 +28,12 @@ import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.TiempoModel;
 import app.util.SwingUtil;
 
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class ClasificacionesCategoriaView extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblCategorias;
 	private JScrollPane scrollPaneCategorias;

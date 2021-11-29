@@ -12,7 +12,7 @@ public class PlazosDeInscripcionModel {
 	private static final String SQL_TOTAL_PLAZO_INSCRIPCION = "SELECT * from PlazosDeInscripcion where idCarrera=?";
 	private static final String SQL_FIND_PRECIO_PLAZO_INSCRIPCION = "SELECT * from PlazosDeInscripcion where idCarrera=? and fechaInicio<=? and fechaFin>=?";
 	private static final String SQL_FIND_PLAZO_INSCRIPCION_FIN = "SELECT * from PlazosDeInscripcion where idCarrera=? order by fechaFin DESC";
-	private static final String SQL_FIND_PLAZO_BY_INSCRIPCION = "SELECT * FROM PlazosDeInscripcion WHERE idCarrera = ? AND fechaInicio < ? AND fechaFin > ?";
+	private static final String SQL_FIND_PLAZO_BY_INSCRIPCION = "SELECT * FROM PlazosDeInscripcion WHERE idCarrera = ? AND fechaInicio <= ? AND fechaFin >= ?";
 	private static final String SQL_SELECT_ALL = "SELECT * FROM PlazosDeInscripcion WHERE idCarrera = ?";
 
 	private Database db = new Database();

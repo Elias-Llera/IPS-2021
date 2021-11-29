@@ -30,7 +30,6 @@ import app.tkrun.model.InscripcionGrupalModel;
 import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
 import app.tkrun.view.InscripcionGrupalTXTView;
-import app.tkrun.view.InscripcionGrupalView;
 import app.util.SwingUtil;
 
 public class InscripcionGrupalTXTController {

@@ -156,7 +156,15 @@ public class PlanificacionCarrerasController {
 		if ( pcv.getTextFieldInscripcionInicio().getText().isEmpty()) {
 			return false;
 		}
-		Date fechaactual = new Date(System.currentTimeMillis());
+		Date fechaActual = new Date(System.currentTimeMillis());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fechaActual);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date fechaActualTruncada = new Date(cal.getTimeInMillis());
+
 		String fechaInicio =  pcv.getTextFieldInscripcionInicio().getText();
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicioDate = null;
@@ -166,7 +174,7 @@ public class PlanificacionCarrerasController {
 			e.printStackTrace();
 		}
 
-		if (fechaInicioDate.after(fechaactual)) {
+		if (fechaInicioDate.after(fechaActualTruncada) || fechaInicioDate.equals(fechaActualTruncada)) {
 			return true;
 		} else {
 			return false;
