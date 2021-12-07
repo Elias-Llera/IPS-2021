@@ -23,7 +23,6 @@ public class DatosClasificacionView extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField tfIdCarrera;
-	private JTextField tfGenero;
 
 	public JButton btnListo;
 
@@ -50,20 +49,10 @@ public class DatosClasificacionView extends JDialog {
 		lblIdCarrera.setBounds(26, 125, 163, 27);
 		contentPane.add(lblIdCarrera);
 
-		JLabel lblGenero = new JLabel("Genero:");
-		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblGenero.setBounds(26, 163, 165, 27);
-		contentPane.add(lblGenero);
-
 		tfIdCarrera = new JTextField();
 		tfIdCarrera.setBounds(199, 131, 276, 20);
 		contentPane.add(tfIdCarrera);
 		tfIdCarrera.setColumns(10);
-
-		tfGenero = new JTextField();
-		tfGenero.setBounds(199, 169, 276, 20);
-		contentPane.add(tfGenero);
-		tfGenero.setColumns(10);
 		
 		contentPane.add(getBtnListo());
 
@@ -75,12 +64,8 @@ public class DatosClasificacionView extends JDialog {
 	
 
 	public boolean comprobarCampos() {
-		if (tfGenero.getText().isBlank() || tfIdCarrera.getText().isBlank()) {
+		if (tfIdCarrera.getText().isBlank()) {
 			JOptionPane.showMessageDialog(this, "Ninguno de los campos puede estar vacio", "ERROR",
-					JOptionPane.INFORMATION_MESSAGE);
-			return false;
-		}else if(!(tfGenero.getText().toUpperCase().equals("MASCULINO")||tfGenero.getText().toUpperCase().equals("FEMENINO"))) {
-			JOptionPane.showMessageDialog(this, "El genero no es valido", "ERROR",
 					JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
@@ -105,7 +90,7 @@ public class DatosClasificacionView extends JDialog {
 
 
 	protected void mostrarVentanaClasificaciones() {
-		new ClasificacionController(Integer.parseInt(tfIdCarrera.getText()), tfGenero.getText().toUpperCase()).init();;
+		new ClasificacionController(Integer.parseInt(tfIdCarrera.getText()));
 	}
 
 }

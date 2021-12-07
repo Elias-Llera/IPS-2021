@@ -163,12 +163,15 @@ public class CrearCarrerasController {
 	}
 
 	private boolean comprobarCampos() {
+		int dorsalesReservados =  Integer.parseInt(crearCarreraView.getTextFieldDorsalesReservados().getText());
+		int plazas = Integer.parseInt(crearCarreraView.getTextFieldNumeroPlazas().getText());
 		if (crearCarreraView.getTextFieldNombreCarrera().getText().isEmpty()
 				|| crearCarreraView.getTextFieldDistancia().getText().isEmpty()
 				|| crearCarreraView.getTextFieldTipoCarrera().getText().isEmpty()
 				|| crearCarreraView.getTextFieldFechaCelebracion().getText().isEmpty()
 				|| crearCarreraView.getTextFieldNumeroPlazas().getText().isEmpty()
-				|| crearCarreraView.getTextFieldDescripcion().getText().isEmpty()) {
+				|| crearCarreraView.getTextFieldDescripcion().getText().isEmpty()
+				|| dorsalesReservados > plazas) {
 			return false;
 		}
 		return true;

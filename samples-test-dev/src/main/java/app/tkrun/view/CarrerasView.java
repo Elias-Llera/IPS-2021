@@ -1,6 +1,7 @@
 package app.tkrun.view;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -20,8 +21,12 @@ import net.miginfocom.swing.MigLayout;
  * - Se asinga nombre a las tablas si se van a automatizar la ejecucion de pruebas
  * - Incluye al final los metodos adicionales necesarios para acceder al UI desde el controlador
  */
-public class CarrerasView {
+public class CarrerasView extends JDialog{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTextField txtFechaHoy;
 	private JButton btnTabCarreras;
@@ -58,7 +63,7 @@ public class CarrerasView {
 		frame.setName("Carreras");
 
 
-		frame.setBounds(0, 0, 911, 403);
+		frame.setBounds(0, 0, 952, 403);
 
 		frame.setLocationRelativeTo(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,7 +103,7 @@ public class CarrerasView {
 		tablePanelParticipantes = new JScrollPane(tabParticipantes);
 		frame.getContentPane().add(tablePanelParticipantes, "cell 0 7,grow");
 		
-		btnClasificaciones = new JButton("Clasificaciones");
+		btnClasificaciones = new JButton("Generar clasificacion");
 		frame.getContentPane().add(btnClasificaciones, "flowx,cell 0 8");
 		
 		btnInscripciones = new JButton("Inscripciones");
@@ -127,6 +132,7 @@ public class CarrerasView {
 		frame.getContentPane().add(btnDorsales, "cell 0 8");
 
 		btnClasificacionesCategoria = new JButton("ClasificacionesCategoria");
+		btnClasificacionesCategoria.setEnabled(false);
 		frame.getContentPane().add(btnClasificacionesCategoria, "cell 0 8");
 
 

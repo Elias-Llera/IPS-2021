@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
@@ -20,12 +21,14 @@ import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.LimiteDorsalesEntity;
 import app.tkrun.entities.ParticipanteEntity;
 import app.tkrun.entities.PlazosDeInscripcionEntity;
+import app.tkrun.entities.TiempoEntity;
 import app.tkrun.model.AtletaModel;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.InscripcionModel;
 import app.tkrun.model.LimiteDorsalesModel;
 import app.tkrun.model.PlazosDeInscripcionModel;
+import app.tkrun.model.TiempoModel;
 import app.tkrun.view.CarrerasView;
 import app.tkrun.view.ClasificacionesCategoriaView;
 import app.tkrun.view.DatosClasificacionView;
@@ -43,11 +46,16 @@ public class CarrerasController {
 	private CarrerasView view;
 	private AtletaModel atletaModel = new AtletaModel();
 	private InscripcionModel inscripcionModel = new InscripcionModel();
+	private CategoriaModel categoriaModel = new CategoriaModel();
 	private LimiteDorsalesModel dorsalesModel= new LimiteDorsalesModel();
+	private CarreraModel carreraModel= new CarreraModel();
+	private TiempoModel tiemposModel= new TiempoModel();
 	private String lastSelectedKey = ""; // recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla
 											// de carreras
-
+	private List<Boolean> listaDorsalAsignado;
 	private List<Integer> listaIds;
+	
+	
 
 	public CarrerasController(CarreraModel m, CarrerasView v) {
 		this.model = m;
@@ -79,6 +87,8 @@ public class CarrerasController {
 		
 		view.getBtnClasificacionesCategoria().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+			
 				int index = listaIds.get(view.getTablaCarreras().getSelectedRow());;
 				mostrarVentanaClasificacionCategoria(index);
 			}
@@ -94,7 +104,13 @@ public class CarrerasController {
 		view.getBtnDorsales().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int idCarrera = listaIds.get(view.getTablaCarreras().getSelectedRow());
+				CarreraEntity carrera = carreraModel.findCarrera(idCarrera);
+				if(carrera.getFecha().compareTo(LocalDate.now().toString()) < 0) {
+					JOptionPane.showMessageDialog(view, "La carrera ya se ha celebrado");
+					return;
+				}
 				generarDorsales(idCarrera);
+				listaDorsalAsignado.set(view.getTablaCarreras().getSelectedRow(), true);
 			}
 		});
 		// En el caso del mouse listener (para detectar seleccion de una fila) no es un
@@ -160,13 +176,24 @@ public class CarrerasController {
 
 
 	protected void generarDorsales(int idCarrera) {
-		LimiteDorsalesEntity limite = dorsalesModel.findLimite(idCarrera);
-		CarreraEntity carrera = model.findCarrera(idCarrera);
-		
-		if(limite.getSecuencial().equals("secuencial")) {
-			generarSecuencial(idCarrera, limite.getNumero(), carrera.getPlazas());
+		if(!listaDorsalAsignado.get(view.getTablaCarreras().getSelectedRow())) {
+			List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
+			if(inscripciones.isEmpty()){
+				JOptionPane.showMessageDialog(this.view, "No hay participantes a los que asignar dorsales");
+				return;
+			}
+			
+			LimiteDorsalesEntity limite = dorsalesModel.findLimite(idCarrera);
+			CarreraEntity carrera = model.findCarrera(idCarrera);
+			
+			if(limite.getSecuencial().equals("secuencial")) {
+				generarSecuencial(idCarrera, limite.getNumero(), carrera.getPlazas());
+			}else {
+				generarAleatorio(idCarrera, limite.getNumero(), carrera.getPlazas());
+				
+			}
 		}else {
-			generarAleatorio(idCarrera, limite.getNumero(), carrera.getPlazas());
+			JOptionPane.showMessageDialog(this.view, "Los dorsales ya han sido asignados");
 		}
 	
 		
@@ -195,7 +222,7 @@ public class CarrerasController {
 	}
 
 	private void generarSecuencial(int idCarrera, int numero, int plazas) {
-		int contador = numero + 1 ;
+		int contador = numero ;
 		
 		List<InscripcionEntity> inscripciones = inscripcionModel.findInscripcionesByIdCarrera(idCarrera);
 		
@@ -209,6 +236,24 @@ public class CarrerasController {
 	}
 
 	protected void mostrarVentanaClasificacionCategoria(int index) {
+		
+		List<CategoriaEntity> listaCategorias = categoriaModel.findCategoriasCarrera(index);
+		CarreraEntity carrera = carreraModel.findCarrera(index);
+		
+		if(carrera.getFechaCarrera().compareTo(LocalDate.now().toString()) > 0) {
+			JOptionPane.showMessageDialog(this.view, "La carrera aun no se ha celebrado");
+			return ;
+		}
+		
+		
+		if(listaCategorias == null) {
+			JOptionPane.showMessageDialog(this.view, "La carrera no tiene asignadas categorias");
+			return ;
+		}
+		
+		if(!categorias(index)) {
+			return;
+		}
 		ClasificacionesCategoriaView vp = new ClasificacionesCategoriaView(index);
 
 		vp.setLocationRelativeTo(null);
@@ -218,6 +263,33 @@ public class CarrerasController {
 
 	}
 
+	
+	protected boolean categorias(int index) {
+		List<CategoriaEntity> listaCategorias = categoriaModel.findCategoriasCarrera(index);
+		List<TiempoEntity> clasificacion = new ArrayList<TiempoEntity>();
+		
+		for(CategoriaEntity categoria: listaCategorias) {
+			List<InscripcionEntity> inscripciones = inscripcionModel.findByCarreraCategoria(index, categoria.getIdCategoria());
+			if(inscripciones == null) {
+				break;
+			}
+			for(InscripcionEntity inscripcion: inscripciones) {
+				List<TiempoEntity> tiempos = tiemposModel.findClasificacionForCarreraCategoria(index, inscripcion.getEmailAtleta());
+				
+				for(TiempoEntity tiempo: tiempos) {
+					clasificacion.add(tiempo);
+				}
+			}
+		}
+		
+		if(clasificacion.isEmpty()) {
+			JOptionPane.showMessageDialog(view, "Aun no se ha procesado la clasificacion para ninguna categoria");
+			return false;
+		}
+		
+		return true;
+	}
+	
 	protected void mostrarVentanaDatosClasificacion() {
 		DatosClasificacionView vp = new DatosClasificacionView();
 
@@ -271,23 +343,56 @@ public class CarrerasController {
 		List<AtletaEntity> atletas = am.findAtletasCarrera(idCarrera);
 		List<ParticipanteEntity> participantes = new ArrayList<ParticipanteEntity>();
 
-		for (AtletaEntity a : atletas) {
+//		for (AtletaEntity a : atletas) {
+//			im = new InscripcionModel();
+//			InscripcionEntity inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
+//
+//			cm = new CategoriaModel();
+//			CategoriaEntity categoria = cm.findCategoriaCarrera(idCarrera);
+//			ParticipanteEntity participante = new ParticipanteEntity();
+//			participante.setEmailAtleta(a.getEmailAtleta());
+//			participante.setNombreAtleta(a.getNombre());
+//			participante.setApellidoAtleta(a.getApellido());
+//			participante.setNombreCategoria(categoria.getNombre());
+//			participante.setEstado(inscripcion.getEstado());
+//			participante.setIdCarrera(inscripcion.getIdCarrera());
+//			participante.setDorsal(inscripcion.getDorsal());
+//
+//			participantes.add(participante);
+//		}
+		
+		
 			im = new InscripcionModel();
-			InscripcionEntity inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
-
-			cm = new CategoriaModel();
-			CategoriaEntity categoria = cm.findCategoriaCarrera(idCarrera);
-			ParticipanteEntity participante = new ParticipanteEntity();
-			participante.setEmailAtleta(a.getEmailAtleta());
-			participante.setNombreAtleta(a.getNombre());
-			participante.setApellidoAtleta(a.getApellido());
-			participante.setNombreCategoria(categoria.getNombre());
-			participante.setEstado(inscripcion.getEstado());
-			participante.setIdCarrera(inscripcion.getIdCarrera());
-			participante.setDorsal(inscripcion.getDorsal());
-
-			participantes.add(participante);
+			//InscripcionEntity inscripcion = im.findInscripcion(a.getEmailAtleta(), idCarrera);
+			List<CategoriaEntity> categorias = categoriaModel.findCategoriasCarrera(idCarrera);
+			if(categorias != null) {
+				
+			
+			for(CategoriaEntity categoria: categorias) {
+				
+				List<InscripcionEntity> inscripciones = inscripcionModel.findByCarreraCategoria(idCarrera, categoria.getIdCategoria());
+				if(inscripciones == null) {
+					break;
+				}
+				for(InscripcionEntity inscripcion: inscripciones ) {
+					
+						AtletaEntity atleta = atletaModel.findAtleta(inscripcion.getEmailAtleta());
+					
+						ParticipanteEntity participante = new ParticipanteEntity();
+						participante.setEmailAtleta(atleta.getEmailAtleta());
+						participante.setNombreAtleta(atleta.getNombre());
+						participante.setApellidoAtleta(atleta.getApellido());
+						participante.setNombreCategoria(categoria.getNombre());
+						participante.setEstado(inscripcion.getEstado());
+						participante.setIdCarrera(inscripcion.getIdCarrera());
+						participante.setDorsal(inscripcion.getDorsal());
+			
+						participantes.add(participante);
+					
+				}
+			}
 		}
+		
 
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(participantes,
 				new String[] { "emailAtleta", "nombreAtleta", "idCarrera", "nombreCategoria", "estado", "dorsal" });
@@ -306,7 +411,9 @@ public class CarrerasController {
 	public void getListaCarreras() {
 		PlazosDeInscripcionModel sacarPrecio = new PlazosDeInscripcionModel();
 		listaIds = new ArrayList<Integer>();
-
+		listaDorsalAsignado = new ArrayList<Boolean>();
+		
+		
 		List<CarreraEntity> carreras = model.getListaCarreras(view.getFechaHoy());
 		for (CarreraEntity carrera : carreras) {
 			int plazasOcupadas = atletaModel.findAtletasParticipantesEnCarrera(carrera.getIdCarrera());
@@ -322,7 +429,7 @@ public class CarrerasController {
 				carrera.setPlazas(carrera.getPlazas() - plazasOcupadas);
 			}
 			listaIds.add(carrera.getIdCarrera());
-
+			listaDorsalAsignado.add(false);
 		}
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(carreras,
 				new String[] { "nombre", "fecha", "tipo", "distancia", "plazas", "precio" });
@@ -356,7 +463,7 @@ public class CarrerasController {
 		// futuras interacciones
 //        this.lastSelectedKey = SwingUtil.getSelectedKey(view.getTablaCarreras());
 		view.getBtnAceptar().setEnabled(true);
-
+		view.getBtnClasificacionesCategoria().setEnabled(true);
 	}
 
 }

@@ -40,7 +40,6 @@ public class ClasificacionController {
 	private final int CARRERA_CON_CLASIFICACION = 1;
 
 	private int idCarrera;
-	private String genero;
 	private TiempoModel tiempoModel = new TiempoModel();
 	private InscripcionModel inscripcionModel = new InscripcionModel();
 	private AtletaModel atletaModel = new AtletaModel();
@@ -52,9 +51,9 @@ public class ClasificacionController {
 
 	private ClasificacionesView view;
 
-	public ClasificacionController(int idCarrera, String genero) {
+	public ClasificacionController(int idCarrera) {
 		this.idCarrera = idCarrera;
-		this.genero = genero;
+		init();
 	}
 
 	public void init() {
@@ -126,7 +125,6 @@ public class ClasificacionController {
 			aux.setIdCategoria(inscripcion.getIdCategoria());
 			aux.setNombreCategoria(categoria.getNombre());
 			aux.setNombreAtleta(atleta.getNombre());
-			aux.setGenero(genero);
 			aux.setTiempo(clasificacion.getTiempo());
 
 			if (clasificacion.getTiempo().equals("---")) {

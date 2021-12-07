@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +23,7 @@ import app.tkrun.entities.CarreraEntity;
 import app.tkrun.entities.CategoriaEntity;
 import app.tkrun.entities.InscripcionEntity;
 import app.tkrun.entities.TiempoEntity;
+import app.tkrun.entities.TiempoParaTabla;
 import app.tkrun.model.CarreraModel;
 import app.tkrun.model.CategoriaModel;
 import app.tkrun.model.InscripcionModel;
@@ -71,6 +73,7 @@ public class ClasificacionesCategoriaView extends JDialog {
 		CarreraEntity actual = modelCarrera.findCarrera(id);
 		setTitle("Clasificaciones para carrera: " + actual.getNombre());
 		this.id = id;
+		this.setModal(true);
 		setBounds(100, 100, 654, 579);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -83,43 +86,88 @@ public class ClasificacionesCategoriaView extends JDialog {
 		contentPanel.add(getBtnVerClasificacion());
 		rellenaCategorias();
 		this.listaCategorias = modelCategoria.findCategoriasCarrera(id);
-		generarClasificacionGeneral();
+		
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
 		}
+		if(!generarClasificacionGeneral()) {
+			dispose();
+		}
+		
 	}
-	private void generarClasificacionGeneral() {
+	private boolean generarClasificacionGeneral() {
+		List<TiempoParaTabla> tiemposTabla = new ArrayList<TiempoParaTabla>();
+		int contador = 1;
 		for(CategoriaEntity categoria: listaCategorias) {
 			List<InscripcionEntity> inscripciones = inscripcionesModel.findByCarreraCategoria(this.id, categoria.getIdCategoria());
-			
+			if(inscripciones == null) {
+				break;
+			}
 			for(InscripcionEntity inscripcion: inscripciones) {
 				List<TiempoEntity> tiempos = tiemposModel.findClasificacionForCarreraCategoria(id, inscripcion.getEmailAtleta());
 				
 				for(TiempoEntity tiempo: tiempos) {
 					clasificacion.add(tiempo);
+					TiempoParaTabla t= new TiempoParaTabla();
+					
+					
+					t.setEmailAtleta(tiempo.getEmailAtleta());
+					t.setTiempo(tiempo.getTiempo());
+					t.setNombreCategoria(categoria.getNombre());
+					t.setDorsal(inscripcion.getDorsal());
+					
+					tiemposTabla.add(t);
 				}
 			}
 		}
 		
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(clasificacion,
-				new String[] { "emailAtleta", "tiempo"});
+		if(clasificacion.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Aun no se ha procesado la clasificacion para ninguna categoria");
+			this.dispose();
+			return false;
+			
+		}
+		java.util.Collections.sort(tiemposTabla);
+		
+		for(TiempoParaTabla tiempo : tiemposTabla) {
+			tiempo.setPosicion(contador);
+			contador++;
+		}
+		
+		
+//		for(TiempoEntity tiempo: clasificacion) {
+//			TiempoParaTabla t= new TiempoParaTabla();
+//			
+//			t.setPosicion(contador);
+//			t.setEmailAtleta(tiempo.getEmailAtleta());
+//			t.setTiempo(tiempo.getTiempo());
+//			contador++;
+//			tiemposTabla.add(t);
+//		}
+//		
+//		
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(tiemposTabla,
+				new String[] { "emailAtleta","dorsal", "nombreCategoria", "tiempo", "posicion"});
 
 		getTableClasificacion().setModel(tmodel);
 
 		SwingUtil.autoAdjustColumns(getTableCategorias());
+		
+		return true;
 	}
 
 	private void rellenaCategorias() {
@@ -192,17 +240,25 @@ public class ClasificacionesCategoriaView extends JDialog {
 					actualizarTablaClasi();
 				}
 			});
-			btnVerClasificacion.setBounds(437, 106, 114, 23);
+			btnVerClasificacion.setBounds(405, 106, 146, 23);
 		}
 		return btnVerClasificacion;
 	}
 	
 	protected void actualizarTablaClasi() {
 		List<TiempoEntity> clasificacionFiltrada = new ArrayList<TiempoEntity>();
+		int contador = 1;
+		List<TiempoParaTabla> tiemposTabla = new ArrayList<TiempoParaTabla>();
+		
 		int[] numeros = getTableCategorias().getSelectedRows();
 		categoriasSelec = new ArrayList<CategoriaEntity>();
 		for(Integer numero: numeros) {
 			categoriasSelec.add(listaCategorias.get(numero));
+		}
+		
+		if(categoriasSelec.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Por favor seleccione una o varias categorias");
+			return ;
 		}
 		
 		for(CategoriaEntity categoria: categoriasSelec) {
@@ -210,12 +266,23 @@ public class ClasificacionesCategoriaView extends JDialog {
 			
 			for(InscripcionEntity inscripcion: inscripciones) {
 				List<TiempoEntity> tiempos = tiemposModel.findClasificacionForCarreraCategoria(id, inscripcion.getEmailAtleta());
-				
+				if(tiempos.isEmpty()) {
+					JOptionPane.showMessageDialog(this, "Aun no se ha procesado la clasificacion para la categoria: "+ categoria.getNombre());
+					break;
+				}
 				for(TiempoEntity tiempo: tiempos) {
 					
 						clasificacionFiltrada.add(tiempo);	
-					
-					
+						TiempoParaTabla t= new TiempoParaTabla();
+						
+						
+						t.setEmailAtleta(tiempo.getEmailAtleta());
+						t.setTiempo(tiempo.getTiempo());
+						t.setNombreCategoria(categoria.getNombre());
+						t.setDorsal(inscripcion.getDorsal());
+						
+						tiemposTabla.add(t);
+
 				}
 			}
 		}
@@ -227,9 +294,19 @@ public class ClasificacionesCategoriaView extends JDialog {
 		
 		getScrollPane().setViewportView(tableClasificacion);
 		
-		java.util.Collections.sort(clasificacionFiltrada);
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(clasificacionFiltrada,
-				new String[] { "emailAtleta", "tiempo"});
+		java.util.Collections.sort(tiemposTabla);
+		
+
+		for(TiempoParaTabla tiempo: tiemposTabla) {
+			
+			
+			tiempo.setPosicion(contador);
+			contador++;
+			
+		}
+		
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(tiemposTabla,
+				new String[] { "emailAtleta","dorsal", "nombreCategoria", "tiempo", "posicion"});
 
 		getTableClasificacion().setModel(tmodel);
 
